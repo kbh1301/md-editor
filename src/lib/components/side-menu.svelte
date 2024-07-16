@@ -1,10 +1,16 @@
 <script lang="ts">
-	import { Button, Sheet, ThemeCombo, Label } from "$components";
+	import { Button, Sheet, ThemeCombo, Label, Switch } from "$components";
     import Icon from '@iconify/svelte';
     import { openMarkdownFile } from "$lib/utils/fileHandler";
     import LightSwitch from "./light-switch/light-switch.svelte";
+    import { appSettings } from "$utils/stores";
+    import { writeToSettingsFile } from "$utils/settingsHandler";
 
 	let open = false;
+
+    function handleSettingsFileUpdate() {
+        writeToSettingsFile();
+    }
 
     async function openFileExplorer() {
         open = await openMarkdownFile();
@@ -49,6 +55,11 @@
             <!-- SETTINGS SECTION -->
             <div class={sectionStyles}>
                 <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center">Settings</h4>
+
+                <Label class={labelStyles}>
+                    <span>Start in Edit Mode:</span>
+                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.startEditMode} class="data-[state=checked]:bg-muted-foreground" />
+                </Label>
 
                 <!-- THEME SELECTOR -->
                 <Label class={labelStyles}>

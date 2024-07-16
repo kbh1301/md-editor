@@ -4,7 +4,7 @@ import { getModeOsPrefers } from '../components/light-switch/light-switch';
 export const appSettings:Writable<AppSettings> = writable({
     lightmode: getModeOsPrefers(),
     mdTheme: 'github-md.min.css',
-    startEditMode: true,
+    startEditMode: false,
 });
 
 // TODO: delete

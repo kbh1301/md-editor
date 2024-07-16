@@ -7,7 +7,7 @@
     import { WindowTitleBar, Toaster } from "$components";
     import "$root/app.postcss";
     import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/light-switch/light-switch";
-    import { appSettings, openedPagePath } from "$utils/stores";
+    import { appSettings, editMode, openedPagePath } from "$utils/stores";
     import { initKeydownListener, removeKeydownListener } from "$utils/keybindHandler";
 
     export let data;
@@ -27,6 +27,8 @@
 
         // initialize keybind listener
         initKeydownListener();
+
+        $editMode = $appSettings.startEditMode;
 
         // TODO: move this and rework light-switch.svelte?
         lightmode = $appSettings.lightmode;

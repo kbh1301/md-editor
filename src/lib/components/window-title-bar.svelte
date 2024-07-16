@@ -1,6 +1,6 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
-	import { Button, SideMenu, Switch, Label } from "$components";
+	import { Button, SideMenu, SwitchEdit } from "$components";
     import { editMode, openedPagePath } from '$lib/utils/stores';
     import { appWindow } from '@tauri-apps/api/window';
     const { minimize, toggleMaximize, close } = appWindow;
@@ -25,7 +25,7 @@
         </span>
 
         <div class="flex items-center gap-2">
-            <Switch id="editmode-switch" bind:checked={$editMode} title="Toggle Edit" class="data-[state=checked]:bg-muted-foreground" />
+            <SwitchEdit id="editmode-switch" bind:checked={$editMode} title="Toggle Edit" class="data-[state=checked]:bg-muted-foreground" />
             <span class="sr-only">Toggle Edit</span>
             <!-- <Label for="editmode-switch">Edit</Label> -->
         </div>

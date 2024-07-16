@@ -5,6 +5,7 @@ export { default as ThemeCombo } from "$components/theme-combobox.svelte";
 export { default as DialogGuide } from "$components/code-mirror/dialog-guide.svelte";
 export { default as DialogLink } from "$components/code-mirror/dialog-link.svelte";
 export { default as CodeMirror } from "$components/code-mirror/code-mirror.svelte";
+export { default as SwitchEdit } from "$components/switch-edit-mode.svelte";
 
 export * as LightSwitch from "$components/light-switch";
 export * as Sheet from "$components/ui/sheet";
