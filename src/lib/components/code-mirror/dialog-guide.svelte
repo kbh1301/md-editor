@@ -2,6 +2,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { Button, Dialog, Table } from "$components";
+    import ScrollArea from "../ui/scroll-area/scroll-area.svelte";
 
     const basicElements = [
         {
@@ -134,50 +135,54 @@
 
 <Dialog.Root>
     <Dialog.Trigger asChild let:builder>
-        <Button variant="toolbar" size="toolbar" builders={[builder]}>
+        <Button variant="toolbar" size="toolbar" builders={[builder]} title="Markdown Guide">
             <Icon icon="fa-solid:question-circle" />
-            <span class="sr-only">Guide</span>
+            <span class="sr-only">Markdown Guide</span>
         </Button>
     </Dialog.Trigger>
-    <Dialog.Content class="!w-fit max-w-[75%] max-h-[75%] overflow-auto">
-        <Dialog.Header>
-            <Dialog.Title class="opacity-50">Markdown Guide</Dialog.Title>
-        </Dialog.Header>
+    <Dialog.Content class="flex !w-fit max-w-[75%] max-h-[75%]">
+        <!-- <Dialog.Header>
+            <Dialog.Title class="opacity-50 pr-14" style="text-orientation: upright; writing-mode: vertical-lr;">
+                Markdown Guide
+            </Dialog.Title>
+        </Dialog.Header> -->
 
-        <h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Basic Syntax</h2>
-        <Table.Root>
-            <Table.Header>
-              <Table.Row>
-                <Table.Head class="w-[100px]">Element</Table.Head>
-                <Table.Head>Syntax</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {#each basicElements as element, i (i)}
-                <Table.Row class="whitespace-pre-line">
-                  <Table.Cell><a href={element.link} target="_blank" class="link">{element.element}</a></Table.Cell>
-                  <Table.Cell>{element.syntax}</Table.Cell>
+        <ScrollArea class="max-h-[75%]">
+            <h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Basic Syntax</h2>
+            <Table.Root>
+                <Table.Header>
+                <Table.Row>
+                    <Table.Head class="w-[100px]">Element</Table.Head>
+                    <Table.Head>Syntax</Table.Head>
                 </Table.Row>
-              {/each}
-            </Table.Body>
-        </Table.Root>
+                </Table.Header>
+                <Table.Body>
+                {#each basicElements as element, i (i)}
+                    <Table.Row class="whitespace-pre-line">
+                    <Table.Cell><a href={element.link} target="_blank" class="link">{element.element}</a></Table.Cell>
+                    <Table.Cell>{element.syntax}</Table.Cell>
+                    </Table.Row>
+                {/each}
+                </Table.Body>
+            </Table.Root>
 
-        <h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Extended Syntax</h2>
-        <Table.Root>
-            <Table.Header>
-              <Table.Row>
-                <Table.Head class="w-[100px]">Element</Table.Head>
-                <Table.Head>Syntax</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {#each extendedElements as element, i (i)}
-                <Table.Row class="whitespace-pre-line">
-                  <Table.Cell><a href={element.link} target="_blank" class="link">{element.element}</a></Table.Cell>
-                  <Table.Cell>{element.syntax}</Table.Cell>
+            <h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Extended Syntax</h2>
+            <Table.Root>
+                <Table.Header>
+                <Table.Row>
+                    <Table.Head class="w-[100px]">Element</Table.Head>
+                    <Table.Head>Syntax</Table.Head>
                 </Table.Row>
-              {/each}
-            </Table.Body>
-        </Table.Root>
+                </Table.Header>
+                <Table.Body>
+                {#each extendedElements as element, i (i)}
+                    <Table.Row class="whitespace-pre-line">
+                    <Table.Cell><a href={element.link} target="_blank" class="link">{element.element}</a></Table.Cell>
+                    <Table.Cell>{element.syntax}</Table.Cell>
+                    </Table.Row>
+                {/each}
+                </Table.Body>
+            </Table.Root>
+        </ScrollArea>
     </Dialog.Content>
 </Dialog.Root>

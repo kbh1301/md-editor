@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { insertLink } from "./editor-toolbar.js";
+    import { getSelection, insertLink } from "./editor-toolbar.js";
     import Icon from "@iconify/svelte";
     import { Button, Label, Input, Dialog } from "$components";
+    import type { EditorView } from "@codemirror/view";
 
-    export let textarea: HTMLTextAreaElement;
+    export let view: EditorView;;
     export let type: 'link' | 'img';
 
     let linkUrl = "";
@@ -14,33 +15,27 @@
     }
 
     function handleBuild() {
-        const currentValue = textarea.value;
-        selectionRange.start = textarea.selectionStart;
-        selectionRange.end = textarea.selectionEnd;
-
-        // Adjust start and end to exclude leading whitespace
-        while (selectionRange.start < selectionRange.end && /\s/.test(currentValue[selectionRange.start])) {
-            selectionRange.start++;
-        }
-        while (selectionRange.end > selectionRange.start && /\s/.test(currentValue[selectionRange.end - 1])) {
-            selectionRange.end--;
-        }
-
-        linkText = textarea.value.substring(
-            selectionRange.start,
-            selectionRange.end
-        );
+        const selection = getSelection(view);
+        linkText = selection?.selection ?? '';
+        selectionRange.start = selection?.start ?? 0;
+        selectionRange.end = selection?.end ?? 0;
     }
 
     function handleSubmit() {
-        insertLink(textarea, type, linkUrl, linkText);
+        insertLink(view, type, linkUrl, linkText, selectionRange);
         linkUrl = linkText = "";
     }
 </script>
 
 <Dialog.Root>
     <Dialog.Trigger asChild let:builder>
-        <Button variant="toolbar" size="toolbar" builders={[builder]} on:click={handleBuild}>
+        <Button
+            variant="toolbar"
+            size="toolbar"
+            builders={[builder]}
+            on:click={handleBuild}
+            title={type === 'link' ? 'Link' : 'Image'}
+        >
             <Icon icon={type === 'link' ? "fa-solid:link" : "fa-solid:image"} />
             <span class="sr-only">{type === 'link' ? "Link" : "Image"}</span>
         </Button>

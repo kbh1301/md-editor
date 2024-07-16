@@ -8,10 +8,12 @@ export const appSettings:Writable<AppSettings> = writable({
 });
 
 // TODO: delete
-export const openedPagePath = writable('C:\\Users\\Kyle\\Downloads\\Codex\\lorem.md');
-// export const openedPagePath = writable('');
+// export const openedPagePath = writable('C:\\Users\\Kyle\\Downloads\\Codex\\lorem.md');
+export const openedPagePath = writable('');
 
 export const rawMarkdown:Writable<string> = writable('');
 export const compiledMarkdown:Writable<string|Promise<string>> = writable('');
 
 export const editMode = writable(get(appSettings).startEditMode);
+
+export const isUnsaved = writable(false);

@@ -49,10 +49,10 @@
     <Popover.Trigger asChild let:builder>
         <Button
             builders={[builder]}
-            variant="outline"
+            variant="muted"
             role="combobox"
             aria-expanded={open}
-            class="w-[200px] justify-between ml-auto bg-muted-foreground text-background border-muted-foreground"
+            class="w-[200px] justify-between ml-auto"
         >
             {selectedValue}
             <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />

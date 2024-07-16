@@ -13,9 +13,11 @@ import { rawMarkdown, compiledMarkdown } from '$lib/utils/stores';
  */
 export async function setCompiledMarkdown(filePath: string) {
     // Get raw markdown from text file and set store value
-    rawMarkdown.set(
-        await readTextFile(filePath)
-    );
+    if (filePath) {
+        rawMarkdown.set(
+            await readTextFile(filePath)
+        );
+    }
 
     // Initialize markdown converter
     const marked = setupMarkedCompiler();

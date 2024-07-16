@@ -1,6 +1,6 @@
-import { open as tauriOpen} from '@tauri-apps/api/dialog';
+import { open as tauriOpen, save as tauriSave} from '@tauri-apps/api/dialog';
 import { exists, createDir, writeTextFile, renameFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
-import { openedPagePath, rawMarkdown } from "$lib/utils/stores";
+import { openedPagePath, rawMarkdown, isUnsaved } from "$lib/utils/stores";
 import { setCompiledMarkdown } from '$lib/utils/markdownParsing';
 import { get } from 'svelte/store';
 import { toast } from 'svelte-sonner';
@@ -14,9 +14,9 @@ export async function launchFromFile() {
     // TODO: when app is opened from .md file, set openedPagePath here
 
     // Loads file if available
-    if(get(openedPagePath)) {
+    // if(get(openedPagePath)) {
         setCompiledMarkdown(get(openedPagePath));
-    }
+    // }
 }
 
 // TODO: add documentation
@@ -48,27 +48,48 @@ export async function openMarkdownFile() {
  * 
  * @returns 
  */
-export async function saveMarkdownFile() {
-    const fileExists = await exists(get(openedPagePath));
-    if(!fileExists) return;
+export async function saveMarkdownFile({isSaveAs = false} = {}) {
+    let path = get(openedPagePath);
+    let saveFilePromise;
 
-    interface SaveFileSuccess {
-        message: string;
+    if (!get(isUnsaved)) return;
+
+    if(!path || isSaveAs) {
+        const newPath = await tauriSave({
+            filters: [{
+                name: 'Markdown',
+                extensions: ['md']
+            }]
+        });
+
+        if (newPath) {
+            openedPagePath.set(newPath);
+            path = get(openedPagePath);
+        } else {
+            return;
+        }
     }
 
-    const saveFilePromise = new Promise((resolve, reject) => {
+    saveFilePromise = new Promise((resolve, reject) => {
         writeTextFile({
-            path: get(openedPagePath),
+            path: path,
             contents: get(rawMarkdown)
         })
         .then(() => resolve({ message: "Save successful" }))
         .catch(reject);
     });
-    
+
+    interface SaveFileSuccess { message: string; }
+    interface SaveFileError { message: string; }
     toast.promise(saveFilePromise, {
         loading: 'Saving...',
-        success: (data) => (data as SaveFileSuccess).message,
-        error: 'Error while saving...'
+        success: (data) => {
+            isUnsaved.set(false);
+            return (data as SaveFileSuccess).message
+        },
+        error: (error) => {
+            return (error as SaveFileError).message || 'Error while saving...';
+        }
     });
 
     // TODO: delete

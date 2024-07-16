@@ -3,6 +3,7 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
  -->
 
 <script lang="ts">
+    import type { HTMLAttributes } from "svelte/elements";
 	import { setInitialClassState } from '$lib/components/light-switch/light-switch';
 	import { Moon, Sun } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -21,8 +22,11 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
 	type OnKeyDownEvent = KeyboardEvent & {
 		currentTarget: EventTarget & HTMLDivElement;
 	};
+    type $$Props = HTMLAttributes<HTMLDivElement>;
 
     let lightmode: boolean;
+    let className: $$Props["class"] = undefined;
+	export { className as class };
 
 	function onToggleHandler(): void {
 		$modeCurrent = !$modeCurrent;
@@ -58,12 +62,13 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
 	aria-checked={$modeCurrent}
 	title="Toggle {$modeCurrent === true ? 'Dark' : 'Light'} Mode"
 	tabindex="0"
+    class={cn("", className)}
 >
 	<div
 		class={cn(
 			buttonVariants({
 				size: 'sm',
-				variant: 'outline'
+				variant: 'muted'
 			}),
 			'w-9 px-0 rounded-full'
 		)}
