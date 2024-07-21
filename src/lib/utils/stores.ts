@@ -5,6 +5,8 @@ export const appSettings:Writable<AppSettings> = writable({
     lightmode: getModeOsPrefers(),
     mdTheme: 'github-md.min.css',
     startEditMode: false,
+    horizontalEditor: false,
+    toolbarHidden: false,
 });
 
 // TODO: delete

@@ -1,19 +1,28 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
     import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import { compiledMarkdown, editMode, isUnsaved, openedPagePath, rawMarkdown } from "$lib/utils/stores";
+    import { appSettings, compiledMarkdown, editMode, isUnsaved, openedPagePath, rawMarkdown } from "$lib/utils/stores";
     import { Button, CodeMirror } from "$components";
     import { saveMarkdownFile } from "$lib/utils/fileHandler";
     import ScrollArea from './ui/scroll-area/scroll-area.svelte';
+
+    let editorDiv, previewDiv;
 </script>
 
-<!-- TODO: setting for horizontal split (flex-col-reverse) -->
 <!-- TODO: setting for inline markdown editor -->
 <!-- TODO: setting for Textarea on:change (or keyup or something) to save changes to rawMarkdown after a time -->
-<div class="flex flex-1 h-full overflow-hidden gap-4 pt-4 justify-around">
+<div
+    class="flex flex-1 h-full overflow-hidden gap-4 pt-4 justify-around"
+    class:flex-col-reverse={$appSettings.horizontalEditor}
+    class:items-center={$appSettings.horizontalEditor}
+>
     <!-- Markdown Editor Pane -->
     {#if $editMode}
-        <div class="flex flex-col flex-[1_1_50%] gap-4 max-w-[980px]" transition:fade>
+        <div
+            class="flex flex-col flex-[1_1_50%] gap-4 w-full max-w-[980px] overflow-auto"
+            transition:fade
+            bind:this={editorDiv}
+        >
             <!-- Raw Markdown Textarea -->
             <CodeMirror />
 
@@ -33,16 +42,23 @@
         </div>
     {/if}
 
-    <ScrollArea class="markdown-body relative box-border min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]" orientation="both">
-        {#if $rawMarkdown === ''}
-            <div class="flex w-full h-full justify-center">
-                <Button variant="muted" size="default" on:click={openMarkdownFile}>
-                    <span>Open File...</span>
-                    <span class="sr-only">Open File</span>
-                </Button>
-            </div>
-        {:else}
-            {@html $compiledMarkdown}
-        {/if}
-    </ScrollArea>
+    
+
+    {#if $rawMarkdown === ''}
+        <div class="markdown-body flex flex-col items-center justify-center box-border w-full min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]">
+            <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl !mb-10">md-editor</h1>
+            <Button variant="muted" size="default" on:click={openMarkdownFile}>
+                <span>Open File...</span>
+                <span class="sr-only">Open File</span>
+            </Button>
+        </div>
+    {:else}
+        <ScrollArea
+            class="markdown-body relative box-border min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]"
+            orientation="both"
+            bind:this={previewDiv}
+        >
+                {@html $compiledMarkdown}
+        </ScrollArea>
+    {/if}
 </div>

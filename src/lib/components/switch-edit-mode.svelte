@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Icon from '@iconify/svelte';
 	import { Switch as SwitchPrimitive } from "bits-ui";
 	import { cn } from "$lib/utils.js";
 
@@ -20,10 +21,15 @@
 	on:click
 	on:keydown
 >
-	<SwitchPrimitive.Thumb
-		class={cn(
-			"pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
-		)}
-        style="background-image: url('./mdi--edit.svg'); background-size: auto; background-position: center; background-repeat: no-repeat;"
-	/>
+	<SwitchPrimitive.Thumb asChild>
+        <Icon
+            icon="icon-park-solid:edit"
+            class={cn(
+                "pointer-events-none block h-full w-1/2 p-[3px] rounded-full bg-background shadow-lg ring-0 transition-transform text-muted-foreground",
+                "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0",
+                // "data-[state=checked]:text-muted-foreground data-[state=unchecked]:text-input"
+            )}
+            data-state={checked ? "checked" : "unchecked"}
+        />
+    </SwitchPrimitive.Thumb>
 </SwitchPrimitive.Root>

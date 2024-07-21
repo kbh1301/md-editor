@@ -17,6 +17,8 @@ declare global {
         lightmode: boolean,
         mdTheme: string,
         startEditMode: boolean,
+        horizontalEditor: boolean,
+        toolbarHidden: boolean,
     }
 
     // declare type DirEntry = FileEntry & {

@@ -17,7 +17,7 @@
     }
 
     // Styles
-    const sectionStyles = "flex flex-col sm:flex-col items-center gap-6 bg-muted rounded-lg p-4";
+    const sectionStyles = "flex flex-col sm:flex-col items-center gap-1 bg-muted rounded-lg p-4";
     const labelStyles = "flex items-center gap-2 w-full justify-between";
 </script>
 
@@ -61,14 +61,24 @@
                     <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.startEditMode} class="data-[state=checked]:bg-muted-foreground" />
                 </Label>
 
-                <!-- THEME SELECTOR -->
                 <Label class={labelStyles}>
+                    <span>Horizontal editor:</span>
+                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.horizontalEditor} class="data-[state=checked]:bg-muted-foreground" />
+                </Label>
+
+                <Label class={labelStyles}>
+                    <span>Hide markdown toolbar:</span>
+                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.toolbarHidden} class="data-[state=checked]:bg-muted-foreground" />
+                </Label>
+
+                <!-- THEME SELECTOR -->
+                <Label class={labelStyles + " mt-5"}>
                     <span>Markdown Theme:</span>
                     <ThemeCombo />
                 </Label>
 
                 <!-- DARK MODE TOGGLE -->
-                <Label class={labelStyles}>
+                <Label class={labelStyles + " mt-5"}>
                     <span>Dark Mode:</span>
                     <LightSwitch class="" />
                 </Label>

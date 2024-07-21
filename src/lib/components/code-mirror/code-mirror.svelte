@@ -1,6 +1,6 @@
 <script lang="ts">
     import { cn } from "$lib/utils.js";
-    import { compiledMarkdown, editMode, isUnsaved, rawMarkdown } from "$utils/stores";
+    import { compiledMarkdown, editMode, isUnsaved, rawMarkdown, appSettings } from "$utils/stores";
     import { onMount, tick } from "svelte";
     import CodeMirror from "svelte-codemirror-editor";
     import type { HTMLTextareaAttributes } from "svelte/elements";
@@ -57,14 +57,16 @@
 </script>
 
 <!-- Editor Buttons -->
-<Accordion.Root value="toolbar">
-    <Accordion.Item value="toolbar" class="px-2 bg-background rounded-lg">
-        <Accordion.Trigger class="pb-1 pt-2 !place-content-end"></Accordion.Trigger>
-        <Accordion.Content>
-            <EditorToolbar {view} />
-        </Accordion.Content>
-    </Accordion.Item>
-</Accordion.Root>
+{#if !$appSettings.toolbarHidden}
+    <Accordion.Root value="toolbar">
+        <Accordion.Item value="toolbar" class="px-2 bg-background rounded-lg">
+            <Accordion.Trigger class="pb-1 pt-2 !place-content-end"></Accordion.Trigger>
+            <Accordion.Content>
+                <EditorToolbar {view} />
+            </Accordion.Content>
+        </Accordion.Item>
+    </Accordion.Root>
+{/if}
 
 <ScrollArea class="rounded-lg" orientation="both">
     <CodeMirror
