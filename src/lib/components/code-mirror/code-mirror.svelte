@@ -1,7 +1,6 @@
 <script lang="ts">
     import { cn } from "$lib/utils.js";
-    import { compiledMarkdown, editMode, isUnsaved, rawMarkdown, appSettings } from "$utils/stores";
-    import { onMount, tick } from "svelte";
+    import { isUnsaved, rawMarkdown, appSettings, editMode } from "$utils/stores";
     import CodeMirror from "svelte-codemirror-editor";
     import type { HTMLTextareaAttributes } from "svelte/elements";
     import DragHandle from "./drag-handle.svelte";
@@ -9,6 +8,7 @@
     import { Accordion } from "$components";
     import type { EditorView } from "@codemirror/view";
     import ScrollArea from "../ui/scroll-area/scroll-area.svelte";
+    import { tick } from "svelte";
 
     type $$Props = HTMLTextareaAttributes;
     let className: $$Props["class"] = undefined;
@@ -17,25 +17,16 @@
     let view: EditorView;
 
     async function updateDragHandles() {
-        await tick();
-
         const cmLineNumElmts: NodeListOf<HTMLElement> = document.querySelectorAll('.cm-gutter.cm-lineNumbers .cm-gutterElement');
         const cmContentElmts: NodeListOf<HTMLElement> = document.querySelectorAll(".cm-content .cm-line");
 
         if (cmLineNumElmts && cmContentElmts) {
-            cmLineNumElmts[0].parentElement!.style.overflow = "visible";
+            // cmLineNumElmts[0].parentElement!.style.overflow = "visible";
 
-            cmLineNumElmts.forEach((lineNumElmt) => {
-                const index = parseInt(lineNumElmt.textContent!) - 1;
-                const content = cmContentElmts[index]?.textContent;
-                const cmContent = { index, content };
-
+            cmLineNumElmts.forEach((lineNumElmt, index) => {
                 if (!lineNumElmt.querySelector(".drag-handle")) {
                     lineNumElmt.style.setProperty('position', 'relative');
-                    new DragHandle({ target: lineNumElmt, props: { cmContentElmts, cmContent, cmLineNumElmts } });
-                } else {
-                    const dragHandles = cmLineNumElmts[0].parentElement!.querySelectorAll(".drag-handle");
-                    dragHandles.forEach((handle) => handle.remove());
+                    new DragHandle({ target: lineNumElmt, props: { thisIndex: index } });
                 }
             });
         }
@@ -45,13 +36,43 @@
         $isUnsaved = true;
     }
 
-    onMount(() => {
-        updateDragHandles();
-    });
-    $: if ($compiledMarkdown) {
-        updateDragHandles();
+    function handleEditorReady(event: { detail: EditorView; }) {
+        const targetElmt = document.querySelector('.cm-content');
+
+        // Debounce function to limit the rate of function calls
+        function debounce(func: Function, wait: number) {
+            let timeout: number | undefined;
+            return function(this: any, ...args: any[]) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(this, args);
+                }, wait);
+            };
+        }
+
+        // Create a debounced version of updateDragHandles
+        const debouncedUpdateDragHandles = debounce(updateDragHandles, 300);
+
+        // Define the callback function to be called on mutations
+        const handleMutations = (mutations: MutationRecord[]) => {
+            mutations.forEach(mutation => {
+                // Use the debounced function here
+                debouncedUpdateDragHandles();
+            });
+        };
+
+        // Create a MutationObserver instance and pass the callback function
+        const observer = new MutationObserver(handleMutations);
+
+        // Configure the observer to watch for childList changes
+        const config = { childList: true, subtree: true };
+        observer.observe(targetElmt!, config);
+
+        return view = event.detail;
     }
-    $: editMode.subscribe(() => {
+
+    $: editMode.subscribe(async () => {
+        await tick();
         updateDragHandles();
     });
 </script>
@@ -77,7 +98,7 @@
         bind:value={$rawMarkdown}
         lineWrapping
         placeholder="Enter markdown here..."
-        on:ready={(e) => view = e.detail}
+        on:ready={handleEditorReady}
         on:change={handleEditorChange}
     />
 </ScrollArea>
