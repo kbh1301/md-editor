@@ -2,7 +2,8 @@ import { readTextFile } from '@tauri-apps/api/fs';
 import { Marked } from 'marked';
 import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
-import { rawMarkdown, compiledMarkdown } from '$lib/utils/stores';
+import { initRawMarkdown, rawMarkdown, compiledMarkdown, isUnsaved } from '$utils/stores';
+import { get } from 'svelte/store';
 
 /**
  * Accept path to file then:
@@ -12,10 +13,14 @@ import { rawMarkdown, compiledMarkdown } from '$lib/utils/stores';
  * @param filePath 
  */
 export async function setCompiledMarkdown(filePath: string) {
-    // Get raw markdown from text file and set store value
+    // Get raw markdown from text file and set store values
     if (filePath) {
         rawMarkdown.set(
             await readTextFile(filePath)
+        );
+
+        initRawMarkdown.set(
+            get(rawMarkdown)
         );
     }
 
@@ -25,8 +30,13 @@ export async function setCompiledMarkdown(filePath: string) {
     // When raw markdown changes, get compiled markdown and set store value
     rawMarkdown.subscribe((value) => {
         const compiled = marked.parse(value);
-
         compiledMarkdown.set(compiled);
+
+        if (value !== get(initRawMarkdown)) {
+            isUnsaved.set(true);
+        } else {
+            isUnsaved.set(false);
+        }
     })
 
     return;

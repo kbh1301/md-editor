@@ -43,7 +43,7 @@
         <div class="flex flex-col h-full gap-10 justify-evenly">
             <!-- MENU SECTION -->
             <div class={sectionStyles}>
-                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center">Menu</h4>
+                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center mb-4">Menu</h4>
 
                 <!-- OPEN FILE -->
                 <Button variant="muted" size="default" on:click={openFileExplorer}>
@@ -54,7 +54,7 @@
 
             <!-- SETTINGS SECTION -->
             <div class={sectionStyles}>
-                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center">Settings</h4>
+                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center mb-4">Settings</h4>
 
                 <Label class={labelStyles}>
                     <span>Start in Edit Mode:</span>

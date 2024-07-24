@@ -13,6 +13,7 @@ export const appSettings:Writable<AppSettings> = writable({
 // export const openedPagePath = writable('C:\\Users\\Kyle\\Downloads\\Codex\\lorem.md');
 export const openedPagePath = writable('');
 
+export const initRawMarkdown:Writable<string> = writable('');
 export const rawMarkdown:Writable<string> = writable('');
 export const compiledMarkdown:Writable<string|Promise<string>> = writable('');
 

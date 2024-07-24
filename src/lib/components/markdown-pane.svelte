@@ -28,13 +28,13 @@
 
             <!-- Save Button -->
             {#if $isUnsaved}
-                <div class="flex w-full gap-4 justify-center">
+                <div class="flex w-full gap-4 justify-center" transition:fade>
                     {#if $openedPagePath}
-                        <div class="flex justify-center" transition:fade>
+                        <div class="flex justify-center">
                             <Button on:click={() => saveMarkdownFile()}>Save</Button>
                         </div>
                     {/if}
-                    <div class="flex justify-center" transition:fade>
+                    <div class="flex justify-center">
                         <Button on:click={() => saveMarkdownFile({isSaveAs: true})}>Save As...</Button>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
         </div>
     {:else}
         <ScrollArea
-            class="markdown-body relative box-border min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]"
+            class="markdown-body relative box-border w-full min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]"
             orientation="both"
             bind:this={previewDiv}
         >

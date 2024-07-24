@@ -21,8 +21,6 @@
         const cmContentElmts: NodeListOf<HTMLElement> = document.querySelectorAll(".cm-content .cm-line");
 
         if (cmLineNumElmts && cmContentElmts) {
-            // cmLineNumElmts[0].parentElement!.style.overflow = "visible";
-
             cmLineNumElmts.forEach((lineNumElmt, index) => {
                 if (!lineNumElmt.querySelector(".drag-handle")) {
                     lineNumElmt.style.setProperty('position', 'relative');
@@ -30,10 +28,6 @@
                 }
             });
         }
-    }
-
-    function handleEditorChange() {
-        $isUnsaved = true;
     }
 
     function handleEditorReady(event: { detail: EditorView; }) {
@@ -99,6 +93,5 @@
         lineWrapping
         placeholder="Enter markdown here..."
         on:ready={handleEditorReady}
-        on:change={handleEditorChange}
     />
 </ScrollArea>

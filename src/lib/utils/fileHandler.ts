@@ -1,6 +1,6 @@
 import { open as tauriOpen, save as tauriSave} from '@tauri-apps/api/dialog';
 import { exists, createDir, writeTextFile, renameFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
-import { openedPagePath, rawMarkdown, isUnsaved } from "$lib/utils/stores";
+import { openedPagePath, rawMarkdown, isUnsaved, initRawMarkdown } from "$lib/utils/stores";
 import { setCompiledMarkdown } from '$lib/utils/markdownParsing';
 import { get } from 'svelte/store';
 import { toast } from 'svelte-sonner';
@@ -11,12 +11,7 @@ import { toast } from 'svelte-sonner';
  * @returns 
  */
 export async function launchFromFile() {
-    // TODO: when app is opened from .md file, set openedPagePath here
-
-    // Loads file if available
-    // if(get(openedPagePath)) {
-        setCompiledMarkdown(get(openedPagePath));
-    // }
+    setCompiledMarkdown(get(openedPagePath));
 }
 
 // TODO: add documentation
@@ -84,6 +79,9 @@ export async function saveMarkdownFile({isSaveAs = false} = {}) {
     toast.promise(saveFilePromise, {
         loading: 'Saving...',
         success: (data) => {
+            initRawMarkdown.set(
+                get(rawMarkdown)
+            );
             isUnsaved.set(false);
             return (data as SaveFileSuccess).message
         },
