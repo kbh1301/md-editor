@@ -85,7 +85,7 @@
     });
 </script>
 
-<div class="drag-handle absolute left-0 top-0 w-full h-full cursor-grab select-none text-primary bg-background border-primary border-[1px] text-wrap text-left opacity-1" bind:this={curHandle}>
+<div class="drag-handle absolute left-0 top-0 w-full h-full cursor-grab select-none text-primary bg-background border-primary border-[1px] text-wrap text-left opacity-0" bind:this={curHandle}>
     <Icon icon="material-symbols:drag-handle" />
 </div>
 
