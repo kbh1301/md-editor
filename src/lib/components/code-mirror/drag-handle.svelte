@@ -1,3 +1,4 @@
+<!-- TODO: Code cleanup -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { onMount } from "svelte";
@@ -41,6 +42,9 @@
 
         // Detect hover over other handles and swap positions
         handles.forEach((targetElmt, index) => {
+            // Break if dragged out of bounds
+            if (index-1 < 0) return;
+
             if (targetElmt !== curHandle) {
                 const rect = targetElmt.getBoundingClientRect();
                 if (event.clientY > rect.top && event.clientY < rect.bottom) {
@@ -62,6 +66,28 @@
                         cmContentElmts = document.querySelectorAll(".cm-content .cm-line");
                     }
                 }
+            } else {
+                if (targetElmt === curHandle) {
+                    if (event.clientY > curRect.top && event.clientY < curRect.bottom) {
+                        // Calculate target index based on handle index
+                        targetIndex = index - 1;
+
+                        // Swap CodeMirror content
+                        if (curIndex !== targetIndex) {
+                            const curContent = cmContentElmts[curIndex].innerHTML;
+                            const targetContent = cmContentElmts[targetIndex].innerHTML;
+
+                            cmContentElmts[curIndex].innerHTML = targetContent;
+                            cmContentElmts[targetIndex].innerHTML = curContent;
+
+                            // Update the curHandle index
+                            curIndex = targetIndex;
+
+                            // Update the NodeList
+                            cmContentElmts = document.querySelectorAll(".cm-content .cm-line");
+                        }
+                    }
+                }
             }
         });
     }
@@ -79,13 +105,18 @@
     }
 
     onMount(() => {
-        curHandle.addEventListener('mousedown', handleMouseDown);
         const contentWidth = document.querySelector('.cm-content.cm-lineWrapping')?.clientWidth;
         curHandle.querySelector('div')?.style.setProperty('width', `${contentWidth}px`);
     });
 </script>
 
-<div class="drag-handle absolute left-0 top-0 w-full h-full cursor-grab select-none text-primary bg-background border-primary border-[1px] text-wrap text-left opacity-0" bind:this={curHandle}>
+<!-- TODO: Define aria role for drag-handle -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div
+    class="drag-handle flex items-center justify-center absolute left-0 top-0 w-full h-full cursor-grab select-none text-background bg-foreground border-primary border-[1px] rounded-sm text-wrap text-left opacity-0"
+    bind:this={curHandle}
+    on:mousedown={handleMouseDown}
+>
     <Icon icon="material-symbols:drag-handle" />
 </div>
 
