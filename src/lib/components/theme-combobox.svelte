@@ -2,7 +2,7 @@
     import Check from "lucide-svelte/icons/check";
     import ChevronsUpDown from "lucide-svelte/icons/chevrons-up-down";
     import { Command, Popover, Button } from "$components";
-    import { cn } from "$lib/utils.js";
+    import { cn } from "$root/lib/utils/utils.js";
     import { tick } from "svelte";
     import { appSettings } from "$lib/utils/stores";
     import { loadTheme, writeToSettingsFile } from "$lib/utils/settingsHandler";

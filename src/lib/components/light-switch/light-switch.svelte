@@ -8,7 +8,7 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
 	import { Moon, Sun } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
-	import { cn } from '$lib/utils';
+	import { cn } from '$root/lib/utils/utils';
 	import {
 		getModeOsPrefers,
 		modeCurrent,
