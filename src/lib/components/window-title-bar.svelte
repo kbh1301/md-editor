@@ -25,7 +25,7 @@
         </span>
 
         <div class="flex items-center gap-2">
-            <SwitchEdit id="editmode-switch" bind:checked={$editMode} title="Toggle Edit" class="data-[state=checked]:bg-muted-foreground" />
+            <SwitchEdit id="editmode-switch" bind:checked={$editMode} title="Toggle Edit" class="data-[state=checked]:bg-primary" />
             <span class="sr-only">Toggle Edit</span>
             <!-- <Label for="editmode-switch">Edit</Label> -->
         </div>

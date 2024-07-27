@@ -1,6 +1,5 @@
 export { default as WindowTitleBar } from "$components/window-title-bar.svelte";
 export { default as SideMenu } from "$components/side-menu.svelte";
-export { default as MarkdownPane } from "$root/lib/components/markdown-pane.svelte";
 export { default as ThemeCombo } from "$components/theme-combobox.svelte";
 export { default as DialogGuide } from "$components/code-mirror/dialog-guide.svelte";
 export { default as DialogLink } from "$components/code-mirror/dialog-link.svelte";
@@ -15,7 +14,7 @@ export * as Command from "$components/ui/command";
 export * as Collapsible from "$components/ui/collapsible";
 export * as Accordion from "$components/ui/accordion";
 export * as Table from "$components/ui/table";
-export * as ScrollArea from "$components/ui/scroll-area";
+export { ScrollArea } from "$components/ui/scroll-area";
 export { Switch } from "$components/ui/switch";
 export { Label } from "$components/ui/label";
 export { Button } from "$components/ui/button";

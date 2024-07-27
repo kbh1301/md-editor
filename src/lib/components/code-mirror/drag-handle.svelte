@@ -113,7 +113,7 @@
 <!-- TODO: Define aria role for drag-handle -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-    class="drag-handle flex items-center justify-center absolute left-0 top-0 w-full h-full cursor-grab select-none text-background bg-foreground border-primary border-[1px] rounded-sm text-wrap text-left opacity-0"
+    class="drag-handle flex items-center justify-center absolute left-0 top-0 w-full h-full cursor-grab select-none text-background bg-primary border-primary border-[1px] rounded-sm text-wrap text-left opacity-0"
     bind:this={curHandle}
     on:mousedown={handleMouseDown}
 >

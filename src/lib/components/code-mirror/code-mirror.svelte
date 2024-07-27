@@ -1,14 +1,13 @@
 <script lang="ts">
     import { cn } from "$lib/utils.js";
-    import { isUnsaved, rawMarkdown, appSettings, editMode } from "$utils/stores";
+    import { rawMarkdown, appSettings, editMode } from "$utils/stores";
     import CodeMirror from "svelte-codemirror-editor";
     import type { HTMLTextareaAttributes } from "svelte/elements";
     import DragHandle from "./drag-handle.svelte";
     import EditorToolbar from "./editor-toolbar.svelte";
-    import { Accordion } from "$components";
+    import { Accordion, ScrollArea } from "$components";
     import type { EditorView } from "@codemirror/view";
-    import ScrollArea from "../ui/scroll-area/scroll-area.svelte";
-    import { tick } from "svelte";
+    import { onMount, tick } from "svelte";
 
     type $$Props = HTMLTextareaAttributes;
     let className: $$Props["class"] = undefined;
@@ -69,6 +68,10 @@
         await tick();
         updateDragHandles();
     });
+
+    onMount(() => {
+        document.querySelector('cm-gutters')?.classList.add('bg-background');
+    });
 </script>
 
 <!-- Editor Buttons -->
@@ -86,9 +89,29 @@
 <ScrollArea class="rounded-lg" orientation="both">
     <CodeMirror
         class={cn(
-            "bg-background text-primary overflow-hidden",
+            "bg-background text-foreground overflow-hidden",
             className
         )}
+        styles={{
+            ".cm-content": {
+                fontSize: "11pt",
+                fontFamily: "'Inconsolata', monospace"
+            },
+            ".cm-activeLineGutter": {
+                background: "hsl(var(--primary) / .2)"
+                // background: "none"
+            },
+            ".cm-activeLine": {
+                background: "hsl(var(--primary) / .2)"
+                // background: "none"
+            },
+            ".cm-selectionBackground": {
+                background: "hsl(var(--primary) / .5) !important"
+            },
+            ".cm-cursor": {
+                borderLeftColor: "hsl(var(--primary)) !important"
+            }
+        }}
         bind:value={$rawMarkdown}
         lineWrapping
         placeholder="Enter markdown here..."

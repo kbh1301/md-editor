@@ -68,7 +68,6 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
 		class={cn(
 			buttonVariants({
 				size: 'sm',
-				variant: 'muted'
 			}),
 			'w-9 px-0 rounded-full'
 		)}

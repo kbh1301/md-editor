@@ -25,9 +25,9 @@
         <Icon
             icon="icon-park-solid:edit"
             class={cn(
-                "pointer-events-none block h-full w-1/2 p-[3px] rounded-full bg-background shadow-lg ring-0 transition-transform text-muted-foreground",
+                "pointer-events-none block h-full w-1/2 p-[3px] rounded-full bg-background shadow-lg ring-0 transition-transform text-primary",
                 "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0",
-                // "data-[state=checked]:text-muted-foreground data-[state=unchecked]:text-input"
+                // "data-[state=checked]:text-primary data-[state=unchecked]:text-input"
             )}
             data-state={checked ? "checked" : "unchecked"}
         />

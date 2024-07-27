@@ -50,7 +50,7 @@
     })
 </script>
 
-<div class="relative grid grid-rows-[auto_1fr] h-screen overflow-hidden border border-black/40 bg-muted" id="window-grid">
+<div class="relative grid grid-rows-[auto_1fr] h-screen overflow-hidden border border-black/40 bg-secondary" id="window-grid">
     <WindowTitleBar />
 
     {#key data.url}

@@ -49,7 +49,6 @@
     <Popover.Trigger asChild let:builder>
         <Button
             builders={[builder]}
-            variant="muted"
             role="combobox"
             aria-expanded={open}
             class="w-[200px] justify-between ml-auto"
@@ -62,7 +61,7 @@
         <Command.Root>
             <!-- <Command.Input placeholder="Search themes..." /> -->
             <Command.Empty>No theme found.</Command.Empty>
-            <Command.Group class="bg-muted-foreground text-background">
+            <Command.Group class="bg-primary text-primary-foreground">
                 {#each themes as theme}
                     <Command.Item
                         value={theme.value}

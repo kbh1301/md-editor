@@ -17,7 +17,7 @@
     }
 
     // Styles
-    const sectionStyles = "flex flex-col sm:flex-col items-center gap-1 bg-muted rounded-lg p-4";
+    const sectionStyles = "flex flex-col sm:flex-col items-center gap-1 rounded-lg p-4 bg-background";
     const labelStyles = "flex items-center gap-2 w-full justify-between";
 </script>
 
@@ -28,7 +28,7 @@
 			<span class="sr-only">Toggle Menu</span>
 		</Button>
 	</Sheet.Trigger>
-	<Sheet.Content side="left" class="flex flex-col justify-between">
+	<Sheet.Content side="left" class="flex flex-col justify-between bg-secondary">
         <!-- SHEET HEADER -->
         <Sheet.Header>
             <Sheet.Title>
@@ -46,7 +46,7 @@
                 <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center mb-4">Menu</h4>
 
                 <!-- OPEN FILE -->
-                <Button variant="muted" size="default" on:click={openFileExplorer}>
+                <Button size="default" on:click={openFileExplorer}>
                     <span>Open File...</span>
                     <span class="sr-only">Open File</span>
                 </Button>
@@ -58,17 +58,17 @@
 
                 <Label class={labelStyles}>
                     <span>Start in Edit Mode:</span>
-                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.startEditMode} class="data-[state=checked]:bg-muted-foreground" />
+                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.startEditMode} />
                 </Label>
 
                 <Label class={labelStyles}>
                     <span>Horizontal editor:</span>
-                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.horizontalEditor} class="data-[state=checked]:bg-muted-foreground" />
+                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.horizontalEditor} />
                 </Label>
 
                 <Label class={labelStyles}>
                     <span>Hide markdown toolbar:</span>
-                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.toolbarHidden} class="data-[state=checked]:bg-muted-foreground" />
+                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.toolbarHidden} />
                 </Label>
 
                 <!-- THEME SELECTOR -->

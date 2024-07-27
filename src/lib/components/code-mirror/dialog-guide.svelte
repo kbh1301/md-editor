@@ -1,8 +1,7 @@
 <!-- TODO: finish markdown guide -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import { Button, Dialog, Table } from "$components";
-    import ScrollArea from "../ui/scroll-area/scroll-area.svelte";
+    import { Button, Dialog, Table, ScrollArea } from "$components";
 
     const basicElements = [
         {
