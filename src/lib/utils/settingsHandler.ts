@@ -17,7 +17,12 @@ export async function loadSettings() {
 
     // Set appSettings store with existing settingsFile contents
     const settingsFileContents = await readTextFile(settingsFileName, settingsFilePath);
-    appSettings.set(JSON.parse(settingsFileContents));
+
+    try {
+        appSettings.set(JSON.parse(settingsFileContents));
+    } catch(ex) {
+        console.error(ex);
+    }
 
     // Overwrite settings.json whenever appSettings store value is updated
     appSettings.subscribe(async () => {
