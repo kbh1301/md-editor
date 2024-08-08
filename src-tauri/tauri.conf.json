@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "md-editor",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
@@ -86,7 +86,7 @@
     "updater": {
         "active": true,
         "endpoints": [
-          "https://github.com/kbh1301/md-editor/release/latest.json"
+          "https://github.com/kbh1301/md-editor/releases/latest/download/latest.json"
         ],
         "dialog": true,
         "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM2MzgwNTQ1MTNFMkNDMDcKUldRSHpPSVRSUVU0eHIyWkh1Y0hiaXB0VU1Fb0RkdjRMSmdDK09SZFdhWHpobG1lVTlxOUxmTjkK",
