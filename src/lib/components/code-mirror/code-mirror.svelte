@@ -72,28 +72,31 @@
     });
 
     const customTheme = EditorView.theme({
-        "&": {
-            backgroundColor: "hsl(var(--background) / var(--tw-bg-opacity)) !important",
-            color: "hsl(var(--foreground) / var(--tw-text-opacity)) !important"
+        '&': {
+            backgroundColor: 'hsl(var(--background) / var(--tw-bg-opacity)) !important',
+            color: 'hsl(var(--foreground) / var(--tw-text-opacity)) !important'
         },
-        ".cm-content": {
-            fontSize: "11pt",
-            fontFamily: "'Inter', monospace"
+        '.cm-content': {
+            fontSize: '11pt',
+            fontFamily: '"Inter", monospace'
         },
-        ".cm-activeLineGutter": {
-            background: "hsl(var(--primary) / .2)"
+        '.cm-gutters': {
+            background: 'hsl(var(--background) / 1)'
+        },
+        '.cm-activeLineGutter': {
+            background: 'hsl(var(--primary) / .2)'
             // background: "none"
         },
-        ".cm-activeLine": {
-            background: "hsl(var(--primary) / .2)"
+        '.cm-activeLine': {
+            background: 'hsl(var(--primary) / .2)'
             // background: "none"
         },
-        ".cm-selectionBackground": {
-            background: "hsl(var(--primary) / .5) !important"
+        '.cm-selectionBackground': {
+            background: 'hsl(var(--primary) / .5) !important'
         },
-        ".cm-cursor": {
-            borderLeftColor: "hsl(var(--foreground)) !important",
-            borderLeft: "3px solid black"
+        '.cm-cursor': {
+            borderLeftColor: 'hsl(var(--foreground)) !important',
+            borderLeft: '3px solid black'
         }
     });
 </script>
@@ -122,6 +125,9 @@
         on:ready={handleEditorReady}
         extensions={[
             markdown(),
+            
+        ]}
+        theme={[
             $appSettings.lightmode ? [] : [oneDark],
             customTheme,
         ]}
