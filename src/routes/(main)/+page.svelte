@@ -1,16 +1,14 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
     import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import { appSettings, compiledMarkdown, editMode, isUnsaved, openedPagePath, rawMarkdown } from "$lib/utils/stores";
+    import { compiledMarkdown, editMode, isUnsaved, openedPagePath, rawMarkdown } from "$lib/utils/stores";
     import { Button, CodeMirror, ScrollArea } from "$components";
     import { saveMarkdownFile } from "$lib/utils/fileHandler";
 </script>
 
 <div class="grid grid-flow-col grid-cols-[1fr]">
     <div
-        class="flex flex-1 h-full overflow-hidden gap-4 pt-4 justify-around"
-        class:flex-col-reverse={$appSettings.horizontalEditor}
-        class:items-center={$appSettings.horizontalEditor}
+        class="flex flex-col-reverse items-center flex-1 h-full overflow-hidden gap-4 pt-4 justify-around lg:flex-row lg:items-stretch"
     >
         <!-- Markdown Editor Pane -->
         {#if $editMode}

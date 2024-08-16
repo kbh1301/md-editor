@@ -62,11 +62,6 @@
                 </Label>
 
                 <Label class={labelStyles}>
-                    <span>Horizontal editor:</span>
-                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.horizontalEditor} />
-                </Label>
-
-                <Label class={labelStyles}>
                     <span>Hide markdown toolbar:</span>
                     <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.toolbarHidden} />
                 </Label>
