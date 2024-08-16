@@ -1,55 +1,116 @@
-.markdown-body {
-    color-scheme: light;
-    --color-prettylights-syntax-comment: #6e7781;
-    --color-prettylights-syntax-constant: #0550ae;
-    --color-prettylights-syntax-entity: #8250df;
-    --color-prettylights-syntax-storage-modifier-import: #24292f;
-    --color-prettylights-syntax-entity-tag: #116329;
-    --color-prettylights-syntax-keyword: #cf222e;
-    --color-prettylights-syntax-string: #0a3069;
-    --color-prettylights-syntax-variable: #953800;
-    --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
-    --color-prettylights-syntax-invalid-illegal-text: #f6f8fa;
-    --color-prettylights-syntax-invalid-illegal-bg: #82071e;
-    --color-prettylights-syntax-carriage-return-text: #f6f8fa;
-    --color-prettylights-syntax-carriage-return-bg: #cf222e;
-    --color-prettylights-syntax-string-regexp: #116329;
-    --color-prettylights-syntax-markup-list: #3b2300;
-    --color-prettylights-syntax-markup-heading: #0550ae;
-    --color-prettylights-syntax-markup-italic: #24292f;
-    --color-prettylights-syntax-markup-bold: #24292f;
-    --color-prettylights-syntax-markup-deleted-text: #82071e;
-    --color-prettylights-syntax-markup-deleted-bg: #FFEBE9;
-    --color-prettylights-syntax-markup-inserted-text: #116329;
-    --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
-    --color-prettylights-syntax-markup-changed-text: #953800;
-    --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
-    --color-prettylights-syntax-markup-ignored-text: #eaeef2;
-    --color-prettylights-syntax-markup-ignored-bg: #0550ae;
-    --color-prettylights-syntax-meta-diff-range: #8250df;
-    --color-prettylights-syntax-brackethighlighter-angle: #57606a;
-    --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
-    --color-prettylights-syntax-constant-other-reference-link: #0a3069;
-    --color-fg-default: #24292f;
-    --color-fg-muted: #57606a;
-    --color-fg-subtle: #6e7781;
-    --color-canvas-default: #ffffff;
-    --color-canvas-subtle: #f6f8fa;
-    --color-border-default: #d0d7de;
-    --color-border-muted: hsla(210, 18%, 87%, 1);
-    --color-neutral-muted: rgba(175, 184, 193, 0.2);
-    --color-accent-fg: #0969da;
-    --color-accent-emphasis: #0969da;
-    --color-attention-subtle: #fff8c5;
-    --color-danger-fg: #cf222e;
+:root {
+    --md-syntax-comment: #6e7781;
+    --md-syntax-constant: #0550ae;
+    --md-syntax-entity: #8250df;
+    --md-syntax-storage-modifier-import: #24292f;
+    --md-syntax-entity-tag: #116329;
+    --md-syntax-keyword: #cf222e;
+    --md-syntax-string: #0a3069;
+    --md-syntax-variable: #953800;
+    --md-syntax-brackethighlighter-unmatched: #82071e;
+    --md-syntax-invalid-illegal-text: #f6f8fa;
+    --md-syntax-invalid-illegal-bg: #82071e;
+    --md-syntax-carriage-return-text: #f6f8fa;
+    --md-syntax-carriage-return-bg: #cf222e;
+    --md-syntax-string-regexp: #116329;
+    --md-syntax-markup-list: #3b2300;
+    --md-syntax-markup-heading: #0550ae;
+    --md-syntax-markup-italic: #24292f;
+    --md-syntax-markup-bold: #24292f;
+    --md-syntax-markup-deleted-text: #82071e;
+    --md-syntax-markup-deleted-bg: #FFEBE9;
+    --md-syntax-markup-inserted-text: #116329;
+    --md-syntax-markup-inserted-bg: #dafbe1;
+    --md-syntax-markup-changed-text: #953800;
+    --md-syntax-markup-changed-bg: #ffd8b5;
+    --md-syntax-markup-ignored-text: #eaeef2;
+    --md-syntax-markup-ignored-bg: #0550ae;
+    --md-syntax-meta-diff-range: #8250df;
+    --md-syntax-brackethighlighter-angle: #57606a;
+    --md-syntax-sublimelinter-gutter-mark: #8c959f;
+    --md-syntax-constant-other-reference-link: #0a3069;
+    --md-fg-default: #24292f;
+    --md-fg-muted: #57606a;
+    --md-fg-subtle: #6e7781;
+    --md-canvas-default: #ffffff;
+    --md-canvas-subtle: #f6f8fa;
+    --md-border-default: #d0d7de;
+    --md-border-muted: hsla(210, 18%, 87%, 1);
+    --md-neutral-muted: rgba(175, 184, 193, 0.2);
+    --md-accent-fg: #0969da;
+    --md-accent-emphasis: #0969da;
+    --md-attention-subtle: #fff8c5;
+    --md-danger-fg: #cf222e;
+}
+
+.dark {
+    --md-syntax-comment: #8b949e;
+    --md-syntax-constant: #79c0ff;
+    --md-syntax-entity: #d2a8ff;
+    --md-syntax-storage-modifier-import: #c9d1d9;
+    --md-syntax-entity-tag: #7ee787;
+    --md-syntax-keyword: #ff7b72;
+    --md-syntax-string: #a5d6ff;
+    --md-syntax-variable: #ffa657;
+    --md-syntax-brackethighlighter-unmatched: #f85149;
+    --md-syntax-invalid-illegal-text: #f0f6fc;
+    --md-syntax-invalid-illegal-bg: #8e1519;
+    --md-syntax-carriage-return-text: #f0f6fc;
+    --md-syntax-carriage-return-bg: #b62324;
+    --md-syntax-string-regexp: #7ee787;
+    --md-syntax-markup-list: #f2cc60;
+    --md-syntax-markup-heading: #1f6feb;
+    --md-syntax-markup-italic: #c9d1d9;
+    --md-syntax-markup-bold: #c9d1d9;
+    --md-syntax-markup-deleted-text: #ffdcd7;
+    --md-syntax-markup-deleted-bg: #67060c;
+    --md-syntax-markup-inserted-text: #aff5b4;
+    --md-syntax-markup-inserted-bg: #033a16;
+    --md-syntax-markup-changed-text: #ffdfb6;
+    --md-syntax-markup-changed-bg: #5a1e02;
+    --md-syntax-markup-ignored-text: #c9d1d9;
+    --md-syntax-markup-ignored-bg: #1158c7;
+    --md-syntax-meta-diff-range: #d2a8ff;
+    --md-syntax-brackethighlighter-angle: #8b949e;
+    --md-syntax-sublimelinter-gutter-mark: #484f58;
+    --md-syntax-constant-other-reference-link: #a5d6ff;
+    --md-fg-default: #e0e6ed;
+    --md-fg-muted: #a0a9b8;
+    --md-fg-subtle: #666f7a;
+    --md-canvas-default: #343d46;
+    --md-canvas-subtle: #404b56;
+    --md-border-default: #49525b;
+    --md-border-muted: #3a444d;
+    --md-neutral-muted: rgba(136, 145, 155, 0.4);
+    --md-accent-fg: #69b1ff;
+    --md-accent-emphasis: #2f7fdc;
+    --md-attention-subtle: rgba(187, 128, 9, 0.25);
+    --md-danger-fg: #ff6b66;
+
+    /*
+    Original GitHub Dark color schemes:
+    
+    --md-fg-default: #c9d1d9;
+    --md-fg-muted: #8b949e;
+    --md-fg-subtle: #484f58;
+    --md-canvas-default: #0d1117;
+    --md-canvas-subtle: #161b22;
+    --md-border-default: #30363d;
+    --md-border-muted: #21262d;
+    --md-neutral-muted: rgba(110, 118, 129, 0.4);
+    --md-accent-fg: #58a6ff;
+    --md-accent-emphasis: #1f6feb;
+    --md-attention-subtle: rgba(187, 128, 9, 0.15);
+    --md-danger-fg: #f85149;
+    */
 }
 
 .markdown-body {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     margin: 0;
-    color: var(--color-fg-default);
-    background-color: var(--color-canvas-default);
+    color: var(--md-fg-default);
+    background-color: var(--md-canvas-default);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-size: 16px;
     line-height: 1.5;
@@ -93,7 +154,7 @@
 
 .markdown-body a {
     background-color: transparent;
-    color: var(--color-accent-fg);
+    color: var(--md-accent-fg);
     text-decoration: none;
 }
 
@@ -121,12 +182,12 @@
     font-weight: 600;
     padding-bottom: .3em;
     font-size: 2em;
-    border-bottom: 1px solid var(--color-border-muted);
+    border-bottom: 1px solid var(--md-border-muted);
 }
 
 .markdown-body mark {
-    background-color: var(--color-attention-subtle);
-    color: var(--color-text-primary);
+    background-color: var(--md-attention-subtle);
+    color: var(--md-text-primary);
 }
 
 .markdown-body small {
@@ -153,7 +214,7 @@
     border-style: none;
     max-width: 100%;
     box-sizing: content-box;
-    background-color: var(--color-canvas-default);
+    background-color: var(--md-canvas-default);
 }
 
 .markdown-body code,
@@ -172,11 +233,11 @@
     box-sizing: content-box;
     overflow: hidden;
     background: transparent;
-    border-bottom: 1px solid var(--color-border-muted);
+    border-bottom: 1px solid var(--md-border-muted);
     height: .25em;
     padding: 0;
     margin: 24px 0;
-    background-color: var(--color-border-default);
+    background-color: var(--md-border-default);
     border: 0;
 }
 
@@ -281,13 +342,13 @@
     padding: 3px 5px;
     font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
     line-height: 10px;
-    color: var(--color-fg-default);
+    color: var(--md-fg-default);
     vertical-align: middle;
-    background-color: var(--color-canvas-subtle);
-    border: solid 1px var(--color-neutral-muted);
-    border-bottom-color: var(--color-neutral-muted);
+    background-color: var(--md-canvas-subtle);
+    border: solid 1px var(--md-neutral-muted);
+    border-bottom-color: var(--md-neutral-muted);
     border-radius: 6px;
-    box-shadow: inset 0 -1px 0 var(--color-neutral-muted);
+    box-shadow: inset 0 -1px 0 var(--md-neutral-muted);
 }
 
 .markdown-body h1,
@@ -306,7 +367,7 @@
     font-weight: 600;
     padding-bottom: .3em;
     font-size: 1.5em;
-    border-bottom: 1px solid var(--color-border-muted);
+    border-bottom: 1px solid var(--md-border-muted);
 }
 
 .markdown-body h3 {
@@ -327,7 +388,7 @@
 .markdown-body h6 {
     font-weight: 600;
     font-size: .85em;
-    color: var(--color-fg-muted);
+    color: var(--md-fg-muted);
 }
 
 .markdown-body p {
@@ -338,8 +399,8 @@
 .markdown-body blockquote {
     margin: 0;
     padding: 0 1em;
-    color: var(--color-fg-muted);
-    border-left: .25em solid var(--color-border-default);
+    color: var(--md-fg-muted);
+    border-left: .25em solid var(--md-border-default);
 }
 
 .markdown-body ul,
@@ -387,7 +448,7 @@
 }
 
 .markdown-body ::placeholder {
-    color: var(--color-fg-subtle);
+    color: var(--md-fg-subtle);
     opacity: 1;
 }
 
@@ -399,30 +460,30 @@
 }
 
 .markdown-body .pl-c {
-    color: var(--color-prettylights-syntax-comment);
+    color: var(--md-prettylights-syntax-comment);
 }
 
 .markdown-body .pl-c1,
 .markdown-body .pl-s .pl-v {
-    color: var(--color-prettylights-syntax-constant);
+    color: var(--md-prettylights-syntax-constant);
 }
 
 .markdown-body .pl-e,
 .markdown-body .pl-en {
-    color: var(--color-prettylights-syntax-entity);
+    color: var(--md-prettylights-syntax-entity);
 }
 
 .markdown-body .pl-smi,
 .markdown-body .pl-s .pl-s1 {
-    color: var(--color-prettylights-syntax-storage-modifier-import);
+    color: var(--md-prettylights-syntax-storage-modifier-import);
 }
 
 .markdown-body .pl-ent {
-    color: var(--color-prettylights-syntax-entity-tag);
+    color: var(--md-prettylights-syntax-entity-tag);
 }
 
 .markdown-body .pl-k {
-    color: var(--color-prettylights-syntax-keyword);
+    color: var(--md-prettylights-syntax-keyword);
 }
 
 .markdown-body .pl-s,
@@ -432,90 +493,90 @@
 .markdown-body .pl-sr .pl-cce,
 .markdown-body .pl-sr .pl-sre,
 .markdown-body .pl-sr .pl-sra {
-    color: var(--color-prettylights-syntax-string);
+    color: var(--md-prettylights-syntax-string);
 }
 
 .markdown-body .pl-v,
 .markdown-body .pl-smw {
-    color: var(--color-prettylights-syntax-variable);
+    color: var(--md-prettylights-syntax-variable);
 }
 
 .markdown-body .pl-bu {
-    color: var(--color-prettylights-syntax-brackethighlighter-unmatched);
+    color: var(--md-prettylights-syntax-brackethighlighter-unmatched);
 }
 
 .markdown-body .pl-ii {
-    color: var(--color-prettylights-syntax-invalid-illegal-text);
-    background-color: var(--color-prettylights-syntax-invalid-illegal-bg);
+    color: var(--md-prettylights-syntax-invalid-illegal-text);
+    background-color: var(--md-prettylights-syntax-invalid-illegal-bg);
 }
 
 .markdown-body .pl-c2 {
-    color: var(--color-prettylights-syntax-carriage-return-text);
-    background-color: var(--color-prettylights-syntax-carriage-return-bg);
+    color: var(--md-prettylights-syntax-carriage-return-text);
+    background-color: var(--md-prettylights-syntax-carriage-return-bg);
 }
 
 .markdown-body .pl-sr .pl-cce {
     font-weight: bold;
-    color: var(--color-prettylights-syntax-string-regexp);
+    color: var(--md-prettylights-syntax-string-regexp);
 }
 
 .markdown-body .pl-ml {
-    color: var(--color-prettylights-syntax-markup-list);
+    color: var(--md-prettylights-syntax-markup-list);
 }
 
 .markdown-body .pl-mh,
 .markdown-body .pl-mh .pl-en,
 .markdown-body .pl-ms {
     font-weight: bold;
-    color: var(--color-prettylights-syntax-markup-heading);
+    color: var(--md-prettylights-syntax-markup-heading);
 }
 
 .markdown-body .pl-mi {
     font-style: italic;
-    color: var(--color-prettylights-syntax-markup-italic);
+    color: var(--md-prettylights-syntax-markup-italic);
 }
 
 .markdown-body .pl-mb {
     font-weight: bold;
-    color: var(--color-prettylights-syntax-markup-bold);
+    color: var(--md-prettylights-syntax-markup-bold);
 }
 
 .markdown-body .pl-md {
-    color: var(--color-prettylights-syntax-markup-deleted-text);
-    background-color: var(--color-prettylights-syntax-markup-deleted-bg);
+    color: var(--md-prettylights-syntax-markup-deleted-text);
+    background-color: var(--md-prettylights-syntax-markup-deleted-bg);
 }
 
 .markdown-body .pl-mi1 {
-    color: var(--color-prettylights-syntax-markup-inserted-text);
-    background-color: var(--color-prettylights-syntax-markup-inserted-bg);
+    color: var(--md-prettylights-syntax-markup-inserted-text);
+    background-color: var(--md-prettylights-syntax-markup-inserted-bg);
 }
 
 .markdown-body .pl-mc {
-    color: var(--color-prettylights-syntax-markup-changed-text);
-    background-color: var(--color-prettylights-syntax-markup-changed-bg);
+    color: var(--md-prettylights-syntax-markup-changed-text);
+    background-color: var(--md-prettylights-syntax-markup-changed-bg);
 }
 
 .markdown-body .pl-mi2 {
-    color: var(--color-prettylights-syntax-markup-ignored-text);
-    background-color: var(--color-prettylights-syntax-markup-ignored-bg);
+    color: var(--md-prettylights-syntax-markup-ignored-text);
+    background-color: var(--md-prettylights-syntax-markup-ignored-bg);
 }
 
 .markdown-body .pl-mdr {
     font-weight: bold;
-    color: var(--color-prettylights-syntax-meta-diff-range);
+    color: var(--md-prettylights-syntax-meta-diff-range);
 }
 
 .markdown-body .pl-ba {
-    color: var(--color-prettylights-syntax-brackethighlighter-angle);
+    color: var(--md-prettylights-syntax-brackethighlighter-angle);
 }
 
 .markdown-body .pl-sg {
-    color: var(--color-prettylights-syntax-sublimelinter-gutter-mark);
+    color: var(--md-prettylights-syntax-sublimelinter-gutter-mark);
 }
 
 .markdown-body .pl-corl {
     text-decoration: underline;
-    color: var(--color-prettylights-syntax-constant-other-reference-link);
+    color: var(--md-prettylights-syntax-constant-other-reference-link);
 }
 
 .markdown-body [data-catalyst] {
@@ -561,7 +622,7 @@
 }
 
 .markdown-body .absent {
-    color: var(--color-danger-fg);
+    color: var(--md-danger-fg);
 }
 
 .markdown-body .anchor {
@@ -609,7 +670,7 @@
 .markdown-body h4 .octicon-link,
 .markdown-body h5 .octicon-link,
 .markdown-body h6 .octicon-link {
-    color: var(--color-fg-default);
+    color: var(--md-fg-default);
     vertical-align: middle;
     visibility: hidden;
 }
@@ -710,16 +771,16 @@
 .markdown-body table th,
 .markdown-body table td {
     padding: 6px 13px;
-    border: 1px solid var(--color-border-default);
+    border: 1px solid var(--md-border-default);
 }
 
 .markdown-body table tr {
-    background-color: var(--color-canvas-default);
-    border-top: 1px solid var(--color-border-muted);
+    background-color: var(--md-canvas-default);
+    border-top: 1px solid var(--md-border-muted);
 }
 
 .markdown-body table tr:nth-child(2n) {
-    background-color: var(--color-canvas-subtle);
+    background-color: var(--md-canvas-subtle);
 }
 
 .markdown-body table img {
@@ -752,7 +813,7 @@
     padding: 7px;
     margin: 13px 0 0;
     overflow: hidden;
-    border: 1px solid var(--color-border-default);
+    border: 1px solid var(--md-border-default);
 }
 
 .markdown-body span.frame span img {
@@ -764,7 +825,7 @@
     display: block;
     padding: 5px 0 0;
     clear: both;
-    color: var(--color-fg-default);
+    color: var(--md-fg-default);
 }
 
 .markdown-body span.align-center {
@@ -833,7 +894,7 @@
     padding: .2em .4em;
     margin: 0;
     font-size: 85%;
-    background-color: var(--color-neutral-muted);
+    background-color: var(--md-neutral-muted);
     border-radius: 6px;
 }
 
@@ -874,7 +935,7 @@
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
-    background-color: var(--color-canvas-subtle);
+    background-color: var(--md-canvas-subtle);
     border-radius: 6px;
 }
 
@@ -904,7 +965,7 @@
 .markdown-body .csv-data .blob-num {
     padding: 10px 8px 9px;
     text-align: right;
-    background: var(--color-canvas-default);
+    background: var(--md-canvas-default);
     border: 0;
 }
 
@@ -914,14 +975,14 @@
 
 .markdown-body .csv-data th {
     font-weight: 600;
-    background: var(--color-canvas-subtle);
+    background: var(--md-canvas-subtle);
     border-top: 0;
 }
 
 .markdown-body .footnotes {
     font-size: 12px;
-    color: var(--color-fg-muted);
-    border-top: 1px solid var(--color-border-default);
+    color: var(--md-fg-muted);
+    border-top: 1px solid var(--md-border-default);
 }
 
 .markdown-body .footnotes ol {
@@ -940,12 +1001,12 @@
     left: -24px;
     pointer-events: none;
     content: "";
-    border: 2px solid var(--color-accent-emphasis);
+    border: 2px solid var(--md-accent-emphasis);
     border-radius: 6px;
 }
 
 .markdown-body .footnotes li:target {
-    color: var(--color-fg-default);
+    color: var(--md-fg-default);
 }
 
 .markdown-body .footnotes .data-footnote-backref g-emoji {
@@ -985,20 +1046,56 @@
     filter: invert(50%);
 }
 
-/*!
-  Theme: GitHub
-  Description: Light theme as seen on github.com
-  Author: github.com
-  Maintainer: @Hirse
-  Updated: 2021-05-15
 
-  Outdated base version: https://github.com/primer/github-syntax-light
-  Current colors taken from GitHub's CSS
-*/
+
+/* hljs styles */
+:root {
+    --hljs-color: #24292e;
+    --hljs-background: #ffffff;
+
+    --hljs-keyword: #d73a49;
+    --hljs-entity: #6f42c1;
+    --hljs-constant: #005cc5;
+    --hljs-string: #032f62;
+    --hljs-variable: #e36209;
+    --hljs-comment: #6a737d;
+    --hljs-entity-tag: #22863a;
+    --hljs-storage-modifier-import: #24292e;
+    --hljs-markup-heading: #005cc5;
+    --hljs-markup-list: #735c0f;
+    --hljs-markup-italic: #24292e;
+    --hljs-markup-bold: #24292e;
+    --hljs-markup-inserted: #22863a;
+    --hljs-markup-inserted-bg: #f0fff4;
+    --hljs-markup-deleted: #b31d28;
+    --hljs-markup-deleted-bg: #ffeef0;
+}
+
+.dark {
+    --hljs-color: #adbac7;
+    --hljs-background: #22272e;
+
+    --hljs-keyword: #f47067;
+    --hljs-entity: #dcbdfb;
+    --hljs-constant: #6cb6ff;
+    --hljs-string: #96d0ff;
+    --hljs-variable: #f69d50;
+    --hljs-comment: #768390;
+    --hljs-entity-tag: #8ddb8c;
+    --hljs-storage-modifier-import: #adbac7;
+    --hljs-markup-heading: #316dca;
+    --hljs-markup-list: #eac55f;
+    --hljs-markup-italic: #adbac7;
+    --hljs-markup-bold: #adbac7;
+    --hljs-markup-inserted: #b4f1b4;
+    --hljs-markup-inserted-bg: #1b4721;
+    --hljs-markup-deleted: #ffd8d3;
+    --hljs-markup-deleted-bg: #78191b;
+}
 
 .hljs {
-    color: #24292e;
-    background: #ffffff;
+    color: var(--hljs-color);
+    background: var(--hljs-background);
 }
 
 .hljs-doctag,
@@ -1008,16 +1105,14 @@
 .hljs-template-variable,
 .hljs-type,
 .hljs-variable.language_ {
-    /* prettylights-syntax-keyword */
-    color: #d73a49;
+    color: var(--hljs-keyword);
 }
 
 .hljs-title,
 .hljs-title.class_,
 .hljs-title.class_.inherited__,
 .hljs-title.function_ {
-    /* prettylights-syntax-entity */
-    color: #6f42c1;
+    color: var(--hljs-entity);
 }
 
 .hljs-attr,
@@ -1030,74 +1125,62 @@
 .hljs-selector-attr,
 .hljs-selector-class,
 .hljs-selector-id {
-    /* prettylights-syntax-constant */
-    color: #005cc5;
+    color: var(--hljs-constant);
 }
 
 .hljs-regexp,
 .hljs-string,
 .hljs-meta .hljs-string {
-    /* prettylights-syntax-string */
-    color: #032f62;
+    color: var(--hljs-string);
 }
 
 .hljs-built_in,
 .hljs-symbol {
-    /* prettylights-syntax-variable */
-    color: #e36209;
+    color: var(--hljs-variable);
 }
 
 .hljs-comment,
 .hljs-code,
 .hljs-formula {
-    /* prettylights-syntax-comment */
-    color: #6a737d;
+    color: var(--hljs-comment);
 }
 
 .hljs-name,
 .hljs-quote,
 .hljs-selector-tag,
 .hljs-selector-pseudo {
-    /* prettylights-syntax-entity-tag */
-    color: #22863a;
+    color: var(--hljs-entity-tag);
 }
 
 .hljs-subst {
-    /* prettylights-syntax-storage-modifier-import */
-    color: #24292e;
+    color: var(--hljs-storage-modifier-import);
 }
 
 .hljs-section {
-    /* prettylights-syntax-markup-heading */
-    color: #005cc5;
+    color: var(--hljs-markup-heading);
     font-weight: bold;
 }
 
 .hljs-bullet {
-    /* prettylights-syntax-markup-list */
-    color: #735c0f;
+    color: var(--hljs-markup-list);
 }
 
 .hljs-emphasis {
-    /* prettylights-syntax-markup-italic */
-    color: #24292e;
+    color: var(--hljs-markup-italic);
     font-style: italic;
 }
 
 .hljs-strong {
-    /* prettylights-syntax-markup-bold */
-    color: #24292e;
+    color: var(--hljs-markup-bold);
     font-weight: bold;
 }
 
 .hljs-addition {
-    /* prettylights-syntax-markup-inserted */
-    color: #22863a;
-    background-color: #f0fff4;
+    color: var(--hljs-markup-inserted);
+    background-color: var(--hljs-markup-inserted-bg);
 }
 
 .hljs-deletion {
-    /* prettylights-syntax-markup-deleted */
-    color: #b31d28;
-    background-color: #ffeef0;
+    color: var(--hljs-markup-deleted);
+    background-color: var(--hljs-markup-deleted-bg);
 }

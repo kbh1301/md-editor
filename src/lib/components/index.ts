@@ -1,6 +1,5 @@
 export { default as WindowTitleBar } from "$components/window-title-bar.svelte";
 export { default as SideMenu } from "$components/side-menu.svelte";
-export { default as ThemeCombo } from "$components/theme-combobox.svelte";
 export { default as DialogGuide } from "$components/code-mirror/dialog-guide.svelte";
 export { default as DialogLink } from "$components/code-mirror/dialog-link.svelte";
 export { default as CodeMirror } from "$components/code-mirror/code-mirror.svelte";

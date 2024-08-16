@@ -10,7 +10,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"tauri": "tauri",
-        "cargo-clean": "cargo clean --manifest-path ./src-tauri/Cargo.toml",
+		"cargo-clean": "cargo clean --manifest-path ./src-tauri/Cargo.toml",
 		"sveltekit:dev": "vite dev",
 		"sveltekit:build": "vite build"
 	},
@@ -33,6 +33,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@codemirror/lang-markdown": "^6.2.5",
+		"@codemirror/theme-one-dark": "^6.1.2",
 		"@tauri-apps/api": "^1.6.0",
 		"bits-ui": "^0.21.12",
 		"clsx": "^2.1.1",

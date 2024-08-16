@@ -6,8 +6,10 @@
     import DragHandle from "./drag-handle.svelte";
     import EditorToolbar from "./editor-toolbar.svelte";
     import { Accordion, ScrollArea } from "$components";
-    import type { EditorView } from "@codemirror/view";
-    import { onMount, tick } from "svelte";
+    import { EditorView } from "@codemirror/view";
+    import { tick } from "svelte";
+    import { markdown } from '@codemirror/lang-markdown';
+    import { oneDark } from '@codemirror/theme-one-dark'
 
     type $$Props = HTMLTextareaAttributes;
     let className: $$Props["class"] = undefined;
@@ -69,8 +71,30 @@
         updateDragHandles();
     });
 
-    onMount(() => {
-        document.querySelector('cm-gutters')?.classList.add('bg-background');
+    const customTheme = EditorView.theme({
+        "&": {
+            backgroundColor: "hsl(var(--background) / var(--tw-bg-opacity)) !important",
+            color: "hsl(var(--foreground) / var(--tw-text-opacity)) !important"
+        },
+        ".cm-content": {
+            fontSize: "11pt",
+            fontFamily: "'Inter', monospace"
+        },
+        ".cm-activeLineGutter": {
+            background: "hsl(var(--primary) / .2)"
+            // background: "none"
+        },
+        ".cm-activeLine": {
+            background: "hsl(var(--primary) / .2)"
+            // background: "none"
+        },
+        ".cm-selectionBackground": {
+            background: "hsl(var(--primary) / .5) !important"
+        },
+        ".cm-cursor": {
+            borderLeftColor: "hsl(var(--foreground)) !important",
+            borderLeft: "3px solid black"
+        }
     });
 </script>
 
@@ -89,32 +113,17 @@
 <ScrollArea class="rounded-lg" orientation="both">
     <CodeMirror
         class={cn(
-            "bg-background text-foreground overflow-hidden",
+            "text-foreground overflow-hidden",
             className
         )}
-        styles={{
-            ".cm-content": {
-                fontSize: "11pt",
-                fontFamily: "'Inconsolata', monospace"
-            },
-            ".cm-activeLineGutter": {
-                background: "hsl(var(--primary) / .2)"
-                // background: "none"
-            },
-            ".cm-activeLine": {
-                background: "hsl(var(--primary) / .2)"
-                // background: "none"
-            },
-            ".cm-selectionBackground": {
-                background: "hsl(var(--primary) / .5) !important"
-            },
-            ".cm-cursor": {
-                borderLeftColor: "hsl(var(--primary)) !important"
-            }
-        }}
         bind:value={$rawMarkdown}
         lineWrapping
         placeholder="Enter markdown here..."
         on:ready={handleEditorReady}
+        extensions={[
+            markdown(),
+            $appSettings.lightmode ? [] : [oneDark],
+            customTheme,
+        ]}
     />
 </ScrollArea>

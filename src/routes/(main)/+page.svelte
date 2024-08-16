@@ -15,7 +15,7 @@
         <!-- Markdown Editor Pane -->
         {#if $editMode}
             <div
-                class="flex flex-col flex-[1_1_50%] w-full max-w-[980px] overflow-auto"
+                class="flex flex-col flex-[1_1_50%] w-full max-w-[980px] overflow-auto bg-background rounded-lg"
                 transition:fade
             >
                 <!-- Raw Markdown Textarea -->

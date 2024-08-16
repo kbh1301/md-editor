@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Sheet, ThemeCombo, Label, Switch } from "$components";
+	import { Button, Sheet, Label, Switch } from "$components";
     import Icon from '@iconify/svelte';
     import { openMarkdownFile } from "$lib/utils/fileHandler";
     import LightSwitch from "./light-switch/light-switch.svelte";
@@ -69,12 +69,6 @@
                 <Label class={labelStyles}>
                     <span>Hide markdown toolbar:</span>
                     <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.toolbarHidden} />
-                </Label>
-
-                <!-- THEME SELECTOR -->
-                <Label class={labelStyles + " mt-5"}>
-                    <span>Markdown Theme:</span>
-                    <ThemeCombo />
                 </Label>
 
                 <!-- DARK MODE TOGGLE -->

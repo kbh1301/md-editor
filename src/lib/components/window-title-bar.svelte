@@ -15,7 +15,7 @@
 <!-- TODO: fix a11y below -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header
-    class="supports-[backdrop-filter]:bg-background/60 flex justify-between top-0 left-0 right-0 select-none h-10 bg-background/95 border-b border-foreground/30 backdrop-blur"
+    class="flex justify-between top-0 left-0 right-0 select-none h-10 bg-secondary"
     data-tauri-drag-region
 >
     <!-- LEFT CONTENT -->

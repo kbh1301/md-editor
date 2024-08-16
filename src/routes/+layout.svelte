@@ -2,10 +2,11 @@
     import { invoke } from '@tauri-apps/api/tauri';
     import { onDestroy, onMount } from "svelte";
     import { launchFromFile } from "$utils/fileHandler";
-    import { loadSettings, loadTheme, toggleLightMode } from "$utils/settingsHandler";
+    import { loadSettings, toggleLightMode } from "$utils/settingsHandler";
     import { fly } from 'svelte/transition';
     import { WindowTitleBar, Toaster } from "$components";
     import "$root/app.postcss";
+    import "$root/markdown.postcss";
     import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/light-switch/light-switch";
     import { appSettings, editMode, openedPagePath } from "$utils/stores";
     import { initKeydownListener, removeKeydownListener } from "$utils/keybindHandler";
@@ -22,7 +23,6 @@
 
         // load settings and file on initialization
         await loadSettings();
-        await loadTheme();
         await launchFromFile();
 
         // initialize keybind listener
