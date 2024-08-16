@@ -48,7 +48,9 @@ export async function setCompiledMarkdown(filePath: string) {
      */
     function setupMarkedCompiler() {
         const renderer = {
-            // HTML link/anchor tags open in new window
+            currentLevel: 0,
+    
+            // HTML link/anchor tags open in a new window
             link(href: string, title: string | null | undefined, text: string) {
                 const localLink = href?.startsWith(`${location.protocol}//${location.hostname}`);
                 const html = marked.Renderer.prototype.link.call(this, href, title, text);
@@ -56,25 +58,52 @@ export async function setCompiledMarkdown(filePath: string) {
                     ? html
                     : html.replace(/^<a /, `<a target="_blank" rel="noreferrer noopener nofollow" `);
             },
+    
             // HTML headings and their content are collapsible
             heading(text: string, level: number) {
                 const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                 const headingTag = `<h${level} id="${id}">${text}</h${level}>`;
-                return `
+    
+                let result = '';
+    
+                // Close sections of higher or equal levels
+                if (level <= this.currentLevel) {
+                    for (let i = this.currentLevel; i >= level; i--) {
+                        result += '</div></details>';
+                    }
+                }
+    
+                // Update the current level to the new level
+                this.currentLevel = level;
+    
+                // Start a new collapsible section
+                result += `
                     <details class="collapsible" open>
                         <summary class="collapsible-summary">
+                            ${headingTag}
                             <div class="collapsible-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor" fill-rule="evenodd" d="m9.005 4l8 8l-8 8L7 18l6.005-6L7 6z" />
                                 </svg>
                             </div>
-                            ${headingTag}
                         </summary>
                     <div class="collapsible-content">
                 `;
+    
+                return result;
             },
+    
+            // Close all remaining collapsible sections at the end of the document
+            finalize() {
+                let result = '';
+                for (let i = this.currentLevel; i > 0; i--) {
+                    result += '</div></details>';
+                }
+                this.currentLevel = 0;
+                return result;
+            }
         };
-
+    
         // highlightJS
         const marked = new Marked(
             markedHighlight({
@@ -87,7 +116,14 @@ export async function setCompiledMarkdown(filePath: string) {
         ).use({
             renderer
         });
-
+    
+        // Ensure all open tags are closed at the end of the compilation
+        marked.parse = ((originalParse) => function (...args) {
+            let content = originalParse.apply(marked, args);
+            content += renderer.finalize(); // Close any remaining sections
+            return content;
+        })(marked.parse);
+    
         return marked;
     }
 }

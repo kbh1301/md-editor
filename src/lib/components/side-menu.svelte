@@ -83,7 +83,7 @@
             </Button>
 
             <!-- GITHUB LINK -->
-            <Button variant="ghost" size="icon" href="https://github.com/kbh1301" title="GitHub" target="_blank" rel="noopener noreferrer">
+            <Button variant="ghost" size="icon" href="https://github.com/kbh1301/md-editor" title="GitHub" target="_blank" rel="noopener noreferrer">
                 <Icon icon="mdi:github" />
                 <span class="sr-only">GitHub</span>
             </Button>

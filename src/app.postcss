@@ -61,7 +61,8 @@
         --accent-foreground: 0 0% 98%;
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 0 0% 98%;
-        --border: 240 3.7% 15.9%;
+        /* --border: 240 3.7% 15.9%; */
+        --border: 210 15% 30%;
         --input: 240 3.7% 35%;
         --ring: 240 4.9% 83.9%;
     }
@@ -80,7 +81,7 @@
         @apply text-blue-600 hover:text-blue-800 hover:underline;
     }
     
-    /* BEGIN COMPILED MARKDOWN STYLES */
+    /* COMPILED MARKDOWN STYLES */
     .markdown-body {
         ul,
         ol {
@@ -88,30 +89,34 @@
             margin: revert;
             padding: revert;
         }
-    
-        .collapsible-summary {
-            @apply flex items-center gap-1;
-    
-            &::marker {
-                content: '';
+
+        /* COLLAPSIBLE HEADING STYLES */
+        .collapsible {
+            margin: 0;
+
+            .collapsible-summary {
+                @apply flex items-center gap-1;
+        
+                &::marker {
+                    content: '';
+                }
             }
-        }
-    
-        .collapsible-icon {
-            @apply transform rotate-0 transition-transform duration-100 opacity-0 text-primary/40;
-    
-            details[open] & {
-                @apply rotate-90;
+        
+            .collapsible-icon {
+                @apply transform rotate-0 transition-transform duration-100 opacity-0 text-primary/40;
+        
+                details[open] & {
+                    @apply rotate-90;
+                }
+        
+                .collapsible-summary:hover & {
+                    @apply opacity-100;
+                }
             }
-    
-            .collapsible-summary:hover & {
-                @apply opacity-100;
+        
+            .collapsible-content {
+                @apply pl-5 border-l-2 border-primary/10;
             }
-        }
-    
-        .collapsible-content {
-            @apply pl-5 border-l-2 border-primary/10;
         }
     }
-    /* END COMPILED MARKDOWN STYLES */
 }
