@@ -81,7 +81,7 @@
             fontFamily: '"Inter", monospace'
         },
         '.cm-gutters': {
-            background: 'hsl(var(--background) / 1)'
+            background: 'hsl(var(--background) / 1) !important'
         },
         '.cm-activeLineGutter': {
             background: 'hsl(var(--primary) / .2)'

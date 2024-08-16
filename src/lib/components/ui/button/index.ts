@@ -14,7 +14,7 @@ const buttonVariants = tv({
 			link: "text-primary underline-offset-4 hover:underline",
 
             toolbar: "text-primary hover:bg-primary/10",
-            secondary_plus: "bg-secondary text-secondary-foreground hover:bg-primary/80 text-lg font-semibold kh-shadow-1 py-7",
+            secondary_plus: "bg-secondary text-secondary-foreground hover:bg-primary/80 text-lg font-semibold shadow-2xl py-7",
             icon_secondary: "text-secondary hover:text-primary/80",
             muted: "bg-muted-foreground text-background hover:bg-muted-foreground/80"
 		},
