@@ -11,11 +11,16 @@
     import { markdown } from '@codemirror/lang-markdown';
     import { oneDark } from '@codemirror/theme-one-dark'
 
-    type $$Props = HTMLTextareaAttributes;
+    type $$Props = HTMLTextareaAttributes & {
+        scrollViewport: HTMLElement;
+    };
     let className: $$Props["class"] = undefined;
     export { className as class };
 
     let view: EditorView;
+    let scrollViewport: HTMLElement;
+
+    export { scrollViewport };
 
     async function updateDragHandles() {
         const cmLineNumElmts: NodeListOf<HTMLElement> = document.querySelectorAll('.cm-gutter.cm-lineNumbers .cm-gutterElement');
@@ -113,7 +118,11 @@
     </Accordion.Root>
 {/if}
 
-<ScrollArea class="rounded-lg" orientation="both">
+<ScrollArea
+    class="rounded-lg"
+    orientation="both"
+    bind:viewportElement={scrollViewport}
+>
     <CodeMirror
         class={cn(
             "text-foreground overflow-hidden",

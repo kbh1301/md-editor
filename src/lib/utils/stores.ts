@@ -9,7 +9,8 @@ export const appSettings:Writable<AppSettings> = writable({
 });
 
 // TODO: delete
-export const openedPagePath = writable(process.env.NODE_ENV === 'production' ? '' : 'C:\\Users\\Kyle\\Downloads\\Codex\\lorem.md');
+// export const openedPagePath = writable(process.env.NODE_ENV === 'production' ? '' : 'C:\\Users\\Kyle\\Downloads\\Codex\\lorem.md');
+export const openedPagePath = writable(process.env.NODE_ENV === 'production' ? '' : 'C:\\Users\\Kyle\\Downloads\\Codex\\excessively-long-single-line-text-file-name.md');
 
 export const initRawMarkdown:Writable<string> = writable('');
 export const rawMarkdown:Writable<string> = writable('');
