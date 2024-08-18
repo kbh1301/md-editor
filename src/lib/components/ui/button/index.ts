@@ -13,9 +13,10 @@ const buttonVariants = tv({
 			ghost: "hover:bg-accent hover:text-accent-foreground",
 			link: "text-primary underline-offset-4 hover:underline",
 
-            toolbar: "text-primary hover:bg-primary/10",
+            toolbar: "text-foreground hover:bg-foreground/10",
             secondary_plus: "bg-secondary text-secondary-foreground hover:bg-primary/80 text-lg font-semibold shadow-2xl py-7",
-            icon_secondary: "text-secondary hover:text-primary/80",
+            icon_primary: "text-primary hover:text-primary/80",
+            icon_secondary: "text-secondary hover:text-secondary/80",
             muted: "bg-muted-foreground text-background hover:bg-muted-foreground/80"
 		},
 		size: {

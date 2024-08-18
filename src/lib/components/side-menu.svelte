@@ -77,13 +77,13 @@
         <!-- SHEET FOOTER -->
         <Sheet.Footer class="flex !justify-center">
             <!-- LINKEDIN LINK -->
-            <Button variant="ghost" size="icon" href="https://www.linkedin.com/in/kylehulvey/" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <Button variant="icon_primary" size="icon" href="https://www.linkedin.com/in/kylehulvey/" title="LinkedIn" target="_blank" rel="noopener noreferrer">
                 <Icon icon="mdi:linkedin" />
                 <span class="sr-only">LinkedIn</span>
             </Button>
 
             <!-- GITHUB LINK -->
-            <Button variant="ghost" size="icon" href="https://github.com/kbh1301/md-editor" title="GitHub" target="_blank" rel="noopener noreferrer">
+            <Button variant="icon_primary" size="icon" href="https://github.com/kbh1301/md-editor" title="GitHub" target="_blank" rel="noopener noreferrer">
                 <Icon icon="mdi:github" />
                 <span class="sr-only">GitHub</span>
             </Button>
