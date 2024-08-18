@@ -4,6 +4,7 @@ import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
 import { initRawMarkdown, rawMarkdown, compiledMarkdown, isUnsaved } from '$utils/stores';
 import { get } from 'svelte/store';
+import * as emoji from 'node-emoji';
 
 /**
  * Accept path to file then:
@@ -117,11 +118,20 @@ export async function setCompiledMarkdown(filePath: string) {
             renderer
         });
     
-        // Ensure all open tags are closed at the end of the compilation
+        function finalizeAndEmojify(content: string): string {
+            content += renderer.finalize();
+            return content.replace(/(:.*:)/g, (match) => emoji.emojify(match));
+        }
+
+        // Ensure all open tags are closed at the end of the compilation and parse emojis
         marked.parse = ((originalParse) => function (...args) {
-            let content = originalParse.apply(marked, args);
-            content += renderer.finalize(); // Close any remaining sections
-            return content;
+            const result = originalParse.apply(marked, args);
+
+            if (result instanceof Promise) {
+                return result.then(finalizeAndEmojify);
+            } else {
+                return finalizeAndEmojify(result);
+            }
         })(marked.parse);
     
         return marked;

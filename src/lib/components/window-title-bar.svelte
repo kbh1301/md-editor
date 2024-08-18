@@ -15,7 +15,7 @@
 <!-- TODO: fix a11y below -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header
-    class="flex justify-between top-0 left-0 right-0 select-none h-10 bg-secondary"
+    class="flex justify-between top-0 left-0 right-0 max-w-[100vw] select-none h-10 bg-secondary"
     data-tauri-drag-region
 >
     <!-- LEFT CONTENT -->
@@ -27,16 +27,23 @@
         <div class="flex items-center gap-2">
             <SwitchEdit id="editmode-switch" bind:checked={$editMode} title="Toggle Edit" class="data-[state=checked]:bg-primary" />
             <span class="sr-only">Toggle Edit</span>
-            <!-- <Label for="editmode-switch">Edit</Label> -->
         </div>
     </div>
 
     <!-- CENTER CONTENT -->
-    <div class="flex items-center gap-10" data-tauri-drag-region>
-        <small class="text-sm font-medium leading-none pointer-events-none">
+    <!-- <div title={$openedPagePath} class="flex items-center mx-10 overflow-hidden" data-tauri-drag-region>
+        <small class="text-sm font-medium leading-none pointer-events-none whitespace-nowrap text-ellipsis">
             {$openedPagePath}
         </small>
-    </div>
+    </div> -->
+    <small
+        class="text-sm font-medium leading-none whitespace-nowrap text-ellipsis overflow-hidden px-10 content-center text-foreground/50"
+        style="direction: rtl"
+        title={$openedPagePath}
+        data-tauri-drag-region
+    >
+        {$openedPagePath}
+    </small>
 
     <!-- RIGHT CONTENT -->
     <div class="flex">

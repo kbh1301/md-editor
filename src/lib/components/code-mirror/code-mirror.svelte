@@ -8,7 +8,7 @@
     import { Accordion, ScrollArea } from "$components";
     import { EditorView } from "@codemirror/view";
     import { tick } from "svelte";
-    import { markdown } from '@codemirror/lang-markdown';
+    import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
     import { oneDark } from '@codemirror/theme-one-dark'
 
     type $$Props = HTMLTextareaAttributes & {
@@ -133,8 +133,7 @@
         placeholder="Enter markdown here..."
         on:ready={handleEditorReady}
         extensions={[
-            markdown(),
-            
+            markdown({ base: markdownLanguage }),
         ]}
         theme={[
             $appSettings.lightmode ? [] : [oneDark],

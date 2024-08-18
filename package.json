@@ -44,6 +44,7 @@
 		"marked": "^9.1.4",
 		"marked-highlight": "^2.0.6",
 		"mode-watcher": "^0.3.1",
+		"node-emoji": "^2.1.3",
 		"svelte-codemirror-editor": "^1.4.0",
 		"svelte-sonner": "^0.3.25",
 		"tailwind-merge": "^2.3.0",
