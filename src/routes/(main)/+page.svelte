@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
     import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import { compiledMarkdown, editMode, isUnsaved, openedPagePath, rawMarkdown } from "$lib/utils/stores";
+    import { compiledMarkdown, editMode, rawMarkdown } from "$lib/utils/stores";
     import { Button, CodeMirror, ScrollArea } from "$components";
-    import { saveMarkdownFile } from "$lib/utils/fileHandler";
     import { afterUpdate } from 'svelte';
 
     let previewViewport: HTMLElement;
@@ -43,27 +41,7 @@
     <div class="flex flex-col-reverse items-center flex-1 h-full overflow-hidden gap-4 pt-4 justify-around lg:flex-row lg:items-stretch">
         <!-- Markdown Editor Pane -->
         {#if $editMode}
-            <div
-                class="flex flex-col flex-[1_1_50%] w-full max-w-[980px] overflow-auto bg-background rounded-lg"
-                transition:fade
-            >
-                <!-- Raw Markdown Textarea -->
-                <CodeMirror bind:scrollViewport={editorViewport} />
-
-                <!-- Save Button -->
-                {#if $isUnsaved}
-                    <div class="flex w-full gap-4 justify-center mt-4" transition:fade>
-                        {#if $openedPagePath}
-                            <div class="flex justify-center">
-                                <Button on:click={() => saveMarkdownFile()}>Save</Button>
-                            </div>
-                        {/if}
-                        <div class="flex justify-center">
-                            <Button on:click={() => saveMarkdownFile({isSaveAs: true})}>Save As...</Button>
-                        </div>
-                    </div>
-                {/if}
-            </div>
+            <CodeMirror bind:scrollViewport={editorViewport} />
         {/if}
 
         <!-- Compiled Markdown Preview Pane -->

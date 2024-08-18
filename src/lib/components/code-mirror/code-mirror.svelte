@@ -1,15 +1,17 @@
 <script lang="ts">
     import { cn } from "$root/lib/utils/utils.js";
-    import { rawMarkdown, appSettings, editMode } from "$utils/stores";
+    import { rawMarkdown, appSettings, editMode, isUnsaved, openedPagePath } from "$utils/stores";
     import CodeMirror from "svelte-codemirror-editor";
     import type { HTMLTextareaAttributes } from "svelte/elements";
     import DragHandle from "./drag-handle.svelte";
     import EditorToolbar from "./editor-toolbar.svelte";
-    import { Accordion, ScrollArea } from "$components";
+    import { Accordion, ScrollArea, Button } from "$components";
     import { EditorView } from "@codemirror/view";
     import { tick } from "svelte";
     import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
     import { oneDark } from '@codemirror/theme-one-dark'
+    import { fade } from 'svelte/transition';
+    import { saveMarkdownFile } from "$lib/utils/fileHandler";
 
     type $$Props = HTMLTextareaAttributes & {
         scrollViewport: HTMLElement;
@@ -90,11 +92,9 @@
         },
         '.cm-activeLineGutter': {
             background: 'hsl(var(--primary) / .2)'
-            // background: "none"
         },
         '.cm-activeLine': {
             background: 'hsl(var(--primary) / .2)'
-            // background: "none"
         },
         '.cm-selectionBackground': {
             background: 'hsl(var(--primary) / .5) !important'
@@ -106,38 +106,58 @@
     });
 </script>
 
-<!-- Editor Buttons -->
-{#if !$appSettings.toolbarHidden}
-    <Accordion.Root value="toolbar">
-        <Accordion.Item value="toolbar" class="px-2 bg-background rounded-lg">
-            <Accordion.Trigger class="pb-1 pt-2 !place-content-end"></Accordion.Trigger>
-            <Accordion.Content>
-                <EditorToolbar {view} />
-            </Accordion.Content>
-        </Accordion.Item>
-    </Accordion.Root>
-{/if}
-
-<ScrollArea
-    class="rounded-lg"
-    orientation="both"
-    bind:viewportElement={scrollViewport}
+<div
+    class="flex flex-col flex-[1_1_50%] w-full max-w-[980px] overflow-auto bg-background rounded-lg"
+    transition:fade
 >
-    <CodeMirror
-        class={cn(
-            "text-foreground overflow-hidden",
-            className
-        )}
-        bind:value={$rawMarkdown}
-        lineWrapping
-        placeholder="Enter markdown here..."
-        on:ready={handleEditorReady}
-        extensions={[
-            markdown({ base: markdownLanguage }),
-        ]}
-        theme={[
-            $appSettings.lightmode ? [] : [oneDark],
-            customTheme,
-        ]}
-    />
-</ScrollArea>
+    <!-- Editor Buttons -->
+    {#if !$appSettings.toolbarHidden}
+        <Accordion.Root value="toolbar">
+            <Accordion.Item value="toolbar" class="px-2 bg-background rounded-lg">
+                <Accordion.Trigger class="pb-1 pt-2 !place-content-end"></Accordion.Trigger>
+                <Accordion.Content>
+                    <EditorToolbar {view} />
+                </Accordion.Content>
+            </Accordion.Item>
+        </Accordion.Root>
+    {/if}
+
+    <!-- Editor -->
+    <ScrollArea
+        class="rounded-lg"
+        orientation="both"
+        bind:viewportElement={scrollViewport}
+    >
+        <CodeMirror
+            class={cn(
+                "text-foreground overflow-hidden",
+                className
+            )}
+            bind:value={$rawMarkdown}
+            lineWrapping
+            placeholder="Enter markdown here..."
+            on:ready={handleEditorReady}
+            extensions={[
+                markdown({ base: markdownLanguage }),
+            ]}
+            theme={[
+                $appSettings.lightmode ? [] : [oneDark],
+                customTheme,
+            ]}
+        />
+    </ScrollArea>
+
+    <!-- Save Buttons -->
+    <div class="flex w-full gap-4 justify-center mt-4 h-24" transition:fade>
+        {#if $isUnsaved}
+            {#if $openedPagePath}
+                <div class="flex justify-center">
+                    <Button on:click={() => saveMarkdownFile()}>Save</Button>
+                </div>
+            {/if}
+            <div class="flex justify-center">
+                <Button on:click={() => saveMarkdownFile({isSaveAs: true})}>Save As...</Button>
+            </div>
+        {/if}
+    </div>
+</div>
