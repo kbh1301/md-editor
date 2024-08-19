@@ -1,11 +1,4 @@
-export { default as WindowTitleBar } from "$components/window-title-bar.svelte";
-export { default as SideMenu } from "$components/side-menu.svelte";
-export { default as DialogGuide } from "$root/lib/components/editor/dialog-guide.svelte";
-export { default as DialogLink } from "$root/lib/components/editor/dialog-link.svelte";
-export { default as CodeMirror } from "$root/lib/components/editor/code-mirror.svelte";
-export { default as SwitchEdit } from "$components/switch-edit-mode.svelte";
-
-export * as LightSwitch from "$components/light-switch";
+// shadcn components
 export * as Sheet from "$components/ui/sheet";
 export * as Dialog from "$components/ui/dialog";
 export * as Popover from "$components/ui/popover";
@@ -21,3 +14,13 @@ export { Textarea } from "$components/ui/textarea";
 export { Separator } from "$components/ui/separator";
 export { Input } from "$components/ui/input";
 export { Toaster } from "$components/ui/sonner";
+export { Checkbox } from "$components/ui/checkbox";
+
+// scaffolding components
+export * from "$components/app-scaffolding";
+
+// editor pane components
+export * from "$components/app-panes/pane-editor";
+
+// preview pane components
+export * from "$components/app-panes/pane-preview";

@@ -7,7 +7,7 @@
     import { WindowTitleBar, Toaster } from "$components";
     import "$root/app.postcss";
     import "$root/markdown.postcss";
-    import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/light-switch/light-switch";
+    import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/app-scaffolding/light-switch/light-switch.js";
     import { appSettings, editMode, openedPagePath } from "$utils/stores";
     import { initKeydownListener, removeKeydownListener } from "$utils/keybindHandler";
 

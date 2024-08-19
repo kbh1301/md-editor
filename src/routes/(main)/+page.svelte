@@ -1,7 +1,7 @@
 <script lang="ts">
     import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import { compiledMarkdown, editMode, rawMarkdown } from "$lib/utils/stores";
-    import { Button, CodeMirror, ScrollArea } from "$components";
+    import { editMode, rawMarkdown } from "$lib/utils/stores";
+    import { Button, PaneEditor, PanePreview } from "$components";
     import { afterUpdate } from 'svelte';
 
     let previewViewport: HTMLElement;
@@ -41,7 +41,7 @@
     <div class="flex flex-col-reverse items-center flex-1 h-full overflow-hidden gap-4 pt-4 justify-around lg:flex-row lg:items-stretch">
         <!-- Markdown Editor Pane -->
         {#if $editMode}
-            <CodeMirror bind:scrollViewport={editorViewport} />
+            <PaneEditor bind:editorViewport />
         {/if}
 
         <!-- Compiled Markdown Preview Pane -->
@@ -54,13 +54,7 @@
                 </Button>
             </div>
         {:else}
-            <ScrollArea
-                class="markdown-body relative box-border w-full min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]"
-                orientation="both"
-                bind:viewportElement={previewViewport}
-            >
-                    {@html $compiledMarkdown}
-            </ScrollArea>
+            <PanePreview bind:previewViewport />
         {/if}
     </div>
 </div>

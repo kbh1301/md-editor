@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { Button, Sheet, Label, Switch } from "$components";
+	import { Button, Sheet, Label, Switch, LightSwitch } from "$components";
     import Icon from '@iconify/svelte';
-    import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import LightSwitch from "./light-switch/light-switch.svelte";
+    import { openMarkdownFile } from "$utils/fileHandler";
     import { appSettings } from "$utils/stores";
     import { writeToSettingsFile } from "$utils/settingsHandler";
 

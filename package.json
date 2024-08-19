@@ -36,7 +36,7 @@
 		"@codemirror/lang-markdown": "^6.2.5",
 		"@codemirror/theme-one-dark": "^6.1.2",
 		"@tauri-apps/api": "^1.6.0",
-		"bits-ui": "^0.21.12",
+		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.17",
 		"highlight.js": "^11.9.0",

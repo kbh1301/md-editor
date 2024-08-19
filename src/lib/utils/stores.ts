@@ -1,5 +1,5 @@
 import { get, writable, type Writable } from 'svelte/store';
-import { getModeOsPrefers } from '../components/light-switch/light-switch';
+import { getModeOsPrefers } from '../components/app-scaffolding/light-switch/light-switch';
 
 export const appSettings:Writable<AppSettings> = writable({
     lightmode: getModeOsPrefers(),

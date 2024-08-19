@@ -1,28 +1,24 @@
 <script lang="ts">
-    import { cn } from "$root/lib/utils/utils.js";
+    import { cn } from "$utils/utils.js";
+    import { saveMarkdownFile } from "$utils/fileHandler";
     import { rawMarkdown, appSettings, editMode, isUnsaved, openedPagePath } from "$utils/stores";
     import CodeMirror from "svelte-codemirror-editor";
     import type { HTMLTextareaAttributes } from "svelte/elements";
-    import DragHandle from "./drag-handle.svelte";
-    import EditorToolbar from "./editor-toolbar.svelte";
-    import { Accordion, ScrollArea, Button } from "$components";
+    import { Accordion, ScrollArea, Button, DragHandle, EditorToolbar } from "$components";
     import { EditorView } from "@codemirror/view";
     import { tick } from "svelte";
     import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
     import { oneDark } from '@codemirror/theme-one-dark'
     import { fade } from 'svelte/transition';
-    import { saveMarkdownFile } from "$lib/utils/fileHandler";
 
     type $$Props = HTMLTextareaAttributes & {
-        scrollViewport: HTMLElement;
+        editorViewport: HTMLElement;
     };
     let className: $$Props["class"] = undefined;
     export { className as class };
 
     let view: EditorView;
-    let scrollViewport: HTMLElement;
-
-    export { scrollViewport };
+    export let editorViewport: HTMLElement;
 
     async function updateDragHandles() {
         const cmLineNumElmts: NodeListOf<HTMLElement> = document.querySelectorAll('.cm-gutter.cm-lineNumbers .cm-gutterElement');
@@ -126,7 +122,7 @@
     <ScrollArea
         class="rounded-lg"
         orientation="both"
-        bind:viewportElement={scrollViewport}
+        bind:viewportElement={editorViewport}
     >
         <CodeMirror
             class={cn(

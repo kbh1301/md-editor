@@ -4,20 +4,20 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
 
 <script lang="ts">
     import type { HTMLAttributes } from "svelte/elements";
-	import { setInitialClassState } from '$lib/components/light-switch/light-switch';
 	import { Moon, Sun } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
-	import { cn } from '$root/lib/utils/utils';
+	import { cn } from '$utils/utils';
 	import {
 		getModeOsPrefers,
 		modeCurrent,
 		setModeCurrent,
-		setModeUserPrefers
+		setModeUserPrefers,
+        setInitialClassState
 	} from './light-switch';
-    import { toggleLightMode } from '$root/lib/utils/settingsHandler';
+    import { toggleLightMode } from '$utils/settingsHandler';
     import { get } from 'svelte/store';
-    import { appSettings } from '$root/lib/utils/stores';
+    import { appSettings } from '$utils/stores';
 
 	type OnKeyDownEvent = KeyboardEvent & {
 		currentTarget: EventTarget & HTMLDivElement;

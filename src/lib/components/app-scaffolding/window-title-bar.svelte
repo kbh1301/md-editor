@@ -1,7 +1,7 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
 	import { Button, SideMenu, SwitchEdit } from "$components";
-    import { editMode, openedPagePath } from '$lib/utils/stores';
+    import { editMode, openedPagePath } from '$utils/stores';
     import { appWindow } from '@tauri-apps/api/window';
     const { minimize, toggleMaximize, close } = appWindow;
 
