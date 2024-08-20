@@ -81,12 +81,12 @@ export async function setCompiledMarkdown(filePath: string) {
                 result += `
                     <details class="collapsible" open>
                         <summary class="collapsible-summary">
-                            ${headingTag}
                             <div class="collapsible-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor" fill-rule="evenodd" d="m9.005 4l8 8l-8 8L7 18l6.005-6L7 6z" />
                                 </svg>
                             </div>
+                            ${headingTag}
                         </summary>
                     <div class="collapsible-content">
                 `;

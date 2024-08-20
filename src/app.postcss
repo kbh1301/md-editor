@@ -87,31 +87,35 @@
 
         /* COLLAPSIBLE HEADING STYLES */
         .collapsible {
-            margin: 0;
+            @apply m-0;
+        }
 
-            .collapsible-summary {
-                @apply flex items-center gap-1;
-        
-                &::marker {
-                    content: '';
-                }
-            }
-        
-            .collapsible-icon {
-                @apply transform rotate-0 transition-transform duration-100 opacity-0 text-primary/40;
-        
-                details[open] & {
-                    @apply rotate-90;
-                }
-        
-                .collapsible-summary:hover & {
-                    @apply opacity-100;
-                }
-            }
-        
-            .collapsible-content {
-                @apply pl-5 border-l-2 border-primary/10;
-            }
+        .collapsible-icon {
+            @apply absolute -left-5 transform rotate-0 transition-transform duration-100 opacity-0 text-primary/40;
+        }
+    
+        details.collapsible[open] > .collapsible-summary > .collapsible-icon {
+            @apply rotate-90;
+        }
+
+        details.collapsible:not([open]) > .collapsible-summary > .collapsible-icon {
+            @apply opacity-100;
+        }
+
+        .collapsible-summary {
+            @apply relative flex items-center gap-1;
+        }
+
+        .collapsible-summary::marker {
+            content: '';
+        }
+
+        .collapsible-summary:hover .collapsible-icon {
+            @apply opacity-100;
+        }
+
+        .collapsible-content {
+            @apply pl-5 border-l-2 border-primary/10;
         }
     }
 }

@@ -28,9 +28,11 @@
 </script>
 
 <ScrollArea
-    class="markdown-body relative box-border w-full min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]"
+    class="markdown-body relative box-border w-full min-w-[200px] max-w-[980px] my-0 overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]"
     orientation="both"
     bind:viewportElement={previewViewport}
 >
+    <div class="p-[45px]">
         {@html $compiledMarkdown}
+    </div>
 </ScrollArea>

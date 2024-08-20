@@ -6,14 +6,19 @@
     const { minimize, toggleMaximize, close } = appWindow;
 
     let isMaximized = false;
-
     appWindow.onResized(async () => {
         isMaximized = await appWindow.isMaximized();
     });
+
+    let isFocused = true;
+    appWindow.onFocusChanged(async ({ payload: focused }) => {
+        isFocused = focused;
+    });
+    $: textFocusClass = isFocused ? 'text-foreground' : 'text-foreground/50';
 </script>
 
 <header
-    class="flex justify-between top-0 left-0 right-0 max-w-[100vw] select-none h-10 bg-secondary"
+    class="flex justify-between top-0 left-0 right-0 max-w-[100vw] select-none h-10 bg-secondary {textFocusClass}"
     data-tauri-drag-region
 >
     <!-- LEFT CONTENT -->
@@ -30,7 +35,7 @@
 
     <!-- CENTER CONTENT -->
     <small
-        class="text-sm font-medium leading-none whitespace-nowrap text-ellipsis overflow-hidden px-10 content-center text-foreground/50"
+        class="text-sm font-medium leading-none whitespace-nowrap text-ellipsis overflow-hidden px-10 content-center"
         style="direction: rtl"
         title={$openedPagePath}
         data-tauri-drag-region
@@ -40,17 +45,17 @@
 
     <!-- RIGHT CONTENT -->
     <div class="flex">
-        <Button variant="toolbar" size="toolbar" on:click={minimize} title="Minimize">
+        <Button class="{textFocusClass}" variant="toolbar" size="toolbar" on:click={minimize} title="Minimize">
             <Icon icon="mdi:minus" />
 			<span class="sr-only">Minimize</span>
 		</Button>
 
-        <Button variant="toolbar" size="toolbar" on:click={toggleMaximize} title="Maximize">
+        <Button class="{textFocusClass}" variant="toolbar" size="toolbar" on:click={toggleMaximize} title="Maximize">
             <Icon icon={isMaximized ? "mdi:window-restore" : "mdi:window-maximize"} />
 			<span class="sr-only">{isMaximized ? "Restore" : "Maximize"}</span>
 		</Button>
 
-        <Button variant="toolbar" size="toolbar" on:click={close} title="Close">
+        <Button class="{textFocusClass}" variant="toolbar" size="toolbar" on:click={close} title="Close">
             <Icon icon="mdi:close" />
 			<span class="sr-only">Close</span>
 		</Button>
