@@ -2,7 +2,6 @@
     import { openMarkdownFile } from "$lib/utils/fileHandler";
     import { editMode, rawMarkdown, isSyncing } from "$lib/utils/stores";
     import { Button, PaneEditor, PanePreview } from "$components";
-    import { afterUpdate } from 'svelte';
 
     let previewViewport: HTMLElement;
     let editorViewport: HTMLElement;
@@ -27,13 +26,15 @@
 
         editorViewport.addEventListener('scroll', handleEditorScroll);
         previewViewport.addEventListener('scroll', handlePreviewScroll);
-
-        // syncScroll(previewViewport, editorViewport);
     }
 
-    afterUpdate(() => {
-        addScrollSyncListeners();
-    });
+    $: {
+        if (editorViewport && previewViewport) {
+            syncScroll(previewViewport, editorViewport);
+            addScrollSyncListeners();
+        }
+    }
+
 </script>
 
 <div class="grid grid-flow-col grid-cols-[1fr]">
