@@ -1,22 +1,21 @@
 <script lang="ts">
     import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import { editMode, rawMarkdown } from "$lib/utils/stores";
+    import { editMode, rawMarkdown, isSyncing } from "$lib/utils/stores";
     import { Button, PaneEditor, PanePreview } from "$components";
     import { afterUpdate } from 'svelte';
 
     let previewViewport: HTMLElement;
     let editorViewport: HTMLElement;
-    let isSyncing = false;
 
     function syncScroll(source: HTMLElement, target: HTMLElement) {
-        if (isSyncing) return;
-        isSyncing = true;
+        if ($isSyncing) return;
+        $isSyncing = true;
         
         const offsetTop = source.scrollTop / (source.scrollHeight - source.clientHeight);
         target.scrollTop = offsetTop * (target.scrollHeight - target.clientHeight);
 
         requestAnimationFrame(() => {
-            isSyncing = false;
+            $isSyncing = false;
         });
     }
 
@@ -29,7 +28,7 @@
         editorViewport.addEventListener('scroll', handleEditorScroll);
         previewViewport.addEventListener('scroll', handlePreviewScroll);
 
-        syncScroll(previewViewport, editorViewport);
+        // syncScroll(previewViewport, editorViewport);
     }
 
     afterUpdate(() => {

@@ -1,24 +1,25 @@
 <!-- TODO: Code cleanup -->
 <script lang="ts">
+    import { isSyncing } from "$root/lib/utils/stores";
+    import { type EditorView } from "@codemirror/view";
     import Icon from "@iconify/svelte";
     import { onMount } from "svelte";
 
     export let thisIndex: number;
+    export let view: EditorView;
     let curHandle: HTMLDivElement;
     let curIndex: number;
     let initialY: number;
     let targetIndex: number;
-    let cmContentElmts: NodeListOf<HTMLElement>;
     let handles: NodeListOf<HTMLElement>;
     let curRect: DOMRect;
 
     function handleMouseDown(event: MouseEvent) {
-        // event.preventDefault();
+        $isSyncing = false;
         window.focus();
 
         // Set initial variables
         curIndex = thisIndex -1;
-        cmContentElmts = document.querySelectorAll(".cm-content .cm-line");
         handles = document.querySelectorAll('.drag-handle');
         curRect = curHandle.getBoundingClientRect();
         
@@ -45,48 +46,26 @@
             // Break if dragged out of bounds
             if (index-1 < 0) return;
 
-            if (targetElmt !== curHandle) {
-                const rect = targetElmt.getBoundingClientRect();
-                if (event.clientY > rect.top && event.clientY < rect.bottom) {
-                    // Calculate target index based on handle index
-                    targetIndex = index - 1;
+            const rect = targetElmt === curHandle ? curRect : targetElmt.getBoundingClientRect();
 
-                    // Swap CodeMirror content
-                    if (curIndex !== targetIndex) {
-                        const curContent = cmContentElmts[curIndex].innerHTML;
-                        const targetContent = cmContentElmts[targetIndex].innerHTML;
+            if (event.clientY > rect.top && event.clientY < rect.bottom) {
+                targetIndex = index - 1;
 
-                        cmContentElmts[curIndex].innerHTML = targetContent;
-                        cmContentElmts[targetIndex].innerHTML = curContent;
+                if (curIndex !== targetIndex) {
+                    const editor = view.state.doc;
+                    const curLine = editor.line(curIndex + 1);
+                    const targetLine = editor.line(targetIndex + 1);
 
-                        // Update the curHandle index
-                        curIndex = targetIndex;
+                    // Create a transaction to swap the lines
+                    view.dispatch({
+                        changes: [
+                            { from: curLine.from, to: curLine.to, insert: targetLine.text },
+                            { from: targetLine.from, to: targetLine.to, insert: curLine.text }
+                        ]
+                    });
 
-                        // Update the NodeList
-                        cmContentElmts = document.querySelectorAll(".cm-content .cm-line");
-                    }
-                }
-            } else {
-                if (targetElmt === curHandle) {
-                    if (event.clientY > curRect.top && event.clientY < curRect.bottom) {
-                        // Calculate target index based on handle index
-                        targetIndex = index - 1;
-
-                        // Swap CodeMirror content
-                        if (curIndex !== targetIndex) {
-                            const curContent = cmContentElmts[curIndex].innerHTML;
-                            const targetContent = cmContentElmts[targetIndex].innerHTML;
-
-                            cmContentElmts[curIndex].innerHTML = targetContent;
-                            cmContentElmts[targetIndex].innerHTML = curContent;
-
-                            // Update the curHandle index
-                            curIndex = targetIndex;
-
-                            // Update the NodeList
-                            cmContentElmts = document.querySelectorAll(".cm-content .cm-line");
-                        }
-                    }
+                    // Update the curHandle index
+                    curIndex = targetIndex;
                 }
             }
         });

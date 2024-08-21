@@ -28,7 +28,7 @@
             cmLineNumElmts.forEach((lineNumElmt, index) => {
                 if (!lineNumElmt.querySelector(".drag-handle")) {
                     lineNumElmt.style.setProperty('position', 'relative');
-                    new DragHandle({ target: lineNumElmt, props: { thisIndex: index } });
+                    new DragHandle({ target: lineNumElmt, props: { thisIndex: index, view } });
                 }
             });
         }

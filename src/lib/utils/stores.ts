@@ -19,3 +19,5 @@ export const compiledMarkdown:Writable<string|Promise<string>> = writable('');
 export const editMode = writable(get(appSettings).startEditMode);
 
 export const isUnsaved = writable(false);
+
+export const isSyncing = writable(false);
