@@ -63,3 +63,10 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           includeUpdaterJson: true
+          include: | # Only include specific assets
+            latest.json
+            md-editor_0.1.4_aarch64.dmg
+            md-editor_0.1.4_amd64.AppImage
+            md-editor_0.1.4_amd64.deb
+            md-editor_0.1.4_x64.dmg
+            md-editor_0.1.4_x64_en-US.msi
