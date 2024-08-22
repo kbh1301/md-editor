@@ -1,5 +1,30 @@
 {
     "files.exclude": {
+        "**/.git": false,
+        "**/.svn": false,
+        "**/.hg": false,
+        "**/CVS": false,
+        "**/.DS_Store": false,
+        "**/Thumbs.db": false,
+        "package-lock.json": false,
+        ".prettierignore": false,
+        ".prettierrc": false,
+        ".vscode": false,
+        ".svelte-kit": false,
+        "node_modules": false,
+        ".eslintignore": false,
+        ".eslintrc.cjs": false,
+        ".gitignore": false,
+        ".npmrc": false,
+        "svelte.config.js": false,
+        "tsconfig.json": false,
+        "vite.config.ts": false,
+        ".env": false,
+        ".vercel": false,
+        ".vercelignore": false,
+        "**/build": false
+    },
+    "explorerExclude.backup": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
@@ -23,6 +48,5 @@
         ".vercel": true,
         ".vercelignore": true,
         "**/build": true
-    },
-    "explorerExclude.backup": {}
+    }
 }

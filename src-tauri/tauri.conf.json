@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "md-editor",
-    "version": "0.1.3"
+    "version": "../package.json"
   },
   "tauri": {
     "allowlist": {

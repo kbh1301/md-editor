@@ -1,21 +1,3 @@
-// // Prevents additional console window on Windows in release, DO NOT REMOVE!!
-// #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-
-// use tauri::Manager;
-// use window_shadows::set_shadow;
-
-// fn main() {
-//   tauri::Builder::default()
-//     .plugin(tauri_plugin_fs_watch::init())
-//     .setup(|app| {
-//         let window = app.get_window("main").unwrap();
-//         set_shadow(&window, true).expect("Unsupported platform!");
-//         Ok(())
-//     })
-//     .run(tauri::generate_context!())
-//     .expect("error while running tauri application");
-// }
-
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
@@ -30,7 +12,7 @@ fn main() {
             set_shadow(&window, true).expect("Unsupported platform!");
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_filepath])
+        .invoke_handler(tauri::generate_handler![get_filepath, get_version])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -45,5 +27,17 @@ fn get_filepath() -> Result<String, String> {
         Ok(file_path.clone())
     } else {
         Ok("".into())
+    }
+}
+
+#[tauri::command]
+fn get_version() -> Result<String, String> {
+    let context = tauri::generate_context!();
+    let config = context.config();
+    let version = &config.package.version;
+
+    match version {
+        Some(v) => Ok(v.clone()),
+        None => Err("Version not found in tauri.conf.json".into()),
     }
 }

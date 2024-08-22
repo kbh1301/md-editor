@@ -1,6 +1,6 @@
 {
 	"name": "md-editor",
-	"version": "0.0.1",
+	"version": "0.1.4",
 	"private": true,
 	"scripts": {
 		"dev": "npm run tauri dev",
@@ -10,6 +10,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"tauri": "tauri",
+        "cargo-update": "cargo update --manifest-path ./src-tauri/Cargo.toml",
 		"cargo-clean": "cargo clean --manifest-path ./src-tauri/Cargo.toml",
 		"sveltekit:dev": "vite dev",
 		"sveltekit:build": "vite build"

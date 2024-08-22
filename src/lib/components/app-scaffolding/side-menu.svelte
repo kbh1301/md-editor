@@ -1,11 +1,14 @@
 <script lang="ts">
+    import { invoke } from '@tauri-apps/api/tauri';
 	import { Button, Sheet, Label, Switch, LightSwitch } from "$components";
     import Icon from '@iconify/svelte';
     import { openMarkdownFile } from "$utils/fileHandler";
     import { appSettings } from "$utils/stores";
     import { writeToSettingsFile } from "$utils/settingsHandler";
+    import { onMount } from 'svelte';
 
 	let open = false;
+    let version = '';
 
     function handleSettingsFileUpdate() {
         writeToSettingsFile();
@@ -14,6 +17,10 @@
     async function openFileExplorer() {
         open = await openMarkdownFile();
     }
+
+    onMount(async () => {
+        version = await invoke<string>('get_version');
+    });
 
     // Styles
     const sectionStyles = "flex flex-col sm:flex-col items-center gap-1 rounded-lg p-4 bg-background";
@@ -86,6 +93,11 @@
                 <Icon icon="mdi:github" />
                 <span class="sr-only">GitHub</span>
             </Button>
+
+            <!-- VERSION -->
+            <p class="absolute left-2 bottom-2 text-xs text-foreground/50">
+                v{version}
+            </p>
         </Sheet.Footer>
 	</Sheet.Content>
 </Sheet.Root>
