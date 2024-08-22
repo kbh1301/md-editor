@@ -73,7 +73,7 @@
       },
       "resources": [],
       "shortDescription": "",
-      "targets": ["deb", "appimage", "msi", "dmg"],
+      "targets": "all",
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
