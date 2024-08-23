@@ -4,7 +4,7 @@
     import { Button, Label, Input, Dialog } from "$components";
     import type { EditorView } from "@codemirror/view";
 
-    export let view: EditorView;;
+    export let view: EditorView;
     export let type: 'link' | 'img';
 
     let linkUrl = "";
@@ -16,7 +16,7 @@
 
     function handleBuild() {
         const selection = getSelection(view);
-        linkText = selection?.selection ?? '';
+        linkText = selection?.text ?? '';
         selectionRange.start = selection?.start ?? 0;
         selectionRange.end = selection?.end ?? 0;
     }

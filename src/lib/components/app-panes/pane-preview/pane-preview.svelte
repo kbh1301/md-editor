@@ -12,9 +12,6 @@
             const checked = placeholder.getAttribute('data-checked') === 'true';
             const text = placeholder.getAttribute('data-text') || '';
 
-            placeholder.innerHTML = '';
-
-            // Replace placeholder with MdCheckbox component
             new MdCheckbox({
                 target: placeholder,
                 props: { checked, text }

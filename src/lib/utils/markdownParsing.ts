@@ -95,22 +95,16 @@ export async function setCompiledMarkdown(filePath: string) {
             },
 
             // Render checkboxes as placeholders
-            list(html: string) {
-                let listItems = html.split('\n');
-
-                listItems = listItems.map(listItem => {
-                    if (listItem.includes('type="checkbox"')) {
-                        const match = listItem.match(/>([^<]+)<\/li>/);
-                        const text = match ? match[1].trim() : '';
-
-                        const checked = listItem.includes('checked=""');
-                        listItem = `<div class="checkbox-placeholder" data-checked="${checked}" data-text="${text}"></div>`;
-                    }
-
-                    return listItem;
-                });
-
-                return listItems.join('\n');
+            listitem(text: string) {
+                if (text.includes('type="checkbox"')) {
+                    const match = text.match(/<input[^>]*>(.*)/);
+                    const textContent = match ? match[1].trim() : '';
+                    const checked = text.includes('checked=""');
+                    
+                    return `<div class="checkbox-placeholder" data-checked="${checked}" data-text="${textContent}"></div>`;
+                }
+                
+                return `<li>${text}</li>`
             },
     
             // Close all remaining collapsible sections at the end of the document

@@ -130,9 +130,10 @@
                 className
             )}
             bind:value={$rawMarkdown}
-            lineWrapping
-            placeholder="Enter markdown here..."
             on:ready={handleEditorReady}
+            lineWrapping
+            tabSize={4}
+            placeholder="Enter markdown here..."
             extensions={[
                 markdown({ base: markdownLanguage }),
             ]}
