@@ -64,29 +64,26 @@ jobs:
           args: ${{ matrix.args }}
           includeUpdaterJson: true
 
-      - name: Rename and filter artifacts
+      - name: Rename and Filter Assets
         run: |
-          mkdir release_assets
-          
-          if [[ -f *aarch64.dmg ]]; then mv *aarch64.dmg "release_assets/Installer for Mac (Apple Silicon).dmg"; fi
-          if [[ -f *x64.dmg ]]; then mv *x64.dmg "release_assets/Installer for Mac (Intel).dmg"; fi
-          if [[ -f *en-US.msi ]]; then mv *en-US.msi "release_assets/Installer for Windows.msi"; fi
-          if [[ -f *amd64.AppImage ]]; then mv *amd64.AppImage "release_assets/Installer for Linux.AppImage"; fi
-          
-          mv *aarch64.app.tar.gz* release_assets/
-          mv *x64.app.tar.gz* release_assets/
-          mv *en-US.msi.zip* release_assets/
-          mv *amd64.AppImage.tar.gz* release_assets/
+          for file in $(ls src-tauri/target/release/bundle/*); do
+            if [[ "$file" == *aarch64.dmg ]]; then
+              mv "$file" "$(dirname "$file")/Installer for Mac (Apple Silicon).dmg"
+            elif [[ "$file" == *x64.dmg ]]; then
+              mv "$file" "$(dirname "$file")/Installer for Mac (Intel).dmg"
+            elif [[ "$file" == *en-US.msi ]]; then
+              mv "$file" "$(dirname "$file")/Installer for Windows.msi"
+            elif [[ "$file" == *amd64.AppImage ]]; then
+              mv "$file" "$(dirname "$file")/Installer for Linux.AppImage"
+            elif [[ "$file" != *latest.json ]] && [[ "$file" != *source* ]] && \
+                [[ "$file" != *aarch64.app.tar.gz ]] && [[ "$file" != *x64.app.tar.gz ]] && \
+                [[ "$file" != *en-US.msi.zip ]] && [[ "$file" != *amd64.AppImage.tar.gz ]]; then
+              rm "$file"
+            fi
+          done
 
-          mv latest.json release_assets/
-
-          mv *.zip release_assets/
-          mv *.tar.gz release_assets/
-
-      - name: Upload Release Assets
-        uses: actions/upload-release-asset@v1
+      - name: Upload renamed and filtered assets
+        uses: actions/upload-artifact@v3
         with:
-          upload_url: ${{ steps.tauri-build.outputs.upload_url }}
-          asset_path: release_assets/*
-          asset_name: ${{ basename(asset_path) }}
-          asset_content_type: application/octet-stream
+          name: release-assets
+          path: src-tauri/target/release/bundle/*
