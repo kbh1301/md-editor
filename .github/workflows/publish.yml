@@ -68,22 +68,18 @@ jobs:
         run: |
           mkdir release_assets
           
-          # Rename files based on patterns
           if [[ -f *aarch64.dmg ]]; then mv *aarch64.dmg "release_assets/Installer for Mac (Apple Silicon).dmg"; fi
           if [[ -f *x64.dmg ]]; then mv *x64.dmg "release_assets/Installer for Mac (Intel).dmg"; fi
           if [[ -f *en-US.msi ]]; then mv *en-US.msi "release_assets/Installer for Windows.msi"; fi
           if [[ -f *amd64.AppImage ]]; then mv *amd64.AppImage "release_assets/Installer for Linux.AppImage"; fi
           
-          # Move updaters without renaming
           mv *aarch64.app.tar.gz* release_assets/
           mv *x64.app.tar.gz* release_assets/
           mv *en-US.msi.zip* release_assets/
           mv *amd64.AppImage.tar.gz* release_assets/
 
-          # Move the latest.json file
           mv latest.json release_assets/
 
-          # Move source code
           mv *.zip release_assets/
           mv *.tar.gz release_assets/
 
