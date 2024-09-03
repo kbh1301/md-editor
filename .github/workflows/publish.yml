@@ -63,3 +63,33 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           includeUpdaterJson: true
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Post-process release assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="app-v__VERSION__"
+          gh release download $TAG
+          
+        # Rename installers
+          mv md-editor_*_aarch64.dmg "Installer for Mac (Apple Silicon)"
+          mv md-editor_*_x64.dmg "Installer for Mac (Intel)"
+          mv md-editor_*_en-US.msi "Installer for Windows"
+          mv md-editor_*_amd64.AppImage "Installer for Linux"
+          
+        # Upload renamed files
+          gh release upload $TAG "Installer for Mac (Apple Silicon).dmg" "Installer for Mac (Intel).dmg" "Installer for Windows.msi" "Installer for Linux.AppImage"
+          
+        # Upload required updaters
+          gh release upload $TAG md-editor_*_aarch64.app.tar.gz md-editor_*_x64.app.tar.gz md-editor_*_en-US.msi.zip md-editor_*_amd64.AppImage.tar.gz
+          
+        # Upload latest.json and source files
+          gh release upload $TAG latest.json Source*zip Source*tar.gz
+
+        # Delete the unnecessary files from the release
+          for FILE in $(ls md-editor_* | grep -v -E 'aarch64.app.tar.gz|x64.app.tar.gz|en-US.msi.zip|amd64.AppImage.tar.gz|aarch64.dmg|x64.dmg|en-US.msi|amd64.AppImage|latest.json'); do
+            gh release delete-asset $TAG $(gh release view $TAG --json assets --jq '.assets[] | select(.name == "'"$FILE"'") | .id')
+          done
