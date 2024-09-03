@@ -81,7 +81,9 @@ jobs:
           done
 
       - name: Install GitHub CLI
-        uses: cli/cli-action@v2
+        run: |
+          sudo apt-get install -y gh || true
+          gh auth status || echo "GitHub CLI not authenticated"
 
       - name: Upload release assets using GitHub CLI
         env:
