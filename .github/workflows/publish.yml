@@ -64,29 +64,33 @@ jobs:
           args: ${{ matrix.args }}
           includeUpdaterJson: true
 
-      - name: Rename and filter release assets
-        if: always()
+      - name: Rename and filter artifacts
         run: |
-          mkdir renamed-release
-          for file in release/*; do
-            case "$file" in
-              *aarch64.dmg) mv "$file" "renamed-release/Installer for Mac (Apple Silicon).dmg" ;;
-              *x64.dmg) mv "$file" "renamed-release/Installer for Mac (Intel).dmg" ;;
-              *en-US.msi) mv "$file" "renamed-release/Installer for Windows.msi" ;;
-              *amd64.AppImage) mv "$file" "renamed-release/Installer for Linux.AppImage" ;;
-              *aarch64.app.tar.gz|*x64.app.tar.gz|*en-US.msi.zip|*amd64.AppImage.tar.gz|latest.json|*.zip|*.tar.gz)
-                cp "$file" renamed-release/ ;;
-              *) rm "$file" ;;
-            esac
-          done
+          mkdir release_assets
+          
+          # Rename files based on patterns
+          if [[ -f *aarch64.dmg ]]; then mv *aarch64.dmg "release_assets/Installer for Mac (Apple Silicon).dmg"; fi
+          if [[ -f *x64.dmg ]]; then mv *x64.dmg "release_assets/Installer for Mac (Intel).dmg"; fi
+          if [[ -f *en-US.msi ]]; then mv *en-US.msi "release_assets/Installer for Windows.msi"; fi
+          if [[ -f *amd64.AppImage ]]; then mv *amd64.AppImage "release_assets/Installer for Linux.AppImage"; fi
+          
+          # Move updaters without renaming
+          mv *aarch64.app.tar.gz* release_assets/
+          mv *x64.app.tar.gz* release_assets/
+          mv *en-US.msi.zip* release_assets/
+          mv *amd64.AppImage.tar.gz* release_assets/
 
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-get install -y gh || true
-          gh auth status || echo "GitHub CLI not authenticated"
+          # Move the latest.json file
+          mv latest.json release_assets/
 
-      - name: Upload release assets using GitHub CLI
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release upload "app-v__VERSION__" renamed-release/* --clobber
+          # Move source code
+          mv *.zip release_assets/
+          mv *.tar.gz release_assets/
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.tauri-build.outputs.upload_url }}
+          asset_path: release_assets/*
+          asset_name: ${{ basename(asset_path) }}
+          asset_content_type: application/octet-stream
