@@ -63,27 +63,3 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           includeUpdaterJson: true
-
-      - name: Rename and Filter Assets
-        run: |
-          for file in $(ls src-tauri/target/release/bundle/*); do
-            if [[ "$file" == *aarch64.dmg ]]; then
-              mv "$file" "$(dirname "$file")/Installer for Mac (Apple Silicon).dmg"
-            elif [[ "$file" == *x64.dmg ]]; then
-              mv "$file" "$(dirname "$file")/Installer for Mac (Intel).dmg"
-            elif [[ "$file" == *en-US.msi ]]; then
-              mv "$file" "$(dirname "$file")/Installer for Windows.msi"
-            elif [[ "$file" == *amd64.AppImage ]]; then
-              mv "$file" "$(dirname "$file")/Installer for Linux.AppImage"
-            elif [[ "$file" != *latest.json ]] && [[ "$file" != *source* ]] && \
-                [[ "$file" != *aarch64.app.tar.gz ]] && [[ "$file" != *x64.app.tar.gz ]] && \
-                [[ "$file" != *en-US.msi.zip ]] && [[ "$file" != *amd64.AppImage.tar.gz ]]; then
-              rm "$file"
-            fi
-          done
-
-      - name: Upload renamed and filtered assets
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-assets
-          path: src-tauri/target/release/bundle/*
