@@ -1,25 +1,33 @@
+import { invoke } from '@tauri-apps/api/tauri';
 import { open as tauriOpen, save as tauriSave} from '@tauri-apps/api/dialog';
-import { exists, createDir, writeTextFile, renameFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
+import { writeTextFile } from '@tauri-apps/api/fs';
 import { openedPagePath, rawMarkdown, isUnsaved, initRawMarkdown } from "$lib/utils/stores";
 import { setCompiledMarkdown } from '$lib/utils/markdownParsing';
 import { get } from 'svelte/store';
 import { toast } from 'svelte-sonner';
 
-// TODO: add documentation
 /**
+ * Checks if the application was opened via a `.md` file by invoking the backend method
+ * `get_filepath`. If a valid file path is returned, it sets the `openedPagePath` to the file path and 
+ * updates the compiled Markdown content using the current file path.
  * 
- * @returns 
+ * @returns {Promise<void>} A promise that resolves when the file path has been retrieved and the Markdown content is set.
  */
-export async function launchFromFile() {
+export async function launchFromFile(): Promise<void> {
+    // Call to backend; If application opened via .md file, set openedPagePath
+    invoke('get_filepath').then((message) => {
+        if (message) { openedPagePath.set(message as string); }
+    });
+
     setCompiledMarkdown(get(openedPagePath));
 }
 
-// TODO: add documentation
 /**
- * 
- * @returns 
+ * Opens a markdown file using a file picker dialog. If a file is selected, it sets the file path and compiles the markdown content.
+ *
+ * @returns {Promise<boolean>} A promise that resolves to `true` if no file is selected, and `false` if a file is successfully opened.
  */
-export async function openMarkdownFile() {
+export async function openMarkdownFile(): Promise<boolean> {
     let isFileSelected = false;
 
     const filePath = await tauriOpen({
@@ -38,12 +46,15 @@ export async function openMarkdownFile() {
     return !isFileSelected;
 }
 
-// TODO: add documentation
 /**
+ * Saves the current markdown file. If no path is available or `isSaveAs` is true, 
+ * prompts the user to select a file path. The file is then written to disk.
  * 
- * @returns 
+ * @param {Object} [options] - The options object.
+ * @param {boolean} [options.isSaveAs=false] - If true, prompts the user to "Save As" instead of overwriting.
+ * @returns {Promise<void>} - A promise that resolves when the file is saved or the operation is canceled.
  */
-export async function saveMarkdownFile({isSaveAs = false} = {}) {
+export async function saveMarkdownFile({isSaveAs = false}: { isSaveAs?: boolean; } = {}): Promise<void> {
     let path = get(openedPagePath);
     let saveFilePromise;
 
@@ -89,36 +100,4 @@ export async function saveMarkdownFile({isSaveAs = false} = {}) {
             return (error as SaveFileError).message || 'Error while saving...';
         }
     });
-
-    // TODO: delete
-    // try {
-    //     await writeTextFile({
-    //         path: get(openedPagePath),
-    //         contents: get(rawMarkdown)
-    //     });
-    //     toast.success("Save successful...");
-    // } catch(e) {
-    //     console.error(e);
-    //     toast.error("Error while saving...");
-    // }
 }
-
-// TODO: delete
-// /**
-//  * 
-//  * @param dirEntry 
-//  */
-// export async function renameDirEntry(dirEntry: DirEntry, newName: string) {
-//     const { name, path: filePath } = dirEntry;
-
-//     const fileExists = await exists(filePath);
-//     if(!fileExists || !name) return;
-
-//     const newFilePath = filePath.replace(name, newName);
-
-//     try {
-//         await renameFile(filePath, newFilePath);
-//     } catch (e) {
-//         console.error(e);
-//     }
-// }

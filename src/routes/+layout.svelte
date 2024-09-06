@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { invoke } from '@tauri-apps/api/tauri';
     import { onDestroy, onMount } from "svelte";
     import { launchFromFile } from "$utils/fileHandler";
     import { loadSettings, toggleLightMode } from "$utils/settingsHandler";
@@ -8,7 +7,7 @@
     import "$root/app.postcss";
     import "$root/markdown.postcss";
     import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/app-scaffolding/light-switch/light-switch.js";
-    import { appSettings, editMode, openedPagePath } from "$utils/stores";
+    import { appSettings, editMode } from "$utils/stores";
     import { initKeydownListener, removeKeydownListener } from "$utils/keybindHandler";
 
     export let data;
@@ -16,14 +15,11 @@
     
     // TODO: move this to a more appropriate place where code loads before app?
     onMount(async () => {
-        // Call to backend; If application opened via .md file, set openedPagePath
-        invoke('get_filepath').then((message) => {
-            if (message) { openedPagePath.set(message as string); }
-        });
-
-        // load settings and file on initialization
-        await loadSettings();
+        // launch from file if available
         await launchFromFile();
+
+        // load settings on initialization
+        await loadSettings();
 
         // initialize keybind listener
         initKeydownListener();
