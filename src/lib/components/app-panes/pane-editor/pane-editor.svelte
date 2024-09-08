@@ -109,7 +109,7 @@
     <!-- Editor Buttons -->
     {#if !$appSettings.toolbarHidden}
         <Accordion.Root value="toolbar">
-            <Accordion.Item value="toolbar" class="px-2 bg-background rounded-lg">
+            <Accordion.Item value="toolbar" class="px-2 bg-primary text-primary-foreground rounded-lg">
                 <Accordion.Trigger class="pb-1 pt-2 !place-content-end"></Accordion.Trigger>
                 <Accordion.Content>
                     <EditorToolbar {view} />

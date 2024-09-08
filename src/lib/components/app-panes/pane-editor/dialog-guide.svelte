@@ -134,7 +134,7 @@
 
 <Dialog.Root>
     <Dialog.Trigger asChild let:builder>
-        <Button variant="toolbar" size="toolbar" builders={[builder]} title="Markdown Guide">
+        <Button variant="toolbar_edit" size="toolbar" builders={[builder]} title="Markdown Guide">
             <Icon icon="fa-solid:question-circle" />
             <span class="sr-only">Markdown Guide</span>
         </Button>

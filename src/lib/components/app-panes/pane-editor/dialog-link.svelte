@@ -30,7 +30,7 @@
 <Dialog.Root>
     <Dialog.Trigger asChild let:builder>
         <Button
-            variant="toolbar"
+            variant="toolbar_edit"
             size="toolbar"
             builders={[builder]}
             on:click={handleBuild}

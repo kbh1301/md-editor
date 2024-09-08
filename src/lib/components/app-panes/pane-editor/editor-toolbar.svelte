@@ -71,36 +71,36 @@
 
 <div class="flex justify-center flex-wrap pt-2">
     {#each group1 as group}
-        <Button variant="toolbar" size="toolbar" on:click={group.action} title={group.label}>
+        <Button variant="toolbar_edit" size="toolbar" on:click={group.action} title={group.label}>
             <Icon icon={group.icon} />
             <span class="sr-only">{group.label}</span>
         </Button>
     {/each}
 
-    <Separator orientation="vertical" class="h-auto" />
+    <Separator orientation="vertical" class="h-auto bg-primary-foreground" />
 
     {#each group2 as group}
-        <Button variant="toolbar" size="toolbar" on:click={group.action} title={group.label}>
+        <Button variant="toolbar_edit" size="toolbar" on:click={group.action} title={group.label}>
             <Icon icon={group.icon} />
             <span class="sr-only">{group.label}</span>
         </Button>
     {/each}
 
-    <Separator orientation="vertical" class="h-auto" />
+    <Separator orientation="vertical" class="h-auto bg-primary-foreground" />
 
     {#each group3 as group}
-        <Button variant="toolbar" size="toolbar" on:click={group.action} title={group.label}>
+        <Button variant="toolbar_edit" size="toolbar" on:click={group.action} title={group.label}>
             <Icon icon={group.icon} />
             <span class="sr-only">{group.label}</span>
         </Button>
     {/each}
 
-    <Separator orientation="vertical" class="h-auto" />
+    <Separator orientation="vertical" class="h-auto bg-primary-foreground" />
 
     <DialogLink type="link" {view} />
     <DialogLink type="img" {view} />
 
-    <Separator orientation="vertical" class="h-auto" />
+    <Separator orientation="vertical" class="h-auto bg-primary-foreground" />
 
     <DialogGuide />
 </div>
