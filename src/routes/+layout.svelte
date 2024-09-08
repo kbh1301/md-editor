@@ -1,49 +1,17 @@
 <script lang="ts">
-    import { onDestroy, onMount } from "svelte";
-    import { launchFromFile } from "$utils/fileHandler";
-    import { loadSettings, toggleLightMode } from "$utils/settingsHandler";
+    import { onMount } from "svelte";
     import { fly } from 'svelte/transition';
     import { WindowTitleBar, Toaster } from "$components";
     import "$root/app.postcss";
     import "$root/markdown.postcss";
-    import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/app-scaffolding/light-switch/light-switch.js";
-    import { appSettings, editMode } from "$utils/stores";
-    import { initKeydownListener, removeKeydownListener } from "$utils/keybindHandler";
+    
+    import { appInitialize } from "$root/lib/utils/appInitialize.js";
 
     export let data;
-    let lightmode: boolean;
     
-    // TODO: move this to a more appropriate place where code loads before app?
     onMount(async () => {
-        // launch from file if available
-        await launchFromFile();
-
-        // load settings on initialization
-        await loadSettings();
-
-        // initialize keybind listener
-        initKeydownListener();
-
-        $editMode = $appSettings.startEditMode;
-
-        // TODO: move this and rework light-switch.svelte?
-        lightmode = $appSettings.lightmode;
-        $modeCurrent = lightmode;
-
-		// Sync lightswitch with the theme
-		if (!('modeCurrent' in localStorage)) {
-			setModeCurrent(lightmode);
-		}
-
-        setModeUserPrefers($modeCurrent);
-		setModeCurrent($modeCurrent);
-        toggleLightMode($modeCurrent);
+        await appInitialize();
     });
-
-    onDestroy(() => {
-        // remove keybind listener
-        removeKeydownListener();
-    })
 </script>
 
 <div class="relative grid grid-rows-[auto_1fr] h-screen overflow-hidden border border-black/40 bg-secondary" id="window-grid">

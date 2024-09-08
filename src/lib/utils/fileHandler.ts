@@ -1,26 +1,9 @@
-import { invoke } from '@tauri-apps/api/tauri';
 import { open as tauriOpen, save as tauriSave} from '@tauri-apps/api/dialog';
 import { writeTextFile } from '@tauri-apps/api/fs';
 import { openedPagePath, rawMarkdown, isUnsaved, initRawMarkdown } from "$lib/utils/stores";
 import { setCompiledMarkdown } from '$lib/utils/markdownParsing';
 import { get } from 'svelte/store';
 import { toast } from 'svelte-sonner';
-
-/**
- * Checks if the application was opened via a `.md` file by invoking the backend method
- * `get_filepath`. If a valid file path is returned, it sets the `openedPagePath` to the file path and 
- * updates the compiled Markdown content using the current file path.
- * 
- * @returns {Promise<void>} A promise that resolves when the file path has been retrieved and the Markdown content is set.
- */
-export async function launchFromFile(): Promise<void> {
-    // Call to backend; If application opened via .md file, set openedPagePath
-    invoke('get_filepath').then((message) => {
-        if (message) { openedPagePath.set(message as string); }
-    });
-
-    setCompiledMarkdown(get(openedPagePath));
-}
 
 /**
  * Opens a markdown file using a file picker dialog. If a file is selected, it sets the file path and compiles the markdown content.
