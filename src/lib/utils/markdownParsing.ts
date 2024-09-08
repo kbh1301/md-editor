@@ -128,6 +128,8 @@ export async function setCompiledMarkdown(filePath: string) {
                 }
             })
         ).use({
+            gfm: true,
+            breaks: true,
             renderer
         });
     

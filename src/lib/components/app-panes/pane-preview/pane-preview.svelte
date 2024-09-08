@@ -13,9 +13,11 @@
             const text = placeholder.getAttribute('data-text') || '';
 
             new MdCheckbox({
-                target: placeholder,
+                target: placeholder.parentElement!,
                 props: { checked, text }
             });
+
+            placeholder.remove();
         });
     }
 
