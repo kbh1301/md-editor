@@ -1,0 +1,9 @@
+name: 'Post release'
+description: 'A GitHub action that refines the Tauri action release'
+inputs:
+  token:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: 'node20'
+  main: 'index.js'

@@ -8,7 +8,33 @@ on:
 # This workflow will trigger on each push to the `release` branch to create or update a GitHub release, build your app, and upload the artifacts to the release.
 
 jobs:
-  publish-tauri:
+  create-release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    outputs:
+      release-id: ${{ steps.create-release.outputs.result }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - id: create-release
+        uses: actions/github-script@7
+        with:
+          script: |
+            const { data } = await github.rest.repose.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `app-v${process.env.PACKAGE_VERSION}`,
+              name: `md-editor v${process.env.PACKAGE_VERSION}`,
+              draft: true,
+              prerelease: false,
+              generate_release_notes: true
+            })
+            return data.id
+
+  build-tauri:
     permissions:
       contents: write
     strategy:
@@ -48,7 +74,7 @@ jobs:
         # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
 
       - name: install frontend dependencies
-        run: npm install
+        run: npm ci
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -56,10 +82,20 @@ jobs:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
-          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
-          releaseName: 'md-editor v__VERSION__'
-          releaseBody: 'https://github.com/kbh1301/md-editor/releases'
-          releaseDraft: true
-          prerelease: false
+          releaseId: ${{ needs.create-release.outputs.release-id }}
           args: ${{ matrix.args }}
-          includeUpdaterJson: true
+
+  post-release:
+    needs: [create-release, build-tauri]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - uses: ./.github/actions/post-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          RELEASE_ID: ${{ needs.create-release.outputs.release-id }}
+
