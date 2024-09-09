@@ -1,5 +1,7 @@
 const { setFailed } = require('@actions/core');
 const { getOctokit } = require('@actions/github');
+const { readFile } = require('node:fs/promises');
+const path = require('node:path');
 
 const owner = 'kbh1301';
 const repo = 'md-editor';
