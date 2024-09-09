@@ -54,10 +54,10 @@ async function run() {
         const windowsInstallerName = `md-editor_installer_win_${version}_x64-setup.exe`;
         const linuxInstallerName = `md-editor_installer_nix_${version}_amd64.AppImage`;
 
-        const macArmInstallerLabel = `md-editor installer for Mac (Apple Silicon)`;
-        const macIntelInstallerLabel = `md-editor installer for Mac (Intel)`;
-        const windowsInstallerLabel = `md-editor installer for Windows`;
-        const linuxInstallerLabel = `md-editor installer for Linux (cross-distribution AppImage)`;
+        const macArmInstallerLabel = `INSTALLER - md-editor Mac (Apple Silicon)`;
+        const macIntelInstallerLabel = `INSTALLER - md-editor Mac (Intel)`;
+        const windowsInstallerLabel = `INSTALLER - md-editor Windows`;
+        const linuxInstallerLabel = `INSTALLER - md-editor Linux (cross-distribution AppImage)`;
 
         const macArmUpdaterName = `md-editor_updater_mac_${version}_aarch64.app.tar.gz`;
         const macIntelUpdaterName = `md-editor_updater_mac_${version}_x64.app.tar.gz`;

@@ -49,12 +49,8 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Utility",
       "copyright": "",
-      "deb": {
-        "depends": []
-      },
-      "externalBin": [],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -73,7 +69,7 @@
       },
       "resources": [],
       "shortDescription": "",
-      "targets": "all",
+      "targets": ["dmg", "nsis", "appimage", "updater"],
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
