@@ -1,5 +1,5 @@
-import { setFailed } from '@actions/core';
-import { getOctokit } from '@actions/github';
+const { setFailed } = require('@actions/core');
+const { getOctokit } = require('@actions/github');
 
 const owner = 'kbh1301';
 const repo = 'md-editor';
