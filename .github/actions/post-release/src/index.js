@@ -124,7 +124,6 @@ async function run() {
             owner,
             repo,
             release_id: releaseId,
-            draft: true,
         });
 
 
