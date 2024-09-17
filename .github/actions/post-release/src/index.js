@@ -119,7 +119,7 @@ async function run() {
             ),
         );
 
-        console.log('publishing release...');
+        console.log('updating release...');
         await octokit.rest.repos.updateRelease({
             owner,
             repo,
