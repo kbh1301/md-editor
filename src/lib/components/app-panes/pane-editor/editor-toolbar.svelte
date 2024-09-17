@@ -1,6 +1,6 @@
 <script lang="ts">
     import { modifySelection } from "./editor-toolbar.js";
-    import { Button, Separator, DialogGuide, DialogLink } from "$components";
+    import { Button, Separator, DialogGuide, DialogLink, HoverPopover } from "$components";
     import Icon from '@iconify/svelte';
     import type { EditorView } from "@codemirror/view";
 
@@ -67,6 +67,8 @@
             action: () => modifySelection(view, '- [ ] ')
         }
     ];
+
+    let headingsOpen = false;
 </script>
 
 <div class="flex justify-center flex-wrap pt-2">
@@ -79,12 +81,14 @@
 
     <Separator orientation="vertical" class="h-auto bg-primary-foreground" />
 
-    {#each group2 as group}
-        <Button variant="toolbar_edit" size="toolbar" on:click={group.action} title={group.label}>
-            <Icon icon={group.icon} />
-            <span class="sr-only">{group.label}</span>
-        </Button>
-    {/each}
+    <HoverPopover triggerIcon="lucide:heading">
+        {#each group2 as group}
+            <Button variant="toolbar_edit" size="toolbar" on:click={group.action} title={group.label}>
+                <Icon icon={group.icon} />
+                <span class="sr-only">{group.label}</span>
+            </Button>
+        {/each}
+    </HoverPopover>
 
     <Separator orientation="vertical" class="h-auto bg-primary-foreground" />
 

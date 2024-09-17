@@ -24,3 +24,6 @@ export * from "$components/app-panes/pane-editor";
 
 // preview pane components
 export * from "$components/app-panes/pane-preview";
+
+// misc components
+export { default as HoverPopover } from "$components/hover-popover.svelte";

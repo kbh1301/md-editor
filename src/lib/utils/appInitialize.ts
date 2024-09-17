@@ -41,7 +41,7 @@ export async function appInitialize() {
  */
 async function launchFromFile(): Promise<void> {
     // Call to backend; If application opened via .md file, set openedPagePath
-    invoke('get_filepath').then((message) => {
+    await invoke('get_filepath').then((message) => {
         if (message) { openedPagePath.set(message as string); }
     });
 
