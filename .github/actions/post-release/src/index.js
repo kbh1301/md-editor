@@ -1,6 +1,6 @@
 const { setFailed } = require('@actions/core');
 const { getOctokit } = require('@actions/github');
-const { readFile } = require('node:fs/promises');
+const { readFile, writeFile } = require('node:fs/promises');
 const path = require('node:path');
 
 const owner = 'kbh1301';
@@ -20,11 +20,6 @@ async function run() {
             `GET /repos/${owner}/${repo}/releases/${releaseId}/assets`,
         );
         const assets = releaseAssets.data;
-
-        const latestJsonAsset = getAsset(assets, 'latest.json');
-
-        console.log('getting latest.json contents...');
-        const updater = await getAssetTextContent(token, latestJsonAsset);
 
         console.log('removing .sig assets...');
         await Promise.all(
@@ -63,6 +58,19 @@ async function run() {
         const macIntelUpdaterName = `md-editor_updater_mac_${version}_x64.app.tar.gz`;
         const windowsUpdaterName = `md-editor_updater_win_${version}_x64-setup.nsis.zip`;
         const linuxUpdaterName = `md-editor_updater_nix_${version}_amd64.AppImage.tar.gz`;
+
+        console.log('getting latest.json contents...');
+        const latestJsonAsset = getAsset(assets, 'latest.json');
+        const updater = await getAssetTextContent(token, latestJsonAsset);
+
+        console.log('renaming latest.json contents...');
+        updater = updateLatestJsonUrls(updater, {
+            'darwin-aarch64': macArmUpdaterName,
+            'darwin-x86_64': macIntelUpdaterName,
+            'windows-x86_64': windowsUpdaterName,
+            'linux-x86_64': linuxUpdaterName
+        });
+        await writeFile('latest.json', JSON.stringify(updater, null, 2), 'utf-8');
 
         renameUpdaterAsset(updater, 'darwin-aarch64', macArmUpdaterName);
         renameUpdaterAsset(updater, 'darwin-x86_64', macIntelUpdaterName);
@@ -124,6 +132,7 @@ async function run() {
             owner,
             repo,
             release_id: releaseId,
+            tag_name: `app-v${version}`
         });
 
 
@@ -131,6 +140,16 @@ async function run() {
     } catch (error) {
         setFailed(error);
     }
+}
+
+function updateLatestJsonUrls(updater, newUrls) {
+    const updatedJson = JSON.parse(updater);
+    for (const platform in newUrls) {
+        if (updatedJson.platforms[platform]) {
+            updatedJson.platforms[platform].url = `https://github.com/${owner}/${repo}/releases/download/app-v/${newUrls[platform]}`;
+        }
+    }
+    return updatedJson;
 }
 
 async function getVersion() {
