@@ -21,6 +21,11 @@ async function run() {
         );
         const assets = releaseAssets.data;
 
+        const latestJsonAsset = getAsset(assets, 'latest.json');
+
+        console.log('getting latest.json contents...');
+        const updater = await getAssetTextContent(token, latestJsonAsset);
+
         console.log('removing .sig assets...');
         await Promise.all(
             assets
@@ -58,19 +63,6 @@ async function run() {
         const macIntelUpdaterName = `md-editor_updater_mac_${version}_x64.app.tar.gz`;
         const windowsUpdaterName = `md-editor_updater_win_${version}_x64-setup.nsis.zip`;
         const linuxUpdaterName = `md-editor_updater_nix_${version}_amd64.AppImage.tar.gz`;
-
-        console.log('getting latest.json contents...');
-        const latestJsonAsset = getAsset(assets, 'latest.json');
-        const updater = await getAssetTextContent(token, latestJsonAsset);
-
-        console.log('renaming latest.json contents...');
-        updater = updateLatestJsonUrls(updater, {
-            'darwin-aarch64': macArmUpdaterName,
-            'darwin-x86_64': macIntelUpdaterName,
-            'windows-x86_64': windowsUpdaterName,
-            'linux-x86_64': linuxUpdaterName
-        });
-        await writeFile('latest.json', JSON.stringify(updater, null, 2), 'utf-8');
 
         renameUpdaterAsset(updater, 'darwin-aarch64', macArmUpdaterName);
         renameUpdaterAsset(updater, 'darwin-x86_64', macIntelUpdaterName);
@@ -126,6 +118,24 @@ async function run() {
                 }),
             ),
         );
+        
+        console.log('');
+        const updatedLatestJsonPath = './latest.json';
+        await writeFile(updatedLatestJsonPath, JSON.stringify(updater, null, 2));
+
+        await octokit.rest.repos.deleteReleaseAsset({
+            owner,
+            repo,
+            asset_id: latestJsonAsset.id,
+        });
+
+        await octokit.rest.repos.uploadReleaseAsset({
+            owner,
+            repo,
+            release_id: releaseId,
+            name: 'latest.json',
+            data: await readFile(updatedLatestJsonPath),
+        });
 
         console.log('updating release...');
         await octokit.rest.repos.updateRelease({
@@ -134,22 +144,9 @@ async function run() {
             release_id: releaseId,
             tag_name: `app-v${version}`
         });
-
-
-
     } catch (error) {
         setFailed(error);
     }
-}
-
-function updateLatestJsonUrls(updater, newUrls) {
-    const updatedJson = JSON.parse(updater);
-    for (const platform in newUrls) {
-        if (updatedJson.platforms[platform]) {
-            updatedJson.platforms[platform].url = `https://github.com/${owner}/${repo}/releases/download/app-v/${newUrls[platform]}`;
-        }
-    }
-    return updatedJson;
 }
 
 async function getVersion() {
