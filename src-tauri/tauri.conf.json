@@ -87,7 +87,7 @@
         "dialog": true,
         "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM2MzgwNTQ1MTNFMkNDMDcKUldRSHpPSVRSUVU0eHIyWkh1Y0hiaXB0VU1Fb0RkdjRMSmdDK09SZFdhWHpobG1lVTlxOUxmTjkK",
         "windows": {
-            "installMode": "passive"
+            "installMode": "basicUi"
         }
     },
     "windows": [

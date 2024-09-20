@@ -28,7 +28,7 @@
 
 <ScrollAreaPrimitive.Root {...$$restProps} class={cn("relative overflow-hidden", className)}>
 	<ScrollAreaPrimitive.Viewport bind:this={viewport} class="h-full w-full">
-		<ScrollAreaPrimitive.Content>
+		<ScrollAreaPrimitive.Content class="!block">
 			<slot />
 		</ScrollAreaPrimitive.Content>
 	</ScrollAreaPrimitive.Viewport>

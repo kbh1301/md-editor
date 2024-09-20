@@ -1,6 +1,6 @@
 <script lang="ts">
     import { compiledMarkdown } from "$utils/stores";
-    import { ScrollArea, MdCheckbox } from "$components";
+    import { ScrollArea, MdCheckbox, CopyButton } from "$components";
     import { afterUpdate } from "svelte";
 
     export let previewViewport: HTMLElement;
@@ -21,8 +21,22 @@
         });
     }
 
+    function createCodeCopyButtons() {
+        const codeBlocks = document.querySelectorAll("pre");
+
+        codeBlocks.forEach((block) => {
+            block.style.paddingTop = "32px";
+
+            new CopyButton({
+                target: block,
+                props: { parentElement: block }
+            });
+        });
+    }
+
     afterUpdate(() => {
         createCheckboxComponents();
+        createCodeCopyButtons();
     });
 </script>
 
