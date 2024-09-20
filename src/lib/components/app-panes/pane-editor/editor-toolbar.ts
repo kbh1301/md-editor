@@ -120,8 +120,8 @@ export function modifySelection(view: EditorView, prefix: string, suffix: string
     const selection = getSelection(view);
     let start = selection?.start;
     let end = selection?.end;
-
-    if (!start || !end) return;
+    
+    if (start === null || end === null) return;
     
     view.focus();
 
