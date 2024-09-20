@@ -1,7 +1,7 @@
 import { open as tauriOpen, save as tauriSave} from '@tauri-apps/api/dialog';
 import { writeTextFile } from '@tauri-apps/api/fs';
 import { openedPagePath, rawMarkdown, isUnsaved, initRawMarkdown } from "$lib/utils/stores";
-import { setCompiledMarkdown } from '$lib/utils/markdownParsing';
+import { setCompiledMarkdown } from '$lib/components/app-panes/pane-preview/markdownParsing';
 import { get } from 'svelte/store';
 import { toast } from 'svelte-sonner';
 

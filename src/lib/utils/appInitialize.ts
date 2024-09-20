@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/tauri';
 import { get } from 'svelte/store';
 import { openedPagePath, appSettings, editMode } from "$lib/utils/stores";
-import { setCompiledMarkdown } from '$lib/utils/markdownParsing';
+import { setCompiledMarkdown } from '$lib/components/app-panes/pane-preview/markdownParsing';
 import { loadSettings, toggleLightMode } from "$utils/settingsHandler";
 import { initKeydownListener } from "$utils/keybindHandler";
 import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/app-scaffolding/light-switch/light-switch.js";
