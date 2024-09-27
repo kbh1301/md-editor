@@ -1,5 +1,5 @@
 import { exists, createDir, writeTextFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
-import { appSettings } from '$lib/utils/stores';
+import { appSettings } from '$utils/stores';
 import { get } from 'svelte/store';
 
 const settingsFilePath = { dir: BaseDirectory.AppConfig };
@@ -25,6 +25,7 @@ export async function loadSettings() {
     }
 
     // Overwrite settings.json whenever appSettings store value is updated
+    // TODO: Debounce
     appSettings.subscribe(async () => {
         await writeToSettingsFile();
     });
@@ -47,7 +48,7 @@ async function createSettingsFile() {
 /**
  * Creates or overwrites settings.json with appSettings store value
  */
-export async function writeToSettingsFile() {
+async function writeToSettingsFile() {
 
     await writeTextFile(
         {
@@ -66,5 +67,26 @@ export async function toggleLightMode(isLightMode: boolean) {
     appSettings.update(val => {
         val.lightmode = isLightMode;
         return val;
+    });
+}
+
+export function fontDecrease() {
+    appSettings.update(appSettings => {
+        appSettings.fontSize = Math.max(6, appSettings.fontSize - 2);
+        return appSettings;
+    });
+}
+
+export function fontIncrease() {
+    appSettings.update(appSettings => {
+        appSettings.fontSize = Math.min(50, appSettings.fontSize + 2);
+        return appSettings;
+    });
+}
+
+export function fontReset() {
+    appSettings.update(appSettings => {
+        appSettings.fontSize = 16;
+        return appSettings;
     });
 }

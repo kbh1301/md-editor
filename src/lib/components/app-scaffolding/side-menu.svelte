@@ -1,18 +1,14 @@
 <script lang="ts">
     import { invoke } from '@tauri-apps/api/tauri';
-	import { Button, Sheet, Label, Switch, LightSwitch } from "$components";
+	import { Button, Sheet, Label, Switch, LightSwitch, Separator } from "$components";
     import Icon from '@iconify/svelte';
     import { openMarkdownFile } from "$utils/fileHandler";
     import { appSettings } from "$utils/stores";
-    import { writeToSettingsFile } from "$utils/settingsHandler";
+    import { fontIncrease, fontDecrease, fontReset } from "$utils/settingsHandler";
     import { onMount } from 'svelte';
 
 	let open = false;
     let version = '';
-
-    function handleSettingsFileUpdate() {
-        writeToSettingsFile();
-    }
 
     async function openFileExplorer() {
         open = await openMarkdownFile();
@@ -24,10 +20,13 @@
 
     // Styles
     const sectionStyles = "flex flex-col sm:flex-col items-center gap-1 rounded-lg p-4 bg-background";
-    const labelStyles = "flex items-center gap-2 w-full justify-between";
+    const labelStyles = "flex items-center gap-2 h-7 w-full justify-between";
+    const separatorStyles = "my-3";
 </script>
 
 <Sheet.Root bind:open>
+
+    <!-- MENU BUTTON -->
 	<Sheet.Trigger asChild let:builder>
 		<Button variant="toolbar" size="toolbar" builders={[builder]}>
             <Icon icon="mdi:menu" />
@@ -35,6 +34,7 @@
 		</Button>
 	</Sheet.Trigger>
 	<Sheet.Content side="left" class="flex flex-col justify-between bg-secondary">
+
         <!-- SHEET HEADER -->
         <Sheet.Header>
             <Sheet.Title>
@@ -62,15 +62,40 @@
             <div class={sectionStyles}>
                 <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center mb-4">Settings</h4>
 
+                <div class="flex items-center justify-between w-full">
+                    <Label class={labelStyles}><span>Font Size:</span></Label>
+                    <div class="flex gap-4 items-center">
+                        {#if $appSettings.fontSize != 16}
+                            <Button size="sm" on:click={fontReset}><p>Reset</p></Button>
+                        {/if}
+                        
+                        <div class="flex gap-1 items-center">
+                            <Button size="xs" on:click={fontDecrease}>
+                                <Icon icon="ic:round-minus" />
+                            </Button>
+
+                            <span class="inline-block w-[4ch] text-center">{$appSettings.fontSize}px</span>
+
+                            <Button size="xs" on:click={fontIncrease}>
+                                <Icon icon="ic:round-plus" />
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
+                <Separator class={separatorStyles} />
+
                 <Label class={labelStyles}>
                     <span>Start in Edit Mode:</span>
-                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.startEditMode} />
+                    <Switch bind:checked={$appSettings.startEditMode} />
                 </Label>
 
                 <Label class={labelStyles}>
                     <span>Hide markdown toolbar:</span>
-                    <Switch on:click={handleSettingsFileUpdate} bind:checked={$appSettings.toolbarHidden} />
+                    <Switch bind:checked={$appSettings.toolbarHidden} />
                 </Label>
+
+                <Separator class={separatorStyles} />
 
                 <!-- DARK MODE TOGGLE -->
                 <Label class={labelStyles + " mt-5"}>

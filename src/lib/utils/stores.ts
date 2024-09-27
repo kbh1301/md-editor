@@ -6,6 +6,7 @@ export const appSettings:Writable<AppSettings> = writable({
     mdTheme: 'github-md.min.css',
     startEditMode: false,
     toolbarHidden: false,
+    fontSize: 16,
 });
 
 // TODO: delete

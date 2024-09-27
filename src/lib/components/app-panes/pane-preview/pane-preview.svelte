@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { compiledMarkdown } from "$utils/stores";
+    import { compiledMarkdown, appSettings } from "$utils/stores";
     import { ScrollArea, MdCheckbox, CopyButton } from "$components";
     import { afterUpdate } from "svelte";
 
@@ -45,7 +45,10 @@
     orientation="both"
     bind:viewportElement={previewViewport}
 >
-    <div class="p-[45px]">
+    <div
+        class="p-[45px]"
+        style="font-size: {$appSettings.fontSize}px;"
+    >
         {@html $compiledMarkdown}
     </div>
 </ScrollArea>

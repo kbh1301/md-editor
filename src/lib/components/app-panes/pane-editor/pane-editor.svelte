@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { cn } from "$utils/utils.js";
     import { saveMarkdownFile } from "$utils/fileHandler";
     import { rawMarkdown, appSettings, editMode, isUnsaved, openedPagePath } from "$utils/stores";
     import CodeMirror from "svelte-codemirror-editor";
@@ -14,8 +13,6 @@
     type $$Props = HTMLTextareaAttributes & {
         editorViewport: HTMLElement;
     };
-    let className: $$Props["class"] = undefined;
-    export { className as class };
 
     let view: EditorView;
     export let editorViewport: HTMLElement;
@@ -39,7 +36,7 @@
 
         // Debounce function to limit the rate of function calls
         function debounce(func: Function, wait: number) {
-            let timeout: number | undefined;
+            let timeout: ReturnType<typeof setTimeout> | undefined;
             return function(this: any, ...args: any[]) {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
@@ -74,13 +71,13 @@
         updateDragHandles();
     });
 
-    const customTheme = EditorView.theme({
+    $: customTheme = EditorView.theme({
         '&': {
             backgroundColor: 'hsl(var(--background) / var(--tw-bg-opacity)) !important',
             color: 'hsl(var(--foreground) / var(--tw-text-opacity)) !important'
         },
         '.cm-content': {
-            fontSize: '11pt',
+            fontSize: `${$appSettings.fontSize-1}px`,
             fontFamily: '"Inter", monospace'
         },
         '.cm-gutters': {
@@ -125,10 +122,7 @@
         bind:viewportElement={editorViewport}
     >
         <CodeMirror
-            class={cn(
-                "text-foreground overflow-hidden",
-                className
-            )}
+            class="text-foreground overflow-hidden"
             bind:value={$rawMarkdown}
             on:ready={handleEditorReady}
             lineWrapping
