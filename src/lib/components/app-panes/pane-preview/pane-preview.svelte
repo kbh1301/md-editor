@@ -6,23 +6,29 @@
     export let previewViewport: HTMLElement;
 
     function createCheckboxComponents() {
-        const placeholders = document.querySelectorAll('.checkbox-placeholder');
+        const checkboxes = previewViewport.querySelectorAll('input[type="checkbox"]');
 
-        placeholders.forEach((placeholder) => {
-            const checked = placeholder.getAttribute('data-checked') === 'true';
-            const text = placeholder.getAttribute('data-text') || '';
+        checkboxes.forEach((checkbox) => {
+            const listItem = checkbox.parentElement!;
+            const checked = checkbox.getAttribute('checked') !== null;
 
+            // Alter list styles
+            listItem.style.listStyle = "none";
+
+            // Add new checkbox
             new MdCheckbox({
-                target: placeholder.parentElement!,
-                props: { checked, text }
+                target: listItem,
+                props: { checked },
+                anchor: listItem.firstChild as Element
             });
 
-            placeholder.remove();
+            // Remove original checkbox
+            checkbox.remove();
         });
     }
 
     function createCodeCopyButtons() {
-        const codeBlocks = document.querySelectorAll("pre");
+        const codeBlocks = previewViewport.querySelectorAll("pre");
 
         codeBlocks.forEach((block) => {
             block.style.paddingTop = "32px";
