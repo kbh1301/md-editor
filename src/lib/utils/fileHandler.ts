@@ -1,29 +1,38 @@
 import { open as tauriOpen, save as tauriSave} from '@tauri-apps/api/dialog';
 import { writeTextFile } from '@tauri-apps/api/fs';
-import { openedPagePath, rawMarkdown, isUnsaved, initRawMarkdown } from "$lib/utils/stores";
+import { openedPagePath, rawMarkdown, isUnsaved, editMode, appSettings } from "$lib/utils/stores";
 import { setCompiledMarkdown } from '$lib/components/app-panes/pane-preview/markdownParsing';
 import { get } from 'svelte/store';
 import { toast } from 'svelte-sonner';
 
 /**
  * Opens a markdown file using a file picker dialog. If a file is selected, it sets the file path and compiles the markdown content.
+ * If file is blank, start in edit mode.
  *
  * @returns {Promise<boolean>} A promise that resolves to `true` if no file is selected, and `false` if a file is successfully opened.
  */
-export async function openMarkdownFile(): Promise<boolean> {
+export async function openMarkdownFile({filePath = null, isNewFile = false}: { filePath?: string|string[]|null; isNewFile?: boolean } = {}): Promise<boolean> {
     let isFileSelected = false;
 
-    const filePath = await tauriOpen({
-        filters: [{
-            name: 'Markdown Files',
-            extensions: ['md']
-        }]
-    });
+    if (!filePath) {
+        filePath = await tauriOpen({
+            filters: [{
+                name: 'Markdown Files',
+                extensions: ['md']
+            }]
+        });
+    }
 
     if (filePath && typeof filePath === 'string') {
         openedPagePath.set(filePath);
-        setCompiledMarkdown(filePath);
+        await setCompiledMarkdown(filePath);
         isFileSelected = true;
+
+        if (!get(rawMarkdown)) {
+            editMode.set(true);
+        } else if (isNewFile) {
+            editMode.set(get(appSettings).startEditMode);
+        }
     }
 
     return !isFileSelected;
@@ -37,13 +46,14 @@ export async function openMarkdownFile(): Promise<boolean> {
  * @param {boolean} [options.isSaveAs=false] - If true, prompts the user to "Save As" instead of overwriting.
  * @returns {Promise<void>} - A promise that resolves when the file is saved or the operation is canceled.
  */
-export async function saveMarkdownFile({isSaveAs = false}: { isSaveAs?: boolean; } = {}): Promise<void> {
+export async function saveMarkdownFile({isSaveAs = false, isNewFile = false}: { isSaveAs?: boolean; isNewFile?: boolean } = {}): Promise<void> {
     let path = get(openedPagePath);
     let saveFilePromise;
 
-    if (!get(isUnsaved)) return;
+    // Prevent unnecessary saves
+    if (!get(isUnsaved) && !isNewFile) return;
 
-    if(!path || isSaveAs) {
+    if(!path || isSaveAs || isNewFile) {
         const newPath = await tauriSave({
             filters: [{
                 name: 'Markdown',
@@ -62,7 +72,7 @@ export async function saveMarkdownFile({isSaveAs = false}: { isSaveAs?: boolean;
     saveFilePromise = new Promise((resolve, reject) => {
         writeTextFile({
             path: path,
-            contents: get(rawMarkdown)
+            contents: isNewFile ? '' : get(rawMarkdown)
         })
         .then(() => resolve({ message: "Save successful" }))
         .catch(reject);
@@ -73,10 +83,7 @@ export async function saveMarkdownFile({isSaveAs = false}: { isSaveAs?: boolean;
     toast.promise(saveFilePromise, {
         loading: 'Saving...',
         success: (data) => {
-            initRawMarkdown.set(
-                get(rawMarkdown)
-            );
-            isUnsaved.set(false);
+            openMarkdownFile({filePath: path, isNewFile})
             return (data as SaveFileSuccess).message
         },
         error: (error) => {

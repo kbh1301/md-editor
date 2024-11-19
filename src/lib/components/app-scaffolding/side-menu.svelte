@@ -1,18 +1,13 @@
 <script lang="ts">
     import { invoke } from '@tauri-apps/api/tauri';
-	import { Button, Sheet, Label, Switch, LightSwitch, Separator } from "$components";
+	import { Button, Sheet, Label, Switch, LightSwitch, Separator, BtnOpenFile, BtnNewFile } from "$components";
     import Icon from '@iconify/svelte';
-    import { openMarkdownFile } from "$utils/fileHandler";
     import { appSettings } from "$utils/stores";
     import { fontIncrease, fontDecrease, fontReset } from "$utils/settingsHandler";
     import { onMount } from 'svelte';
 
 	let open = false;
     let version = '';
-
-    async function openFileExplorer() {
-        open = await openMarkdownFile();
-    }
 
     onMount(async () => {
         version = await invoke<string>('get_version');
@@ -50,12 +45,10 @@
             <!-- MENU SECTION -->
             <div class={sectionStyles}>
                 <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center mb-4">Menu</h4>
-
-                <!-- OPEN FILE -->
-                <Button size="default" on:click={openFileExplorer}>
-                    <span>Open File...</span>
-                    <span class="sr-only">Open File</span>
-                </Button>
+                <div class="flex flex-col gap-3">
+                    <BtnOpenFile />
+                    <BtnNewFile />
+                </div>
             </div>
 
             <!-- SETTINGS SECTION -->

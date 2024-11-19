@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { openMarkdownFile } from "$lib/utils/fileHandler";
-    import { editMode, rawMarkdown, isSyncing } from "$lib/utils/stores";
-    import { Button, PaneEditor, PanePreview } from "$components";
+    import { editMode, rawMarkdown, isSyncing, openedPagePath } from "$lib/utils/stores";
+    import { PaneLaunch, PaneEditor, PanePreview } from "$components";
 
     let previewViewport: HTMLElement;
     let editorViewport: HTMLElement;
@@ -34,7 +33,6 @@
             addScrollSyncListeners();
         }
     }
-
 </script>
 
 <div class="grid grid-flow-col grid-cols-[1fr]">
@@ -45,14 +43,8 @@
         {/if}
 
         <!-- Compiled Markdown Preview Pane -->
-        {#if $rawMarkdown === ''}
-            <div class="markdown-body flex flex-col items-center justify-center box-border w-full min-w-[200px] max-w-[980px] my-0 p-[45px] overflow-auto rounded-lg drop-shadow-md flex-[1_1_50%]">
-                <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl !mb-10">md-editor</h1>
-                <Button variant="default" size="default" on:click={openMarkdownFile}>
-                    <span>Open File...</span>
-                    <span class="sr-only">Open File</span>
-                </Button>
-            </div>
+        {#if $rawMarkdown === '' && $openedPagePath === ''}
+            <PaneLaunch />
         {:else}
             <PanePreview bind:previewViewport />
         {/if}

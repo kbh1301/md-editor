@@ -22,6 +22,9 @@ export * from "$components/app-scaffolding";
 // editor pane components
 export * from "$components/app-panes/pane-editor";
 
+// launch pane components
+export * from "$components/app-panes/pane-launch";
+
 // preview pane components
 export * from "$components/app-panes/pane-preview";
 
