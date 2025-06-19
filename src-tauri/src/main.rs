@@ -12,7 +12,7 @@ fn main() {
             set_shadow(&window, true).expect("Unsupported platform!");
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_filepath, get_version])
+        .invoke_handler(tauri::generate_handler![get_filepath, get_version, set_title])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -40,4 +40,10 @@ fn get_version() -> Result<String, String> {
         Some(v) => Ok(v.clone()),
         None => Err("Version not found in tauri.conf.json".into()),
     }
+}
+
+#[tauri::command]
+fn set_title(app: tauri::AppHandle, title: String) {
+    let window = app.get_window("main").unwrap();
+    window.set_title(&title).unwrap();
 }

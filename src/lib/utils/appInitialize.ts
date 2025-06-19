@@ -28,6 +28,12 @@ export async function appInitialize() {
     setModeCurrent(lightmode);
     toggleLightMode(lightmode);
 
+    // Watch for changes in openedPagePath and update the window title
+    openedPagePath.subscribe((path) => {
+        const fileName = path.split('\\').pop() || 'md-editor'; // Extract file name or fallback to default
+        invoke('tauri', { cmd: 'set_title', title: fileName }); // Update the title using Tauri API
+    });
+
     // Initialize keybinds
     initKeydownListener();
 }
