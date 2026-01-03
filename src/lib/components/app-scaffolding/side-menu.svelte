@@ -1,8 +1,8 @@
 <script lang="ts">
     import { invoke } from '@tauri-apps/api/tauri';
-	import { Button, Sheet, Label, Switch, LightSwitch, Separator, BtnOpenFile, BtnNewFile } from "$components";
+	import { Button, Sheet, Label, Switch, LightSwitch, Separator, BtnOpenFile, BtnNewFile, BtnSaveFile } from "$components";
     import Icon from '@iconify/svelte';
-    import { appSettings } from "$utils/stores";
+    import { appSettings, activeDoc } from "$lib/stores";
     import { fontIncrease, fontDecrease, fontReset } from "$utils/settingsHandler";
     import { onMount } from 'svelte';
 
@@ -17,6 +17,10 @@
     const sectionStyles = "flex flex-col sm:flex-col items-center gap-1 rounded-lg p-4 bg-background";
     const labelStyles = "flex items-center gap-2 h-7 w-full justify-between";
     const separatorStyles = "my-3";
+
+    function handleDone() {
+        open = false;
+    }
 </script>
 
 <Sheet.Root bind:open>
@@ -46,8 +50,11 @@
             <div class={sectionStyles}>
                 <h4 class="scroll-m-20 text-xl font-semibold tracking-tight self-center mb-4">Menu</h4>
                 <div class="flex flex-col gap-3">
-                    <BtnOpenFile />
-                    <BtnNewFile />
+                    <BtnOpenFile on:done={handleDone} />
+                    <BtnNewFile on:done={handleDone} />
+                    {#if $activeDoc}
+                        <BtnSaveFile on:done={handleDone} isSaveAs={true} />
+                    {/if}
                 </div>
             </div>
 

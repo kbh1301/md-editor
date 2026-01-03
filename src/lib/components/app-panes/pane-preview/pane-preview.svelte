@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { compiledMarkdown, appSettings } from "$utils/stores";
+    import { appSettings, activeDoc } from "$lib/stores";
     import { ScrollArea, MdCheckbox, CopyButton } from "$components";
     import { afterUpdate } from "svelte";
 
@@ -55,6 +55,6 @@
         class="p-[45px]"
         style="font-size: {$appSettings.fontSize}px;"
     >
-        {@html $compiledMarkdown}
+        {@html $activeDoc?.compiled ?? ""}
     </div>
 </ScrollArea>

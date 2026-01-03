@@ -1,5 +1,6 @@
 import { fontIncrease, fontDecrease } from "$utils/settingsHandler";
-import { saveMarkdownFile } from "$utils/fileHandler";
+import { saveMarkdownFile } from "$utils/fileSystemHandler";
+import { createNewDocument } from '$utils/documentsHandler';
 
 function handleKeydown(event: KeyboardEvent) {
     // ctrl keybinds
@@ -8,6 +9,12 @@ function handleKeydown(event: KeyboardEvent) {
         if (event.key === 's') {
             event.preventDefault();
             saveMarkdownFile();
+        }
+
+        // ctrl + n
+        if (event.key === 'n') {
+            event.preventDefault();
+            createNewDocument();
         }
 
         // ctrl + -

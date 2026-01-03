@@ -7,27 +7,25 @@ use window_shadows::set_shadow;
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_fs_watch::init())
+        .plugin(tauri_plugin_single_instance::init(|app, argv, _cwd| {
+            let paths: Vec<String> = argv
+                .iter()
+                .filter(|arg| arg.ends_with(".md"))
+                .cloned()
+                .collect();
+
+            if !paths.is_empty() {
+                app.emit_all("open-files", paths).unwrap();
+            }
+        }))
         .setup(|app| {
             let window = app.get_window("main").unwrap();
             set_shadow(&window, true).expect("Unsupported platform!");
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_filepath, get_version, set_title])
+        .invoke_handler(tauri::generate_handler![get_version, set_title])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-}
-
-#[tauri::command]
-fn get_filepath() -> Result<String, String> {
-    // Retrieve the command line arguments passed to the application
-    let args: Vec<String> = std::env::args().collect();
-    
-    // The first argument should be the path of the .md file that opened the app
-    if let Some(file_path) = args.get(1) {
-        Ok(file_path.clone())
-    } else {
-        Ok("".into())
-    }
 }
 
 #[tauri::command]

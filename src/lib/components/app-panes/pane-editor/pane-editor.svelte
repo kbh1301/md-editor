@@ -1,14 +1,25 @@
 <script lang="ts">
-    import { saveMarkdownFile } from "$utils/fileHandler";
-    import { rawMarkdown, appSettings, editMode, isUnsaved, openedPagePath } from "$utils/stores";
+    import {
+        appSettings,
+        editMode,
+        activeDoc,
+    } from "$lib/stores";
     import CodeMirror from "svelte-codemirror-editor";
     import type { HTMLTextareaAttributes } from "svelte/elements";
-    import { Accordion, ScrollArea, Button, DragHandle, EditorToolbar } from "$components";
+    import {
+        Accordion,
+        ScrollArea,
+        DragHandle,
+        EditorToolbar,
+        BtnSaveFile,
+    } from "$components";
     import { EditorView } from "@codemirror/view";
     import { tick } from "svelte";
-    import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-    import { oneDark } from '@codemirror/theme-one-dark'
-    import { fade } from 'svelte/transition';
+    import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+    import { oneDark } from "@codemirror/theme-one-dark";
+    import { fade } from "svelte/transition";
+    import { onRawChange } from "$utils/documentsHandler";
+    import { get } from "svelte/store";
 
     type $$Props = HTMLTextareaAttributes & {
         editorViewport: HTMLElement;
@@ -18,26 +29,33 @@
     export let editorViewport: HTMLElement;
 
     async function updateDragHandles() {
-        const cmLineNumElmts: NodeListOf<HTMLElement> = document.querySelectorAll('.cm-gutter.cm-lineNumbers .cm-gutterElement');
-        const cmContentElmts: NodeListOf<HTMLElement> = document.querySelectorAll(".cm-content .cm-line");
+        const cmLineNumElmts: NodeListOf<HTMLElement> =
+            document.querySelectorAll(
+                ".cm-gutter.cm-lineNumbers .cm-gutterElement",
+            );
+        const cmContentElmts: NodeListOf<HTMLElement> =
+            document.querySelectorAll(".cm-content .cm-line");
 
         if (cmLineNumElmts && cmContentElmts) {
             cmLineNumElmts.forEach((lineNumElmt, index) => {
                 if (!lineNumElmt.querySelector(".drag-handle")) {
-                    lineNumElmt.style.setProperty('position', 'relative');
-                    new DragHandle({ target: lineNumElmt, props: { thisIndex: index, view } });
+                    lineNumElmt.style.setProperty("position", "relative");
+                    new DragHandle({
+                        target: lineNumElmt,
+                        props: { thisIndex: index, view },
+                    });
                 }
             });
         }
     }
 
-    function handleEditorReady(event: { detail: EditorView; }) {
-        const targetElmt = document.querySelector('.cm-content');
+    function handleEditorReady(event: { detail: EditorView }) {
+        const targetElmt = document.querySelector(".cm-content");
 
         // Debounce function to limit the rate of function calls
         function debounce(func: Function, wait: number) {
             let timeout: ReturnType<typeof setTimeout> | undefined;
-            return function(this: any, ...args: any[]) {
+            return function (this: any, ...args: any[]) {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
                     func.apply(this, args);
@@ -50,7 +68,7 @@
 
         // Define the callback function to be called on mutations
         const handleMutations = (mutations: MutationRecord[]) => {
-            mutations.forEach(mutation => {
+            mutations.forEach((mutation) => {
                 // Use the debounced function here
                 debouncedUpdateDragHandles();
             });
@@ -63,7 +81,7 @@
         const config = { childList: true, subtree: true };
         observer.observe(targetElmt!, config);
 
-        return view = event.detail;
+        return (view = event.detail);
     }
 
     $: editMode.subscribe(async () => {
@@ -72,30 +90,40 @@
     });
 
     $: customTheme = EditorView.theme({
-        '&': {
-            backgroundColor: 'hsl(var(--background) / var(--tw-bg-opacity)) !important',
-            color: 'hsl(var(--foreground) / var(--tw-text-opacity)) !important'
+        "&": {
+            backgroundColor:
+                "hsl(var(--background) / var(--tw-bg-opacity)) !important",
+            color: "hsl(var(--foreground) / var(--tw-text-opacity)) !important",
         },
-        '.cm-content': {
-            fontSize: `${$appSettings.fontSize-1}px`,
-            fontFamily: '"Inter", monospace'
+        ".cm-content": {
+            fontSize: `${$appSettings.fontSize - 1}px`,
+            fontFamily: '"Inter", monospace',
         },
-        '.cm-gutters': {
-            background: 'hsl(var(--background) / 1) !important'
+        ".cm-gutters": {
+            background: "hsl(var(--background) / 1) !important",
         },
-        '.cm-activeLineGutter': {
-            background: 'hsl(var(--primary) / .2)'
+        ".cm-activeLineGutter": {
+            background: "hsl(var(--primary) / .2)",
         },
-        '.cm-activeLine': {
-            background: 'hsl(var(--primary) / .2)'
+        ".cm-activeLine": {
+            background: "hsl(var(--primary) / .2)",
         },
-        '.cm-selectionBackground': {
-            background: 'hsl(var(--primary) / .5) !important'
+        ".cm-selectionBackground": {
+            background: "hsl(var(--primary) / .5) !important",
         },
-        '.cm-cursor': {
-            borderLeftColor: 'hsl(var(--foreground)) !important',
-            borderLeft: '3px solid black'
-        }
+        ".cm-cursor": {
+            borderLeftColor: "hsl(var(--foreground)) !important",
+            borderLeft: "3px solid black",
+        },
+    });
+
+    let currentRaw = "";
+    let currentDocId: string | null = null;
+
+    const unsubscribe = activeDoc.subscribe((doc) => {
+        if (!doc) return;
+        currentRaw = doc.raw;
+        currentDocId = doc.id;
     });
 </script>
 
@@ -106,8 +134,12 @@
     <!-- Editor Buttons -->
     {#if !$appSettings.toolbarHidden}
         <Accordion.Root value="toolbar">
-            <Accordion.Item value="toolbar" class="px-2 bg-primary text-primary-foreground rounded-lg">
-                <Accordion.Trigger class="pb-1 pt-2 !place-content-end"></Accordion.Trigger>
+            <Accordion.Item
+                value="toolbar"
+                class="px-2 bg-primary text-primary-foreground rounded-lg"
+            >
+                <Accordion.Trigger class="pb-1 pt-2 !place-content-end"
+                ></Accordion.Trigger>
                 <Accordion.Content>
                     <EditorToolbar {view} />
                 </Accordion.Content>
@@ -123,31 +155,29 @@
     >
         <CodeMirror
             class="text-foreground overflow-hidden"
-            bind:value={$rawMarkdown}
+            bind:value={currentRaw}
             on:ready={handleEditorReady}
+            on:change={() => {
+                if (currentDocId) onRawChange(currentRaw, currentDocId);
+            }}
             lineWrapping
             tabSize={4}
             placeholder="Enter markdown here..."
-            extensions={[
-                markdown({ base: markdownLanguage }),
-            ]}
-            theme={[
-                $appSettings.lightmode ? [] : [oneDark],
-                customTheme,
-            ]}
+            extensions={[markdown({ base: markdownLanguage })]}
+            theme={[$appSettings.lightmode ? [] : [oneDark], customTheme]}
         />
     </ScrollArea>
 
     <!-- Save Buttons -->
     <div class="flex w-full gap-4 justify-center mt-4 h-24" transition:fade>
-        {#if $isUnsaved}
-            {#if $openedPagePath}
+        {#if currentDocId && get(activeDoc)?.isDirty && $activeDoc}
+            {#if get(activeDoc)?.path}
                 <div class="flex justify-center">
-                    <Button on:click={() => saveMarkdownFile()}>Save</Button>
+                    <BtnSaveFile />
                 </div>
             {/if}
             <div class="flex justify-center">
-                <Button on:click={() => saveMarkdownFile({isSaveAs: true})}>Save As...</Button>
+                <BtnSaveFile isSaveAs={true} />
             </div>
         {/if}
     </div>

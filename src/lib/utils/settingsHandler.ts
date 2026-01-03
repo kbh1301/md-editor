@@ -1,5 +1,6 @@
+import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/app-scaffolding/light-switch/light-switch.js";
 import { exists, createDir, writeTextFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
-import { appSettings } from '$utils/stores';
+import { appSettings, editMode } from '$lib/stores';
 import { get } from 'svelte/store';
 
 const settingsFilePath = { dir: BaseDirectory.AppConfig };
@@ -23,6 +24,21 @@ export async function loadSettings() {
     } catch(ex) {
         console.error(ex);
     }
+
+    // Set edit mode based on settings file
+    editMode.set(get(appSettings).startEditMode);
+
+    // Set theme based on settings file
+    const lightmode = get(appSettings).lightmode;
+    modeCurrent.set(lightmode);
+
+    // Sync lightswitch with the theme
+    if (!('modeCurrent' in localStorage)) {
+        setModeCurrent(lightmode);
+    }
+    setModeUserPrefers(lightmode);
+    setModeCurrent(lightmode);
+    toggleLightMode(lightmode);
 
     // Overwrite settings.json whenever appSettings store value is updated
     // TODO: Debounce

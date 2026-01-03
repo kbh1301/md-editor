@@ -1,6 +1,6 @@
 <!-- TODO: Code cleanup -->
 <script lang="ts">
-    import { isSyncing } from "$root/lib/utils/stores";
+    import { isSyncing } from "$lib/stores";
     import { type EditorView } from "@codemirror/view";
     import Icon from "@iconify/svelte";
     import { onMount } from "svelte";

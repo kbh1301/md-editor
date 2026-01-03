@@ -1,22 +1,25 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { fly } from 'svelte/transition';
-    import { WindowTitleBar, Toaster } from "$components";
+    import { fly } from "svelte/transition";
+    import { WindowTitleBar, TabBar, Toaster } from "$components";
     import "$root/app.postcss";
     import "$root/markdown.postcss";
-    
-    import { appInitialize } from "$root/lib/utils/appInitialize.js";
+    import { appStartup } from "$lib/startup.js";
 
     export let data;
-    
+
     onMount(async () => {
-        await appInitialize();
+        await appStartup();
     });
 </script>
 
-<div class="relative grid grid-rows-[auto_1fr] h-screen overflow-hidden border border-black/40 bg-secondary" id="window-grid">
+<div
+    class="relative grid grid-rows-[auto_auto_1fr] h-screen overflow-hidden border border-black/40 bg-secondary"
+    id="window-grid"
+>
     <WindowTitleBar />
-
+    <TabBar />
+    
     {#key data.url}
         <div
             id="page-transition-wrapper"

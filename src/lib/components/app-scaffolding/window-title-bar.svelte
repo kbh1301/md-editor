@@ -1,7 +1,7 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
 	import { Button, SideMenu, SwitchEdit } from "$components";
-    import { editMode, openedPagePath } from '$utils/stores';
+    import { editMode, activeDoc } from '$lib/stores';
     import { appWindow } from '@tauri-apps/api/window';
     const { minimize, toggleMaximize, close } = appWindow;
 
@@ -37,10 +37,10 @@
     <small
         class="text-sm font-medium leading-none whitespace-nowrap text-ellipsis overflow-hidden px-10 content-center"
         style="direction: rtl"
-        title={$openedPagePath}
+        title={$activeDoc?.path}
         data-tauri-drag-region
     >
-        {$openedPagePath}
+        {$activeDoc?.path ?? ""}
     </small>
 
     <!-- RIGHT CONTENT -->

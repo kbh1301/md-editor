@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { editMode, rawMarkdown, isSyncing, openedPagePath } from "$lib/utils/stores";
+    import { editMode, isSyncing, activeDoc } from "$lib/stores";
     import { PaneLaunch, PaneEditor, PanePreview } from "$components";
 
     let previewViewport: HTMLElement;
@@ -36,16 +36,16 @@
 </script>
 
 <div class="grid grid-flow-col grid-cols-[1fr]">
-    <div class="flex flex-col-reverse items-center flex-1 h-full overflow-hidden gap-4 pt-4 justify-around lg:flex-row lg:items-stretch">
-        <!-- Markdown Editor Pane -->
-        {#if $editMode}
-            <PaneEditor bind:editorViewport />
-        {/if}
-
+    <div class="flex flex-col-reverse items-center flex-1 h-full overflow-hidden gap-4 justify-around lg:flex-row lg:items-stretch">
         <!-- Compiled Markdown Preview Pane -->
-        {#if $rawMarkdown === '' && $openedPagePath === ''}
+        {#if !$activeDoc}
             <PaneLaunch />
         {:else}
+            <!-- Markdown Editor Pane -->
+            {#if $editMode}
+                <PaneEditor bind:editorViewport />
+            {/if}
+            <!-- Markdown Preview Pane -->
             <PanePreview bind:previewViewport />
         {/if}
     </div>

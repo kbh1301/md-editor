@@ -17,7 +17,7 @@ Derived from SkeletonUI:  https://github.com/skeletonlabs/skeleton/blob/master/p
 	} from './light-switch';
     import { toggleLightMode } from '$utils/settingsHandler';
     import { get } from 'svelte/store';
-    import { appSettings } from '$utils/stores';
+    import { appSettings } from '$lib/stores';
 
 	type OnKeyDownEvent = KeyboardEvent & {
 		currentTarget: EventTarget & HTMLDivElement;
