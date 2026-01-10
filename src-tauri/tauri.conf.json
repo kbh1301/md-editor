@@ -1,104 +1,59 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
-  "build": {
-    "beforeBuildCommand": "npm run sveltekit:build",
-    "beforeDevCommand": "npm run sveltekit:dev",
-    "devPath": "http://localhost:5173",
-    "distDir": "../build",
-    "withGlobalTauri": true
-  },
-  "package": {
+    "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
     "productName": "md-editor",
-    "version": "../package.json"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "window": {
-            "all": false,
-            "close": true,
-            "hide": true,
-            "show": true,
-            "maximize": true,
-            "minimize": true,
-            "unmaximize": true,
-            "unminimize": true,
-            "startDragging": true
-        },
-        "fs": {
-            "all": true,
-            "scope": [
-                "*/**"
-            ]
-        },
-        "shell": {
-            "all": true,
-            "open": "^"
-        },
-        "dialog": {
-            "all": true,
-            "ask": false,
-            "confirm": false,
-            "message": false,
-            "open": false,
-            "save": false
-        },
-        "path": {
-            "all": true
+    "mainBinaryName": "md-editor",
+    "version": "../package.json",
+    "identifier": "com.md-editor.dev",
+    "build": {
+        "beforeBuildCommand": "npm run sveltekit:build",
+        "beforeDevCommand": "npm run sveltekit:dev",
+        "devUrl": "http://localhost:5173",
+        "frontendDist": "../build"
+    },
+    "app": {
+        "withGlobalTauri": true,
+        "windows": [
+            {
+                "label": "main",
+                "title": "md-editor",
+                "width": 1024,
+                "height": 768,
+                "resizable": true,
+                "fullscreen": false,
+                "decorations": false,
+                "shadow": true
+            }
+        ],
+        "security": {
+            "csp": null
         }
     },
     "bundle": {
-      "active": true,
-      "category": "Utility",
-      "copyright": "",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "identifier": "com.md-editor.dev",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [],
-      "shortDescription": "",
-      "targets": ["dmg", "nsis", "appimage", "updater"],
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
-      }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
         "active": true,
-        "endpoints": [
-          "https://github.com/kbh1301/md-editor/releases/latest/download/latest.json"
+        "category": "Utility",
+        "targets": [
+            "dmg",
+            "nsis",
+            "appimage"
         ],
-        "dialog": true,
-        "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM2MzgwNTQ1MTNFMkNDMDcKUldRSHpPSVRSUVU0eHIyWkh1Y0hiaXB0VU1Fb0RkdjRMSmdDK09SZFdhWHpobG1lVTlxOUxmTjkK",
-        "windows": {
-            "installMode": "basicUi"
-        }
+        "icon": [
+            "icons/32x32.png",
+            "icons/128x128.png",
+            "icons/128x128@2x.png",
+            "icons/icon.icns",
+            "icons/icon.ico"
+        ],
+        "createUpdaterArtifacts": "v1Compatible"
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "height": 600,
-        "resizable": true,
-        "title": "md-editor",
-        "width": 800,
-        "decorations": false
-      }
-    ]
-  }
+    "plugins": {
+        "updater": {
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM2MzgwNTQ1MTNFMkNDMDcKUldRSHpPSVRSUVU0eHIyWkh1Y0hiaXB0VU1Fb0RkdjRMSmdDK09SZFdhWHpobG1lVTlxOUxmTjkK",
+            "endpoints": [
+                "https://github.com/kbh1301/md-editor/releases/latest/download/latest.json"
+            ],
+            "windows": {
+                "installMode": "basicUi"
+            }
+        }
+    }
 }

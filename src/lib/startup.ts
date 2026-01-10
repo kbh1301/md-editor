@@ -1,13 +1,14 @@
-import { invoke } from '@tauri-apps/api/tauri';
+import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
-import { readTextFile } from '@tauri-apps/api/fs';
+import { readTextFile } from '@tauri-apps/plugin-fs';
 import { appConfigDir } from '@tauri-apps/api/path';
-import { appWindow } from '@tauri-apps/api/window';
+import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { activateTab, handleExternalFileOpen } from '$utils/documentsHandler';
 import { loadSettings } from "$utils/settingsHandler";
 import { initKeydownListener } from "$utils/keybindHandler";
 import { activeDoc } from "$lib/stores";
 import { createNewDocument } from '$utils/documentsHandler'
+const appWindow = getCurrentWebviewWindow()
 
 export async function appStartup() {
     let openedAny = false;

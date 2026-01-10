@@ -2,7 +2,9 @@
     import Icon from '@iconify/svelte';
 	import { Button, SideMenu, SwitchEdit } from "$components";
     import { editMode, activeDoc } from '$lib/stores';
-    import { appWindow } from '@tauri-apps/api/window';
+    import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow';
+    
+    const appWindow = getCurrentWebviewWindow()
     const { minimize, toggleMaximize, close } = appWindow;
 
     let isMaximized = false;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { invoke } from '@tauri-apps/api/tauri';
+    import { invoke } from '@tauri-apps/api/core';
 	import { Button, Sheet, Label, Switch, LightSwitch, Separator, BtnOpenFile, BtnNewFile, BtnSaveFile } from "$components";
     import Icon from '@iconify/svelte';
     import { appSettings, activeDoc } from "$lib/stores";

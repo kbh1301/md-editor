@@ -1,9 +1,9 @@
 import { setModeCurrent, setModeUserPrefers, modeCurrent } from "$components/app-scaffolding/light-switch/light-switch.js";
-import { exists, createDir, writeTextFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
+import { exists, mkdir, writeTextFile, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs';
 import { appSettings, editMode } from '$lib/stores';
 import { get } from 'svelte/store';
 
-const settingsFilePath = { dir: BaseDirectory.AppConfig };
+const settingsFilePath = { baseDir: BaseDirectory.AppConfig };
 const settingsFileName = 'settings.json';
 
 /**
@@ -50,13 +50,13 @@ export async function loadSettings() {
 /**
  * Create a settings file in $AppConfig path if it doesn't already exist.
  * 
- * Default path: 'C:\Users\{username}\AppData\Roaming\com.{appname}\settings.json'
+ * Default path: 'C:\Users\{username}\AppData\Roaming\{appname}\settings.json'
  */
 async function createSettingsFile() {
 
     // If $AppConfig path does not exist, create it
     const configFolderExists = await exists('', settingsFilePath);
-    if (!configFolderExists) await createDir('', settingsFilePath);
+    if (!configFolderExists) await mkdir('', { baseDir: settingsFilePath.baseDir, recursive: true });
 
     await writeToSettingsFile();
 }
@@ -67,10 +67,8 @@ async function createSettingsFile() {
 async function writeToSettingsFile() {
 
     await writeTextFile(
-        {
-            path: settingsFileName,
-            contents: JSON.stringify(get(appSettings))
-        },
+        settingsFileName,
+        JSON.stringify(get(appSettings)),
         settingsFilePath
     );
 }

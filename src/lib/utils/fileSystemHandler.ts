@@ -1,5 +1,5 @@
-import { open as tauriOpen, save as tauriSave } from '@tauri-apps/api/dialog';
-import { writeTextFile, readTextFile } from '@tauri-apps/api/fs';
+import { open as tauriOpen, save as tauriSave } from '@tauri-apps/plugin-dialog';
+import { writeTextFile, readTextFile } from '@tauri-apps/plugin-fs';
 import { toast } from 'svelte-sonner';
 import { get } from 'svelte/store';
 import {
@@ -73,7 +73,7 @@ export async function saveMarkdownFile({
     }
 
     // Write file
-    const savePromise = writeTextFile({ path, contents: doc.raw });
+    const savePromise = writeTextFile(path, doc.raw);
 
     toast.promise(
         savePromise.then(async () => {
