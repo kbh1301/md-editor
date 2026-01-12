@@ -5,6 +5,7 @@ use tauri::{Emitter, Manager};
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_single_instance::init(|app, argv, _cwd| {
             let paths: Vec<String> = argv
                 .iter()
@@ -16,9 +17,7 @@ fn main() {
                 app.emit("open-files", paths).unwrap();
             }
         }))
-        .setup(|_app| {
-            Ok(())
-        })
+        .setup(|_app| Ok(()))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())
@@ -30,7 +29,11 @@ fn main() {
 #[tauri::command]
 fn get_version(app: tauri::AppHandle) -> Result<String, String> {
     let config = app.config();
-    let version = config.version.as_ref().map(|v| v.as_str()).unwrap_or("0.1.0");
+    let version = config
+        .version
+        .as_ref()
+        .map(|v| v.as_str())
+        .unwrap_or("0.1.0");
 
     Ok(version.to_string())
 }

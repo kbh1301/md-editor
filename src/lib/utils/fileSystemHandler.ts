@@ -1,5 +1,6 @@
 import { open as tauriOpen, save as tauriSave } from '@tauri-apps/plugin-dialog';
 import { writeTextFile, readTextFile } from '@tauri-apps/plugin-fs';
+import { revealItemInDir } from '@tauri-apps/plugin-opener';
 import { toast } from 'svelte-sonner';
 import { get } from 'svelte/store';
 import {
@@ -8,6 +9,7 @@ import {
     handleExternalFileOpen,
 } from '$utils/documentsHandler';
 import { documents, activeDoc } from '$lib/stores';
+import type { DocId } from '$lib/types';
 
 /** ===========================================
  * Open a single markdown file via file picker or path
@@ -96,4 +98,21 @@ export async function saveMarkdownFile({
             error: (err) => `Error saving file: ${err}`
         }
     );
+}
+
+export async function openDocInExplorer(docId: DocId) {
+    const doc = get(documents).get(docId);
+    const path = doc?.path;
+
+    if (!path) {
+        console.warn(`Document ${docId} has no path.`);
+        return;
+    }
+
+    try {
+        // opens the system explorer and selects the file
+        await revealItemInDir(path);
+    } catch (err) {
+        console.error(`Failed to open explorer for ${path}`, err);
+    }
 }

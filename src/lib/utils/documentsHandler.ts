@@ -1,4 +1,5 @@
 import { get } from 'svelte/store';
+import { toast } from 'svelte-sonner';
 import { compileMarkdown } from '$lib/components/app-panes/pane-preview/markdownParsing';
 import { documents, activeDocId, editMode } from '$lib/stores';
 import type { DocId, MarkdownDoc } from '$lib/types';
@@ -117,6 +118,39 @@ export async function closeTab(docId: DocId) {
     }
 }
 
+export async function closeTabAll() {
+    // snapshot ids (in case callers need them later)
+    const hadActive = get(activeDocId) !== null;
+
+    documents.update((docs) => {
+        docs.clear();
+        return docs;
+    });
+
+    // invalidate any in-flight compile work once
+    activeCompileToken++;
+
+    if (hadActive) {
+        activeDocId.set(null);
+    }
+}
+
+export async function closeTabOthers(docId: DocId) {
+    documents.update((docs) => {
+        // keep only the docId we want
+        const keptDoc = docs.get(docId);
+        docs.clear();
+        if (keptDoc) docs.set(docId, keptDoc);
+        return docs;
+    });
+
+    // invalidate in-flight compile work
+    activeCompileToken++;
+
+    // make the passed tab active
+    activeDocId.set(docId);
+}
+
 
 let compileTimeout: NodeJS.Timeout | null = null;
 
@@ -174,4 +208,18 @@ export async function createNewDocument() {
     await activateTab(id);
     editMode.set(true);
     return id;
+}
+
+export async function getDocPathToClipboard(docId: DocId) {
+    const doc = get(documents).get(docId);
+    const path = doc?.path ?? '';
+
+    if (!path) return;
+
+    try {
+        await navigator.clipboard.writeText(path);
+        toast.success('Path copied to clipboard!');
+    } catch (err) {
+        console.error('Failed to copy path to clipboard', err);
+    }
 }

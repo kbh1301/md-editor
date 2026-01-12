@@ -3,6 +3,7 @@
     import { cn } from "$utils/utils";
     import { activateTab, closeTab, createNewDocument } from "$utils/documentsHandler";
     import { activeDoc, activeDocId, documents } from "$lib/stores";
+    import { showTabContextMenu } from "$utils/contextMenus";
 
     export let className: string = "";
 </script>
@@ -20,6 +21,7 @@
                 )}
                 title={tab.path}
                 on:click={() => activateTab(tab.id)}
+                on:contextmenu={(e) => showTabContextMenu(e, tab.id)}
             >
                 <span class="truncate">{tab.title}</span>
 

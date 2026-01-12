@@ -1,8 +1,0 @@
-# Ignore generated files
-src-tauri/gen/
-src-tauri/target/
-
-
-
-
-
