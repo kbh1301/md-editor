@@ -1,19 +1,21 @@
 import { invoke } from '@tauri-apps/api/core';
-import { listen } from '@tauri-apps/api/event';
 import { readTextFile } from '@tauri-apps/plugin-fs';
-import { appConfigDir } from '@tauri-apps/api/path';
 import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { activateTab, handleExternalFileOpen } from '$utils/documentsHandler';
 import { loadSettings } from "$utils/settingsHandler";
 import { initKeydownListener } from "$utils/keybindHandler";
 import { activeDoc } from "$lib/stores";
 import { createNewDocument } from '$utils/documentsHandler'
+
 const appWindow = getCurrentWebviewWindow()
 
 export async function appStartup() {
     let openedAny = false;
 
-    await listen<string[]>('open-files', async (event) => {
+    const windowLabel = appWindow.label;
+    const isMainWindow = windowLabel === 'main';
+
+    await appWindow.listen<string[]>('open-files', async (event) => {
         openedAny = true;
 
         for (const path of event.payload) {
@@ -22,17 +24,18 @@ export async function appStartup() {
             await activateTab(id);
         }
     });
+    await appWindow.emit(`window-ready:${windowLabel}`);
 
     // DEV: simulate opening initial files
     // Example .env variable: VITE_DEV_OPEN_FILES_JSON=["C:\\Users\\<User>\\File1.md","C:\\Users\\<User>\\File2.md"]
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV && isMainWindow) {
         try {
             const files = JSON.parse(
                 import.meta.env.VITE_DEV_OPEN_FILES_JSON ?? 'null'
             );
 
             if (Array.isArray(files)) {
-                appWindow.emit('open-files', files);
+                appWindow.emitTo('main', 'open-files', files);
             }
         } catch {
             console.warn('[DEV] Invalid VITE_DEV_OPEN_FILES_JSON');
@@ -46,20 +49,24 @@ export async function appStartup() {
     initKeydownListener();
 
     // Watch for changes in activeDoc and update the window title
-    activeDoc.subscribe((doc) => {
-        if (!doc) {
-            invoke('tauri', { cmd: 'set_title', title: 'md-editor' });
-            return;
+    activeDoc.subscribe(async (doc) => {
+        try {
+            if (!doc) {
+                await invoke('set_title', { windowLabel, title: 'md-editor' });
+                return;
+            }
+
+            const fileName =
+                doc.path?.split(/[/\\]/).pop() ??
+                'Untitled.md';
+
+            await invoke('set_title', { windowLabel, title: fileName });
+        } catch (error) {
+            console.error('Error setting window title:', error);
         }
-
-        const fileName =
-            doc.path?.split(/[/\\]/).pop() ??
-            'Untitled.md';
-
-        invoke('tauri', { cmd: 'set_title', title: fileName });
     });
 
-    // default to new document if no files opened
+    // If no files were opened after a short delay, create a new document
     setTimeout(() => {
         if (!openedAny) {
             createNewDocument();

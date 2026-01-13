@@ -19,7 +19,7 @@ export async function handleExternalFileOpen(path: string, content: string) {
         return existing.id;
     }
 
-    const id = crypto.randomUUID(); // internal store ID
+    const id = 'doc_' + crypto.randomUUID();
 
     documents.update((docs) => {
         docs.set(id, {
@@ -176,7 +176,7 @@ export function onRawChange(newRaw: string, docId: string) {
 }
 
 export async function createNewDocument() {
-    const id = crypto.randomUUID();
+    const id = 'doc_' + crypto.randomUUID();
 
     // Find a unique untitled name
     const existingTitles = new Set(

@@ -39,7 +39,10 @@ fn get_version(app: tauri::AppHandle) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn set_title(app: tauri::AppHandle, title: String) {
-    let window = app.get_webview_window("main").unwrap();
-    window.set_title(&title).unwrap();
+fn set_title(app: tauri::AppHandle, window_label: String, title: String) {
+    if let Some(window) = app.get_webview_window(&window_label) {
+        window.set_title(&title).unwrap_or_else(|e| {
+            eprintln!("Failed to set title for window {}: {}", window_label, e);
+        });
+    }
 }
