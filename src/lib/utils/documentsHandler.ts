@@ -32,6 +32,7 @@ export async function handleExternalFileOpen(path: string, content: string) {
             isDirty: false,
             lastCompiledHash: null,
             lastAccessed: Date.now(),
+            isPinned: false,
         });
         return docs;
     });
@@ -123,7 +124,17 @@ export async function closeTabAll() {
     const hadActive = get(activeDocId) !== null;
 
     documents.update((docs) => {
+        // Keep only pinned tabs
+        const pinnedDocs = new Map();
+        for (const [id, doc] of docs.entries()) {
+            if (doc.isPinned) {
+                pinnedDocs.set(id, doc);
+            }
+        }
         docs.clear();
+        for (const [id, doc] of pinnedDocs.entries()) {
+            docs.set(id, doc);
+        }
         return docs;
     });
 
@@ -131,16 +142,40 @@ export async function closeTabAll() {
     activeCompileToken++;
 
     if (hadActive) {
-        activeDocId.set(null);
+        const remainingDocs = get(documents);
+        if (remainingDocs.size > 0) {
+            // Activate the most recently accessed remaining tab
+            const nextActiveId = [...remainingDocs.values()]
+                .sort((a, b) => b.lastAccessed - a.lastAccessed)[0].id;
+            await activateTab(nextActiveId);
+        } else {
+            activeDocId.set(null);
+        }
     }
 }
 
 export async function closeTabOthers(docId: DocId) {
     documents.update((docs) => {
-        // keep only the docId we want
-        const keptDoc = docs.get(docId);
+        // keep the docId we want and all pinned tabs
+        const keptDocs = new Map();
+        const targetDoc = docs.get(docId);
+        
+        // Add the target doc
+        if (targetDoc) {
+            keptDocs.set(docId, targetDoc);
+        }
+        
+        // Add all pinned tabs (except the target if it's already added)
+        for (const [id, doc] of docs.entries()) {
+            if (doc.isPinned && id !== docId) {
+                keptDocs.set(id, doc);
+            }
+        }
+        
         docs.clear();
-        if (keptDoc) docs.set(docId, keptDoc);
+        for (const [id, doc] of keptDocs.entries()) {
+            docs.set(id, doc);
+        }
         return docs;
     });
 
@@ -201,6 +236,7 @@ export async function createNewDocument() {
             isDirty: false,
             lastCompiledHash: null,
             lastAccessed: Date.now(),
+            isPinned: false,
         });
         return docs;
     });
@@ -221,5 +257,36 @@ export async function getDocPathToClipboard(docId: DocId) {
         toast.success('Path copied to clipboard!');
     } catch (err) {
         console.error('Failed to copy path to clipboard', err);
+    }
+}
+
+export function pinTab(docId: DocId) {
+    documents.update((docs) => {
+        const doc = docs.get(docId);
+        if (doc) {
+            doc.isPinned = true;
+        }
+        return docs;
+    });
+}
+
+export function unpinTab(docId: DocId) {
+    documents.update((docs) => {
+        const doc = docs.get(docId);
+        if (doc) {
+            doc.isPinned = false;
+        }
+        return docs;
+    });
+}
+
+export function togglePinTab(docId: DocId) {
+    const doc = get(documents).get(docId);
+    if (!doc) return;
+    
+    if (doc.isPinned) {
+        unpinTab(docId);
+    } else {
+        pinTab(docId);
     }
 }

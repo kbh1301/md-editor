@@ -19,4 +19,7 @@ export interface MarkdownDoc {
 
     // perf flags
     lastAccessed: number;
+
+    // pin state
+    isPinned: boolean;
 }

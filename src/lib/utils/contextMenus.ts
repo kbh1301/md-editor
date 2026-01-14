@@ -1,10 +1,15 @@
 import { Menu } from "@tauri-apps/api/menu";
-import { closeTab, closeTabAll, closeTabOthers, getDocPathToClipboard } from "$utils/documentsHandler";
+import { get } from "svelte/store";
+import { closeTab, closeTabAll, closeTabOthers, getDocPathToClipboard, togglePinTab } from "$utils/documentsHandler";
 import { openDocInExplorer } from "$utils/fileSystemHandler";
 import { moveTabToNewWindow } from "$utils/appHandler";
+import { documents } from "$lib/stores";
 import type { DocId } from "$lib/types";
 
 async function createTabContextMenu(tabId: DocId): Promise<Menu> {
+    const doc = get(documents).get(tabId);
+    const isPinned = doc?.isPinned ?? false;
+
     return Menu.new({
         items: [
             { id: "tab-close", text: "Close", action: () => { closeTab(tabId) } },
@@ -19,7 +24,7 @@ async function createTabContextMenu(tabId: DocId): Promise<Menu> {
             { id: "tab-open-explorer", text: "Reveal in File Explorer", action: () => { openDocInExplorer(tabId) } },
             { item: "Separator" },
             // ----------------------------------
-            { id: "tab-pin", text: "Pin" },
+            { id: "tab-pin", text: isPinned ? "Unpin" : "Pin", action: () => { togglePinTab(tabId) } },
             { item: "Separator" },
             // ----------------------------------
             { id: "tab-new-window", text: "Move into New Window", action: () => { moveTabToNewWindow(tabId) } },
